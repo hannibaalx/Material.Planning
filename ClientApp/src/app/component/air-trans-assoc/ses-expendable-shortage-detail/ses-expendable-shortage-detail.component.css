@@ -1,0 +1,66 @@
+.sescontainer{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 98%;
+}
+.titleheader{
+    text-align: center;
+}
+.sesrow:nth-of-type(even){
+    background-color: #f2f2f2;
+  }
+.hoverable:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.sesheader{
+    background-color: #36495a!important;
+}
+.sesitem{
+    padding: 0 0px 5px 15px;
+    text-align: center;
+    font-family: 'AmericanSans';
+    font-size: 16px;
+    color: #ffffff;
+}
+.sesitemdata{
+    padding: 0 0px 5px 15px;
+    text-align: center;
+    font-family: 'AmericanSans';
+    font-size: 16px;
+    color: #000000;
+}
+.placeholder{
+    text-align: center;
+    width: 100%;
+    height: 300px;
+    line-height: 300px;
+    background-color: rgb(130, 147, 147);
+    position: relative;
+    top: 25px;
+}
+.phspan{
+    display: inline-block;
+    vertical-align: middle;
+    line-height-step: normal;
+}
+.spacer{
+    line-height: 3em;
+}
+.iframe-container {
+    overflow: hidden;
+    padding-top: 24.25%;
+    position: relative;
+  }
+   
+.iframe-container iframe {
+    border: 0;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 95%;
+    overflow: hidden;
+    pointer-events:none;
+  }

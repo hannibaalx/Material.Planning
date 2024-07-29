@@ -1,0 +1,419 @@
+    <div class="form-container">
+      <!-- <div class="smtitle">
+        <h5><b>TSX</b></h5>
+      </div> -->
+      <div class="row">
+        <div class="col-12 header">
+          <h5><label class="badge badge-info" style="color: white; background-color: #3f51b5;">TSX-WORKCARD -
+              {{ tsxwcnumid }}</label></h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 refresh-textright">
+          <span *ngFor="let t of refreshtime$ | async ">
+            <div>
+              <h6><b>Last refreshed:</b> {{ t.UPDATED_DATETIME | date :'yyyy/MM/dd, hh:mm:ss a' }}</h6>
+            </div>
+          </span>
+        </div>
+      </div>
+      <div class="row" [hidden]="hideSMResults">
+        <div class="col-12 table-container">
+          <mat-table [dataSource]="datasource" class="mat-elevation-z8 dash8">
+
+            <ng-container matColumnDef="ME_PART_NUMBER_USED">
+              <mat-header-cell *matHeaderCellDef><b>M & E USED</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.ME_PART_NUMBER_USED != null">
+                  <a mat-button (click)="getSMStationInventory(x.ME_PART_NUMBER_USED)">{{ x.ME_PART_NUMBER_USED }}</a>
+                  &nbsp;
+                  <a href="javascript:void(0);" [tabindex]="i" class="badge badge-info badgecolor"
+                    data-boundary="window" data-toggle="popover" [title]="x.KEYWORD_DESCRIPTION" data-animation="true"
+                    data-html="true" data-placement="bottom"
+                    (click)="popSmMeSummary($event, x.ME_FLEET, x.ME_RESOURCE_CODE, x.ME_ATA_CODE, x.PRIME, x.KEYWORD_DESCRIPTION, x.CTLG_PRICE, x.SHLF_LIFE, x.CHEMCL_IND, x.UI, x.MT, x.CTLG_LT)"
+                    data-content=""><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i></a>
+                </span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TSX_CPN">
+              <mat-header-cell *matHeaderCellDef><b>TSX CPN</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TSX_CPN }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="KEYWORD_DESCRIPTION">
+              <mat-header-cell *matHeaderCellDef><b>DESC</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.KEYWORD_DESCRIPTION }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="QTY_REQ">
+              <mat-header-cell *matHeaderCellDef><b>QTY REQ</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.QTY_REQ }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="REQD_IND">
+              <mat-header-cell *matHeaderCellDef><b>REQD IND</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.REQD_IND }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="KIT_IND">
+              <mat-header-cell *matHeaderCellDef><b>KIT IND</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.KIT_IND.trim() == 'Y'">
+                  <button mat-raised-button color="primary"
+                    (click)="getSMKitDetails(x.ME_PART_NUMBER_USED, tsxwcnumid)">{{ x.KIT_IND }}</button>
+                </span>
+                <span *ngIf="x.KIT_IND.trim() == 'N'">
+                  {{ x.KIT_IND }}
+                </span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TTL_OH">
+              <mat-header-cell *matHeaderCellDef><b>ON HAND</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TTL_OH }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TTL_PO">
+              <mat-header-cell *matHeaderCellDef><b>PO QTY</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.TTL_PO != 0">
+                  <b><a mat-button [routerLink]="['/sm/podetail', x.ME_PART_NUMBER_USED]"
+                      target="_blank">{{ x.TTL_PO }}</a></b>
+                </span>
+                <span *ngIf="x.TTL_PO == 0">
+                  {{ x.TTL_PO }}
+                </span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TTL_RO">
+              <mat-header-cell *matHeaderCellDef><b>RO QTY</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.TTL_RO != 0">
+                  <b><a mat-button [routerLink]="['/sm/rodetail', x.ME_PART_NUMBER_USED]"
+                      target="_blank">{{ x.TTL_RO }}</a></b>
+                </span>
+                <span *ngIf="x.TTL_RO == 0">
+                  {{ x.TTL_RO }}
+                </span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TTL_ITS">
+              <mat-header-cell *matHeaderCellDef><b>IN TRANSIT</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TTL_ITS }} </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="tsx_wcnum_displayedColumns; sticky: true;"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: tsx_wcnum_displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+      </div>
+
+      <div [hidden]="hideSMStationInventory">
+        <div class="row">
+          <div class="col-12">&nbsp;</div>
+        </div>
+        <div class="row">
+          <div class="col-12 header">
+            <h5>Station Inventory</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+            <h5><label class="badge badge-info"
+                style="color: white; background-color: #3f51b5;">{{ mePartNumberUsed }}</label></h5>
+          </div>
+        </div>
+        <div class="row" [hidden]="hideSMStationInventory">
+          <div class="col-12 table-container">
+            <mat-table [dataSource]="smstainvdatasource" class="mat-elevation-z8">
+
+              <ng-container matColumnDef="STA">
+                <mat-header-cell *matHeaderCellDef><b>STATION</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.STA }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_CTGRY">
+                <mat-header-cell *matHeaderCellDef><b>CATEGORY</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.STA_CTGRY }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="REPL_STA">
+                <mat-header-cell *matHeaderCellDef><b>REPL STA</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.REPL_STA }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="MIN_AQ">
+                <mat-header-cell *matHeaderCellDef><b>MIN/ALLC</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.MIN_AQ }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="MAX_QTY">
+                <mat-header-cell *matHeaderCellDef><b>MAX</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">
+                  <span *ngIf="x.MAX_QTY != null">{{ x.MAX_QTY }}</span>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="AFG">
+                <mat-header-cell *matHeaderCellDef><b>AFG</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.AFG }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="AWU">
+                <mat-header-cell *matHeaderCellDef><b>AWU</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.AWU }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_OH_QTY">
+                <mat-header-cell *matHeaderCellDef><b>ON HAND</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.STA_OH_QTY }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_INTRANSIT_QTY">
+                <mat-header-cell *matHeaderCellDef><b>IN INTRANSIT</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.STA_INTRANSIT_QTY }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_SO_OPEN_QTY">
+                <mat-header-cell *matHeaderCellDef><b>SO QTY</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">
+                  <span *ngIf="x.STA_SO_OPEN_QTY == 0; else mesoAnchor">{{x.STA_SO_OPEN_QTY}}</span>
+                  <ng-template #mesoAnchor>
+                    <a [routerLink]="['../../mesostadetail', tsxwcnumid, mePartNumberUsed, x.STA]" class="" href="#"
+                      target="_blank">{{x.STA_SO_OPEN_QTY}}</a>
+                  </ng-template>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_PO_OPEN_QTY">
+                <mat-header-cell *matHeaderCellDef><b>PO QTY</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">
+                  <span *ngIf="x.STA_PO_OPEN_QTY == 0; else mepoAnchor">{{x.STA_PO_OPEN_QTY}}</span>
+                  <ng-template #mepoAnchor>
+                    <a [routerLink]="['../../mepostadetail', tsxwcnumid, mePartNumberUsed, x.STA]" class="" href="#"
+                      target="_blank">{{x.STA_PO_OPEN_QTY}}</a>
+                  </ng-template>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_RO_OPEN_QTY">
+                <mat-header-cell *matHeaderCellDef><b>RO QTY</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">
+                  <span *ngIf="x.STA_RO_OPEN_QTY == 0; else meroAnchor">{{x.STA_RO_OPEN_QTY}}</span>
+                  <ng-template #meroAnchor>
+                    <a [routerLink]="['../../merostadetail', tsxwcnumid, mePartNumberUsed, x.STA]" class="" href="#"
+                      target="_blank">{{x.STA_RO_OPEN_QTY}}</a>
+                  </ng-template>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="staSMInvent_displayedColumns; sticky: true;"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: staSMInvent_displayedColumns;"></mat-row>
+            </mat-table>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div [hidden]="hideSMKitDetails">
+        <div class="row">
+          <div class="col-12">&nbsp;</div>
+        </div>
+        <div class="row">
+          <div class="col-12 header">
+            <h5>Kit Details</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+            <h5><label class="badge badge-info"
+                style="color: white; background-color: #3f51b5;">{{ mePartNumberUsed }}</label></h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 table-container">
+            <mat-table [dataSource]="smkitdetaildatasource" class="mat-elevation-z8 kitdetails">
+
+              <ng-container matColumnDef="ME_PART_NUMBER_IN_KIT">
+                <mat-header-cell *matHeaderCellDef><b>ME PART NUMBER IN KIT</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">
+                  <span *ngIf="x.ME_PART_NUMBER_IN_KIT != null">
+                    <a mat-button
+                      (click)="getSMKitPartStationInventory(x.ME_PART_NUMBER_IN_KIT)">{{ x.ME_PART_NUMBER_IN_KIT }}</a>
+                  </span>
+                  &nbsp;&nbsp;
+                  <a href="javascript:void(0);" [tabindex]="i" class="badge badge-info badgecolor"
+                    data-boundary="window" data-toggle="popover" [title]="x.KEYWORD_DESCRIPTION" data-animation="true"
+                    data-html="true" data-placement="bottom"
+                    (click)="popSmMeSummary($event, x.ME_FLEET, x.ME_RESOURCE_CODE, x.ME_ATA_CODE, x.PRIME, x.KEYWORD_DESCRIPTION, x.CTLG_PRICE, x.SHLF_LIFE, x.CHEMCL_IND, x.UI, x.MT, x.CTLG_LT)"
+                    data-content="">
+                    <i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                  </a>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="KEYWORD_DESCRIPTION">
+                <mat-header-cell *matHeaderCellDef><b>KEYWORD DESCRIPTION</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.KEYWORD_DESCRIPTION }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="QTY_REQ_K">
+                <mat-header-cell *matHeaderCellDef><b>QTY REQ</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.QTY_REQ_K }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="REQD_IND_K">
+                <mat-header-cell *matHeaderCellDef><b>REQD IND</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.REQD_IND_K }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="TTL_OH">
+                <mat-header-cell *matHeaderCellDef><b>TTL OH</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.TTL_OH }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="TTL_ITS">
+                <mat-header-cell *matHeaderCellDef><b>TTL ITS</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.TTL_ITS }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="TTL_PO">
+                <mat-header-cell *matHeaderCellDef><b>TTL PO</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">
+                  <span *ngIf="x.TTL_PO == 0; else mekitpoAnchor">{{x.TTL_PO}}</span>
+                  <ng-template #mekitpoAnchor>
+                    <a [routerLink]="['../../mekitpodetail', tsxwcnumid , mePartNumberUsed]" class="" href="#"
+                      target="_blank">{{x.TTL_PO}}</a>
+                  </ng-template>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="TTL_RO">
+                <mat-header-cell *matHeaderCellDef><b>TTL RO</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">
+                  <span *ngIf="x.TTL_RO == 0; else mekitroAnchor">{{ x.TTL_RO }}</span>
+                  <ng-template #mekitroAnchor>
+                    <a [routerLink]="['../../mekitrodetail', mePartNumberUsed]" class="" href="#"
+                      target="_blank">{{x.TTL_RO}}</a>
+                  </ng-template>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="sm_tsx_wcnum_kit_displayColumns; sticky: true;"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: sm_tsx_wcnum_kit_displayColumns;"></mat-row>
+            </mat-table>
+          </div>
+        </div>
+      </div>
+
+      <div [hidden]="hideSMKitPartInvDetails">
+        <div class="row">
+          <div class="col-12">&nbsp;</div>
+        </div>
+        <div class="row">
+          <div class="col-12 header">
+            <h5>Kit - Part Station Inventory</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-2">
+            <h5><label class="badge badge-info"
+                style="color: white; background-color: #3f51b5;">{{ smMePartNumberInKit }}</label></h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 table-container">
+            <mat-table [dataSource]="smkitpartstationdetaildatasource"
+              class="mat-elevation-z8 kitpartstationinventorydetails">
+
+              <ng-container matColumnDef="STA">
+                <mat-header-cell *matHeaderCellDef><b>STATION</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.STA }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="KITTING_STA">
+                <mat-header-cell *matHeaderCellDef><b>KITTING STATION</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.KITTING_STA }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="REPL_STA">
+                <mat-header-cell *matHeaderCellDef><b>REPL STA</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.REPL_STA }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="MIN_AQ">
+                <mat-header-cell *matHeaderCellDef><b>MIN</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.MIN_AQ }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="MAX_QTY">
+                <mat-header-cell *matHeaderCellDef><b>MAX</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.MAX_QTY }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="AFG">
+                <mat-header-cell *matHeaderCellDef><b>AFG</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.AFG }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="AWU">
+                <mat-header-cell *matHeaderCellDef><b>AWU</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.AWU }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_OH_QTY">
+                <mat-header-cell *matHeaderCellDef><b>STATION OH QTY</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.STA_OH_QTY }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_INTRANSIT_QTY">
+                <mat-header-cell *matHeaderCellDef><b>STATION INTRANSIT QTY</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">{{ x.STA_INTRANSIT_QTY }}</mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_SO_OPEN_QTY">
+                <mat-header-cell *matHeaderCellDef><b>SO QTY</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">
+                  <span *ngIf="x.STA_SO_OPEN_QTY == 0; else mesoAnchor">{{x.STA_SO_OPEN_QTY}}</span>
+                  <ng-template #mesoAnchor>
+                    <a [routerLink]="['../../mesostadetail', tsxwcnumid, smMePartNumberInKit, x.STA]" class="" href="#"
+                      target="_blank">{{x.STA_SO_OPEN_QTY}}</a>
+                  </ng-template>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_PO_OPEN_QTY">
+                <mat-header-cell *matHeaderCellDef><b>PO QTY</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">
+                  <span *ngIf="x.STA_PO_OPEN_QTY == 0; else mepoAnchor">{{x.STA_PO_OPEN_QTY}}</span>
+                  <ng-template #mepoAnchor>
+                    <a [routerLink]="['../../mepostadetail', tsxwcnumid, smMePartNumberInKit, x.STA]" class="" href="#"
+                      target="_blank">{{x.STA_PO_OPEN_QTY}}</a>
+                  </ng-template>
+                </mat-cell>
+              </ng-container>
+
+              <ng-container matColumnDef="STA_RO_OPEN_QTY">
+                <mat-header-cell *matHeaderCellDef><b>RO QTY</b></mat-header-cell>
+                <mat-cell *matCellDef="let x">
+                  <span *ngIf="x.STA_RO_OPEN_QTY == 0; else meroAnchor">{{x.STA_RO_OPEN_QTY}}</span>
+                  <ng-template #meroAnchor>
+                    <a [routerLink]="['../../merostadetail', tsxwcnumid, smMePartNumberInKit, x.STA]" class="" href="#"
+                      target="_blank">{{x.STA_RO_OPEN_QTY}}</a>
+                  </ng-template>
+                </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="sm_tsx_wcnum_kit_station_displayColumns; sticky: true;">
+              </mat-header-row>
+              <mat-row *matRowDef="let row; columns: sm_tsx_wcnum_kit_station_displayColumns;"></mat-row>
+            </mat-table>
+          </div>
+        </div>
+      </div>
+    </div>
+

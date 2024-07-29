@@ -1,0 +1,177 @@
+<div class="tescontainer">
+    <div class="datacontainer">
+        <div class="row">
+            <div class="col-12 header-color">
+                <b class="queue-header">TES Critical</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 dataright">
+                <button mat-stroked-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName:'TES Critical summary'})">DOWNLOAD SUMMARY</button>
+                &nbsp;<button mat-stroked-button class="exportbtn stroked-button" (click)="exporter2.exportTable('xlsx', {fileName:'TES Critical detail'})">DOWNLOAD DETAIL</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mattablecontainer">
+                <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+                <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortTesCritical($event)" class="mat-elevation-z8">
+                    <ng-container matColumnDef="ME_PART_NUMBER">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>M&E</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x">
+                            <a mat-raised-button class="mebtn" href="javascript:void(0);" (click)="sendMeDetails(x.ME_PART_NUMBER)">{{ x.ME_PART_NUMBER }}</a>
+                            &nbsp;
+                            <a mat-button color="primary" [routerLink]="['../ata/', x.ME_PART_NUMBER]" class="atalaunch" target="_blank">
+                                <mat-icon>launch</mat-icon>
+                            </a>                            
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="SCHEDULED">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SCHEDULED</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.SCHEDULED }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ECO">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>EO</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.ECO }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="UNSCHEDULED">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>UNSCHEDULED</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.UNSCHEDULED }} </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="DaysToOrder">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>DAYS TO ORDER</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.DaysToOrder }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="DaysInQueue">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>DAYS IN QUEUE</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.DaysInQueue }} </mat-cell>
+                    </ng-container>                    
+                  
+                    <ng-container matColumnDef="COMMENTS">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMMENTS</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LAST_UPDATES">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header><b>LAST UPDATES</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }} </mat-cell>
+                    </ng-container>
+                 
+                    <mat-header-row *matHeaderRowDef="tes_critical_displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: tes_critical_displayedColumns;"></mat-row>
+                  </mat-table>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mattablecontainer">
+                <mat-table matTableExporter #exporter2="matTableExporter" matSort [dataSource]="detaildatasource" class="mat-elevation-z8 detaildata">
+                    
+                    <ng-container matColumnDef="ME_PART_NUMBER">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>ME PART NUMBER</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x">
+                            {{ x.ME_PART_NUMBER }}                         
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="KEYWORD_DESCRIPTION">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>KEYWORD DESCRIPTION</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.KEYWORD_DESCRIPTION }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Scheduled">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Scheduled</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.Scheduled }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ECO">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>EO</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.ECO }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Unscheduled">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Unscheduled</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.Unscheduled }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="In_Kit">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>In Kit</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.In_Kit }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Open_PO">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Open PO</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.Open_PO }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Leadtime">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Open PO</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.Leadtime }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ZeroStockDate">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Zero Stock Date</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.ZeroStockDate }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="OrderDate">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Date</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.OrderDate }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="DaysToOrder">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>Days To Order</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.DaysToOrder }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="DaysInQueue">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>DaysInQueue</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.DaysInQueue }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LAST_UPDATES">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>LAST UPDATES</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="COMMENTS">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMMENTS</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">
+                              {{ x.COMMENTS }}                         
+                          </mat-cell>
+                    </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="tes_critical_detail_displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: tes_critical_detail_displayedColumns;"></mat-row>
+                </mat-table>
+            </div>
+        </div>
+    </div>
+</div>

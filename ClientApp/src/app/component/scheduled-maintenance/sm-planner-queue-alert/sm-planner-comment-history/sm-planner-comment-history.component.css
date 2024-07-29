@@ -1,0 +1,37 @@
+mat-card-title{
+    font-size: 14px;
+    font-weight: bolder;
+}
+mat-form-field{
+    width: 100%;
+}
+
+.mat-tab-body-content {
+    height: 100%;
+    overflow: unset;
+}
+.mat-dialog-title{
+    background-color: #36495a;
+    color: #fff;
+    font-family: 'AmericanSans';
+    font-size: 24px;
+    line-height: 35px;
+    padding: 10px;  
+}
+.mat-dialog-content {
+    display: block;
+    /* margin: 0 -24px; */
+    padding: 0 25px;
+    max-height: 65vh;
+    overflow: auto;
+}
+.stroked-button{
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}

@@ -1,0 +1,251 @@
+<div class="form-container">
+  <div class="eotitle">
+    <h5><b>Manage Alternative Part for Dash 8</b></h5>
+  </div>
+  <mat-tab-group animationDuration="0ms">
+    <mat-tab label="Search existing Dash 8">
+      <form [formGroup]="altForm" (ngSubmit)="submitDynamicForm(dynamicForm)" #dynamicForm="ngForm">
+        <mat-horizontal-stepper linear #stepperEdit>
+          <mat-step label="SEARCH EXISTING DASH 8">
+            <div class="row">
+              <div class="col-3">
+                <p>
+                  <mat-form-field floatLabel="auto" class="full-width" appearance="outline">
+                    <mat-label>SEARCH DASH 8</mat-label>
+                    <input matInput type="text" #fcSearchDash8 formControlName="fcSearchDash8" name="fcSearchDash8" class="form-control" placeholder="Enter DASH 8" (input)="autoSearch($event, 'dash8')" required>
+                    <mat-icon matSuffix color="primary">flight</mat-icon>
+                    <mat-hint>ENTER EXISTING DASH 8</mat-hint>
+                    <mat-error *ngIf="altd8.fcSearchDash8.hasError('minLength(14)')">
+                      DASH 8 MINIMUM LENGTH IS 14
+                    </mat-error>
+                    <mat-error *ngIf="altd8.fcSearchDash8.hasError('required')">
+                      DASH 8 IS <strong>REQUIRED</strong>
+                    </mat-error>
+                    <ul *ngIf="filteredDash8$ && hideDash8List" class="search-result">
+                      <li *ngFor="let d8 of filteredDash8$ | async" (click)="fcSearchDash8.value = d8.DASH_8;hideDash8List= false;getExistingDash8Detail(fcSearchDash8.value);" value="d8.DASH_8">
+                        {{ d8.DASH_8 }}
+                      </li>
+                    </ul>
+                  </mat-form-field>
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-3">
+                <button type="button" mat-raised-button matStepperNext color="primary" [disabled]="hideDash8List && fcSearchDash8.value.length < 13">NEXT</button>&nbsp;
+              </div>
+            </div>
+          </mat-step>
+          <mat-step label="ADD ALTERNATIVE DASH 8">
+            <div class="row">
+              <div class="col-2">
+                <mat-form-field>
+                  <input type="text" matInput id="mePartNumberUsed" [formControl]="mePartNumberUsed" [matAutocomplete]="auto" placeholder="Select M & E Number Used" aria-label="mePartNumberUsed">
+                  <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let x of mePartNumberList" [value]="x.ME_PART_NUMBER_USED" (click)="showMePartNumberUsedElements(x.ME_PART_NUMBER_USED)">
+                      {{ x.ME_PART_NUMBER_USED }}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+            </div>
+            <div formArrayName="parents" class="row">
+              <ng-container *ngFor="let xx of _parents.controls; let idx = index;" [formGroupName]="idx">
+                  <div class="col-2">
+                    <p>
+                      <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>ME PART NUMBER USED</mat-label>
+                        <input matInput type="text" id="ME_PART_NUMBER_USED" formControlName="ME_PART_NUMBER_USED" name="ME_PART_NUMBER_USED" class="form-control" [value]="xx.value.ME_PART_NUMBER_USED" readonly>
+                        <mat-icon matSuffix color="primary">card_travel</mat-icon>
+                      </mat-form-field>
+                      <mat-form-field class="full-width" appearance="outline" [hidden]="true">
+                        <mat-label>DASH 8</mat-label>
+                        <input matInput type="text" id="DASH_8" formControlName="DASH_8" name="DASH_8" class="form-control" [value]="xx.value.DASH_8" readonly>
+                        <mat-icon matSuffix color="primary">card_travel</mat-icon>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <p>
+                      <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>PRIME MPN</mat-label>
+                        <input matInput type="text" id="PRIME_MPN" formControlName="PRIME_MPN" name="PRIME_MPN" class="form-control" [value]="xx.value.PRIME_MPN" readonly>
+                        <mat-icon matSuffix color="primary">card_travel</mat-icon>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div class="col-1">
+                    <p>
+                      <mat-form-field class="full-width" [style.width.px]=75 appearance="outline">
+                        <mat-label>QTY</mat-label>
+                        <input matInput type="number" id="QTY_REQ" formControlName="QTY_REQ" name="QTY_REQ" class="form-control" [value]="xx.value.QTY_REQ" readonly>
+                        <mat-icon matSuffix color="primary">scatter_plot</mat-icon>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <p>
+                        <mat-label>PART REQUIREMENT</mat-label>
+                        <mat-slide-toggle formControlName="REQD_IND" id="REQD_IND" name="REQD_IND" color="primary" [checked]="xx.value.REQD_IND" readonly>Required</mat-slide-toggle>
+                    </p>
+                  </div>
+                  <div class="col-3">
+                    <p>
+                      <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>KEYWORD DESCRIPTION</mat-label>
+                        <textarea matInput type="text" formControlName="KEYWORD_DESCRIPTION" name="KEYWORD_DESCRIPTION" class="form-control" rows="5" [value]="xx.value.KEYWORD_DESCRIPTION" readonly></textarea>
+                        <mat-icon matSuffix color="primary">notes</mat-icon>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <p>
+                        <button type="button" mat-raised-button color="primary" class="addalternativebutton" (click)="getExistingChildren(xx, idx)">Existing Alternative</button>
+                        <button type="button" mat-mini-fab color="primary" class="addremovebutton" (click)="removeParent(idx)" aria-label="icon button to remove a parent row of controls">
+                            <mat-icon>remove</mat-icon>
+                        </button>                            
+                        <button type="button" mat-raised-button color="primary" class="addalternativebutton" (click)="addAlternativePart()">Add Alternative</button>
+                    </p>
+                  </div>
+                  <div formArrayName="CHILDREN" class="row" *ngFor="let xx of _parents.controls.CHILDREN; let ic = index;">
+                    <ng-container [formGroupName]="ic">
+                        <div class="col-2">
+                            <p>
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <mat-label>ME PART NUMBER USED</mat-label>
+                                    <input matInput type="text" id="c_ME_PART_NUMBER_USED" formControlName="c_ME_PART_NUMBER_USED" name="c_ME_PART_NUMBER_USED" class="form-control" [value]="xx.value.c_ME_PART_NUMBER_USED">
+                                    <mat-icon matSuffix color="primary">card_travel</mat-icon>
+                                </mat-form-field>
+                                <mat-form-field class="full-width" appearance="outline" [hidden]="true">
+                                    <mat-label>ID</mat-label>
+                                    <input matInput type="text" id="c_ID" formControlName="c_ID" name="c_ID" class="form-control" [value]="xx.value.c_ID" readonly>
+                                </mat-form-field>
+                                <mat-form-field class="full-width" appearance="outline" [hidden]="true">
+                                    <mat-label>DASH 8</mat-label>
+                                    <input matInput type="text" id="c_DASH_8" formControlName="c_DASH_8" name="c_DASH_8" class="form-control" [value]="xx.value.c_DASH_8" readonly>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-2">
+                            <p>
+                                <mat-form-field class="full-width" appearance="outline">
+                                  <mat-label>ALTERNATIVE ME PART NUMBER</mat-label>
+                                  <input matInput type="text" id="c_ALTERNATIVE_ME_PART_NUMBER_USED" formControlName="c_ALTERNATIVE_ME_PART_NUMBER_USED" name="c_ALTERNATIVE_ME_PART_NUMBER_USED" class="form-control" [value]="xx.value.c_ALTERNATIVE_ME_PART_NUMBER_USED">
+                                  <mat-icon matSuffix color="primary">miscellaneous_services</mat-icon>
+                                </mat-form-field>
+                            </p>
+                        </div>
+                        <div class="col-2">
+                          <p>
+                            <mat-form-field class="full-width" appearance="outline">
+                              <mat-label>PRIME MPN</mat-label>
+                              <input matInput type="text" id="c_PRIME_MPN" formControlName="c_PRIME_MPN" name="c_PRIME_MPN" class="form-control" [value]="xx.value.c_PRIME_MPN">
+                              <mat-icon matSuffix color="primary">card_travel</mat-icon>
+                            </mat-form-field>
+                          </p>
+                        </div>
+                        <div class="col-2">
+                          <p>
+                            <mat-form-field class="full-width" appearance="outline">
+                              <mat-label>QTY</mat-label>
+                              <input matInput type="number" id="c_QTY_REQ" formControlName="c_QTY_REQ" name="c_QTY_REQ" class="form-control" [value]="xx.value.c_QTY_REQ">
+                              <mat-icon matSuffix color="primary">scatter_plot</mat-icon>
+                            </mat-form-field>
+                          </p>
+                        </div>
+                        <div class="col-2">
+                          <p>
+                            <mat-label>PART REQUIREMENT</mat-label>
+                            <mat-slide-toggle formControlName="c_REQD_IND" color="primary" [checked]="xx.value.c_REQD_IND">Required</mat-slide-toggle>
+                          </p>
+                        </div>
+                        <div class="col-2">
+                          <p>
+                            <mat-form-field class="full-width" appearance="outline">
+                              <mat-label>COMMENTS</mat-label>
+                              <textarea matInput type="text" #c_COMMENTS formControlName="c_COMMENTS" name="c_COMMENTS" class="form-control" rows="5" [value]="xx.value.c_COMMENTS"></textarea>
+                              <mat-icon matSuffix color="primary">notes</mat-icon>
+                            </mat-form-field>
+                          </p>
+                        </div>
+                    </ng-container>
+                  </div>
+              </ng-container>
+            </div>
+
+            <!-- <div formArrayName="parents" class="row">
+              <ng-container *ngFor="let xx of _parents.controls; let idx = index;" [formGroupName]="idx">
+                <div class="col-2">
+                  <p>
+                    <mat-form-field floatLabel="auto" appearance="outline">
+                      <mat-label>ME PART NUMBER USED</mat-label>
+                      <input matInput type="text" formControlName="fcMePartNumberUsed" name="fcMePartNumberUsed" class="form-control" [value]="xx.value.fcMePartNumberUsed">
+                      <mat-icon matSuffix color="primary">build</mat-icon>
+                    </mat-form-field>
+                  </p>
+                </div>
+                <div class="col-2">
+                  <p>
+                    <mat-form-field class="full-width" appearance="outline">
+                      <mat-label>PRIME MPN</mat-label>
+                      <input matInput type="number" formControlName="fcPrimeMpn" name="fcPrimeMpn" class="form-control" [value]="xx.value.fcPrimeMpn">
+                      <mat-icon matSuffix color="primary">card_travel</mat-icon>
+                    </mat-form-field>
+                  </p>
+                </div>
+                <div class="col-2">
+                  <p>
+                    <mat-form-field floatLabel="auto" appearance="outline">
+                      <mat-label>QTY REQ</mat-label>
+                      <input matInput type="text" formControlName="fcQtyReq" name="fcQtyReq" class="form-control" [value]="xx.value.fcQtyReq">
+                      <mat-icon matSuffix color="primary">scatter_plot</mat-icon>
+                    </mat-form-field>
+                  </p>
+                </div>
+                <div class="col-2">
+                  <p>
+                    <mat-label>REQD IND</mat-label>
+                    <mat-slide-toggle formControlName="fcReqdInd" color="primary" [checked]="xx.value.fcReqdInd">Required</mat-slide-toggle>
+                  </p>
+                </div>                  
+                <div class="col-3">
+                  <p>
+                    <mat-form-field class="full-width" appearance="outline">
+                      <mat-label>COMMENT</mat-label>
+                      <textarea matInput type="text" formControlName="fcKeywordDescription" name="fcKeywordDescription" class="form-control" rows="10" [value]="xx.value.fcKeywordDescription"></textarea>
+                      <mat-icon matSuffix color="primary">notes</mat-icon>
+                    </mat-form-field>
+                  </p>
+                </div>
+                <div class="col-1">
+                  <p>
+                    <button type="button" mat-mini-fab color="primary" class="addremovebutton" (click)="removeEditBomDetail(idx, xx.value.ID)" aria-label="icon button to remove a row of controls">
+                      <mat-icon>remove</mat-icon>
+                    </button>
+                  </p>
+                  <p>
+                    <button type="button" mat-mini-fab color="primary" class="addremovebutton" (click)="addBomDetailEdit()" aria-label="icon button to add a row of controls">
+                      <mat-icon>add</mat-icon>
+                    </button>
+                  </p>
+                </div>
+              </ng-container>
+              
+            </div> -->
+            <!-- {{deForm.value | json}} -->
+            <div class="row">
+              <div class="col-3">
+                <button type="button" mat-raised-button matStepperPrevious color="primary">BACK</button>
+                <!-- &nbsp;
+                    <button type="button" mat-raised-button matStepperNext color="primary">NEXT</button>&nbsp;
+                    &nbsp;
+                    <button type="button" mat-raised-button color="primary" (click)="deleteEoNumber(fcSearchEoNumberEdit.value);hideInventoryRptEditBtn=true; hideDownloadEditBtn=true; hideSaveEditBtn=false; stepperEdit.reset();">DELETE EO</button> -->
+              </div>
+            </div>
+          </mat-step>
+        </mat-horizontal-stepper>
+      </form>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+

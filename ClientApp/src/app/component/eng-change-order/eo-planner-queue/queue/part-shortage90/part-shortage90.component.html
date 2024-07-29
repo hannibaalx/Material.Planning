@@ -1,0 +1,55 @@
+<div class="ps90container">
+    <div class="row">
+        <div class="col-12 datacenter">
+            <h6>{{ ruleType }}</h6>
+        </div>
+    </div>
+    <div class="row" *ngIf="partShort90$ | async as partShort90">
+        <div class="col-12">
+            <div class="tableFixedHead">
+                <table id="partShortage90" class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>EO NUMBER</th>
+                            <th>ME TYPE</th>
+                            <th>AD IND</th>
+                            <th>DASH 8</th>
+                            <th>DESCRIPTION</th>
+                            <th>DAYS IN QUEUE</th>                      
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ps90 of partShort90">
+                            <td>
+                                {{ ps90.EO_NUMBER }}
+                                &nbsp;
+                                <a class="badge badge-pill badge-info" role="button" [routerLink]="['/eo/eonumber', ps90.EO_NUMBER]" target="_blank">
+                                    <i class="fa fa-external-link fa-lg"></i>
+                                </a>
+                            </td>
+                            <td>
+                                {{ ps90.ME_TYPE }}
+                            </td>
+                            <td>
+                                {{ ps90.AD_IND }}
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(ps90.DASH_8, ps90.EO_NUMBER)">{{ ps90.DASH_8 }}</a>
+                                &nbsp;
+                                <a [routerLink]="['/eo/dash8', ps90.DASH_8]" class="" role="button" target="_blank" [title]="'Search DASH 8 : ' + ps90.DASH_8">
+                                    <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td>
+                                {{ ps90.EO_DESC }}
+                            </td>
+                            <td>
+                                {{ ps90.DAYSINQUEUE }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

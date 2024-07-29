@@ -1,0 +1,71 @@
+    <!-- <div class="eotitle">
+      <h5><b>EO Reports</b></h5>
+    </div> -->
+    <div class="eoreportcontainer">
+      <div class="row">
+        <div class="col-12">
+          
+          <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link active" id="part-shortage-tab" data-toggle="tab" href="#part-shortage" role="tab"
+                aria-controls="home" aria-selected="true">Part Shortage Report</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="full-schedule-tab" data-toggle="tab" href="#full-schedule" role="tab"
+                aria-controls="full-schedule" aria-selected="false">Full Schedule Report</a>
+            </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link" id="repair-order-tab" data-toggle="tab" href="#repair-order" role="tab"
+                aria-controls="repair-order" aria-selected="false">Repair Order Report</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="purchase-order-tab" data-toggle="tab" href="#purchase-order" role="tab"
+                  aria-controls="purchase-order" aria-selected="false">Purchase Order Report</a>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" id="bom-inventory-tab" data-toggle="tab" href="#bom-inventory" role="tab"
+                aria-controls="bom-inventory" aria-selected="false">BOM Inventory Report</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="po-discrepancy-tab" data-toggle="tab" href="#po-discrepancy" role="tab"
+                aria-controls="po-discrepancy" aria-selected="false">PO Discrepancy Report</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="eco-station-readiness-tab" data-toggle="tab" href="#eco-station-readiness"
+                role="tab" aria-controls="eco-station-readiness" aria-selected="false">EO Station Readiness Report</a>
+            </li>
+          </ul>
+          <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="part-shortage" role="tabpanel"
+              aria-labelledby="part-shortage-tab">
+              <app-eo-part-shortage></app-eo-part-shortage>
+            </div>
+            <div class="tab-pane fade" id="full-schedule" role="tabpanel" aria-labelledby="full-schedule-tab">
+              <app-eo-full-schedule></app-eo-full-schedule>
+            </div>
+            <div class="tab-pane fade" id="repair-order" role="tabpanel" aria-labelledby="repair-order-tab">
+              <app-eorepairorder></app-eorepairorder>
+            </div>
+            <div class="tab-pane fade" id="purchase-order" role="tabpanel" aria-labelledby="purchase-order-tab">
+              <app-eopurchaseorder></app-eopurchaseorder>
+            </div>
+            <div class="tab-pane fade" id="bom-inventory" role="tabpanel" aria-labelledby="bom-inventory-tab">
+              <app-eo-bom-inventory></app-eo-bom-inventory>
+            </div>
+            <div class="tab-pane fade" id="po-discrepancy" role="tabpanel" aria-labelledby="po-discrepancy-tab">
+              <app-eo-po-discrepancy></app-eo-po-discrepancy>
+            </div>
+            <div class="tab-pane fade" id="eco-station-readiness" role="tabpanel"
+              aria-labelledby="eco-station-readiness-tab">
+              <app-eo-eco-station-readiness></app-eo-eco-station-readiness>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-maint-snackbar></app-maint-snackbar>

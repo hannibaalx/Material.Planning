@@ -1,0 +1,101 @@
+body{
+    position: relative;
+}
+.cpocontainer{
+  overflow: hidden;
+  font-family: 'AmericanSans' !important;
+}
+.label-top-20{
+  position: relative;
+  top: 10px;
+}
+.center-text{
+    text-align: center;
+}
+.sectioncontainer{
+    border: grey 1px solid;
+    width: 100%;
+    padding-left: 10px;
+}
+.selectlistcontainer {
+    /* border: grey 1px solid; */
+    height: 98px;
+    overflow-y: auto;
+    width: 100%;
+}
+.autoinput{
+    position: relative;
+}
+.input200{
+    width: 200px;
+}
+.spacer50{
+    margin-top: 50px;
+}
+.tableFixedHead {
+    height: 500px;
+    overflow-y: auto;
+    width: 100%;
+    display: none;
+  }
+  .tableFixedHead th{
+    position: sticky;
+    top: 0;
+  }
+.search-result li {
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    border-top: 1px solid gray;
+    width: 200px;
+    height: 25px;
+    padding: 5px;
+    background-color: white;
+    cursor: pointer;
+    list-style-type: none;
+    left: -40px;
+    position: relative;
+    z-index: 100;
+  }
+    
+  .search-result li:hover {
+    background-color: #607D8B;
+  }
+  
+  .search-result li a {
+    color: #888;
+    display: block;
+    text-decoration: none;
+  }
+  
+  .search-result li a:hover {
+    color: white;
+  }
+  .search-result li a:active {
+    color: white;
+  }
+  .loadingCpoSpinner{
+    position: relative;
+    top: -32px;
+    left: 165px;
+  }
+  .mat-tab-body-content {
+    height: 100%;
+    overflow: visible;
+}
+.mat-h4, .mat-subheading-1, .mat-typography h4 {
+  font: 400 15px / 24px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+  margin: 0 0 16px;
+  font-family: AmericanSans;
+}
+.stroked-button {
+  background-color: #fff;
+  border: 2px solid #0078d2!important;
+  color: #4db4fa;
+  min-width: 105px;
+  font-size: 16px;
+  margin: 0 2px 0 5px!important;
+  line-height: 22px!important;
+  top: 2px;
+}

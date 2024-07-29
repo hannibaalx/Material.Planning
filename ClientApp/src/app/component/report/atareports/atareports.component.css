@@ -1,0 +1,59 @@
+.eoreportcontainer{
+    font-size: 12px;
+    font-family: 'AmericanSans' !important;
+    margin: auto;
+    min-width: 80%;
+}
+.center-text{
+    text-align: center !important;
+}
+.mat-tab-body-content {
+    height: 100%;
+    overflow: visible;
+}
+.eotitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 105px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+  }
+  /* .mat-tab-label {
+    height: 48px;
+    padding: 0 24px;
+    cursor: pointer;
+    box-sizing: border-box;
+    opacity: .6;
+    min-width: 160px;
+    text-align: center;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    position: relative;
+    font-family: 'AmericanSans' !important;
+} */
+/* .mat-tab-label .mat-tab-label-content {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    font: 14px 'AmericanSans';
+}
+.mat-list-base[dense] .mat-list-item .mat-list-text, .mat-list-base[dense] .mat-list-option .mat-list-text {
+    display: flex;
+    flex-direction: column;
+    flex: auto;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 0;
+    font-family: AmericanSans;
+} */

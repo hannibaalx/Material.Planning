@@ -1,0 +1,96 @@
+.itscontainer{
+    margin: auto;
+    min-width: 80%;
+    max-width: 98%;
+    position: relative;
+    top: 30px;
+}
+/* .itsitem{
+    padding: 0 0px 5px 15px;
+    text-align: center;
+}
+table{
+    width: 98%;
+}
+th, td{
+    text-align: center;
+}
+.td-nowrap{
+    white-space: nowrap;
+}
+.tableFixedHead {
+  height: 600px;
+  overflow-y: auto;
+  width: 100%;
+}
+.tableFixedHead th{
+  position: sticky;
+  top: 0;
+} */
+.mattablecontainer{
+    height: 36px;
+    overflow: auto;    
+}
+.mat-header-cell{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    background-color: #36495a!important;
+    font-size: 16px;
+}
+.mat-cell{
+    font-size: 16px;
+    text-align: center;
+    justify-content: center;
+}
+.mat-row:nth-of-type(even){
+    background-color: #f2f2f2;
+}
+.mat-elevation-z8{
+    box-shadow: none;
+}
+.mat-row:hover {
+      color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.exportbtn{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    margin-top: 10px;
+}
+.dataright{
+    text-align: right;
+    position: relative;
+    top: -25px;
+    font-size: 10px;
+}
+.headerright{
+    text-align: right;
+}
+.headerleft{
+    text-align: left;
+    /* position: relative;
+    top: -4px; */
+}
+.meheader {
+    color: #3f51b5;
+    font-family: AmericanSans;
+    font-size: 20px;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}

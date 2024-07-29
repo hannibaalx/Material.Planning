@@ -1,0 +1,155 @@
+<div class="esrcontainer">
+  <div class="row">
+    <div class="col-3">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">Planner</label></div>
+      <mat-selection-list #allEcoPlannerSelected dense class="selectlistcontainer" role="listbox" aria-label="ecoplanner">
+        <mat-list-option class="mat-body-1 listitem" *ngFor="let x of ecoplanners$ | async" value="x.PLANNER" color="primary">
+          {{ x.PLANNER }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <div class="col-3">
+      <div class="center-text">
+        <label class="mat-subheading-1 label-top-20">Data Source</label></div>
+      <mat-selection-list #allEcoDataSourceSelected dense class="selectlistcontainer2">
+        <mat-list-option class="mat-body-1 listitem" *ngFor="let x of datasource$ | async" color="primary">
+          {{ x.DATA_SOURCE }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <div class="col-3">
+      <mat-form-field class="dash8-chip-list">
+        <mat-chip-list #dash8ChipList aria-label="dash 8 selection">
+          <mat-chip *ngFor="let d8 of chiplistDash8s" [selectable]="selectable" [removable]="removable" (removed)="remove(d8, 'dash8')" color="primary">
+            {{ d8 }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Enter Dash 8" #dash8Input [formControl]="dash8Ctrl" [matAutocomplete]="autoDash8" [matChipInputFor]="dash8ChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event, 'dash8')">
+        </mat-chip-list>
+        <mat-autocomplete #autoDash8="matAutocomplete" (optionSelected)="selected($event, 'dash8')">
+          <mat-option *ngFor="let d8 of filteredDash8s | async" [value]="d8">
+            {{ d8.DASH_8 }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <!-- {{ allDash8s | json}} -->
+    </div>
+    <div class="col-3">
+      <mat-form-field class="eoNumber-chip-list">
+        <mat-chip-list #eoNumberChipList aria-label="dash 8 selection">
+          <mat-chip *ngFor="let eo of chiplistEoNumbers" [selectable]="selectable" [removable]="removable" (removed)="remove(eo, 'eo')" color="primary">
+            {{ eo }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="Enter EO Number" #eoNumberInput [formControl]="eoNumberCtrl" [matAutocomplete]="autoEoNumber" [matChipInputFor]="eoNumberChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event, 'eo')">
+        </mat-chip-list>
+        <mat-autocomplete #autoEoNumber="matAutocomplete" (optionSelected)="selected($event, 'eo')">
+          <mat-option *ngFor="let eo of filteredEoNumbers | async" [value]="eo">
+            {{ eo.EO_NUMBER }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <!-- {{ allEoNumbers | json }} -->
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      &nbsp;
+    </div>
+  </div>
+  <div class="row margintop60">
+    <div class="col-3 center-text">
+      <button mat-raised-button (click)="selectAll('ecoplanner')" color="primary">Select All</button>&nbsp;
+      <button mat-raised-button (click)="deselectAll('ecoplanner')" color="accent">Deselect All</button>
+    </div>
+    <div class="col-3 center-text">
+      <button mat-raised-button (click)="selectAll('datasource')" color="primary">Select All</button>&nbsp;
+      <button mat-raised-button (click)="deselectAll('datasource')" color="accent">Deselect All</button>
+    </div>
+    <div class="col-2">
+
+    </div>
+    <div class="col-2">
+      <span [hidden]="hideEcoBtn">
+        <button mat-raised-button (click)="generateReport()" color="primary">SUBMIT</button>
+        <span class="loadingEcoSpinner">
+          <mat-spinner diameter="30" [hidden]="hideEcoSpinner"></mat-spinner>
+        </span>
+      </span>
+      <span [hidden]="!hideEcoBtn">
+        <button mat-raised-button (click)="exportReport()" color="primary">DOWNLOAD</button>
+        <span class="loadingEcoSpinner">
+          <mat-spinner diameter="30" [hidden]="hideEcoSpinner"></mat-spinner>
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="tableFixedHead">
+      <table id="tblEcoStationReadinessResult" class="table table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th>DATA SOURCE</th>
+            <th>EO NUMBER</th> 
+            <th>DASH 8</th> 
+            <th>EO DESC</th>
+            <th>MFG PART NUMBER</th> 
+            <th>AD IND</th>
+            <th>REVISION DATE</th>
+            <th>SCHEDULING STATUS</th>
+            <th>MAINT TYPE</th>
+            <th>CNT SCHDLD</th>
+            <th>STATION REQUIREMENTS</th>
+            <th>ATA</th>
+            <th>PLANNER</th>
+            <th>MAX AC AT SYSTEM</th> 
+            <th>MAX AC AT DFW</th> 
+            <th>MAX AC AT TUL</th> 
+            <th>MAX AC AT CLT</th> 
+            <th>MAX AC AT PHX</th> 
+            <th>MAX AC AT PIT</th> 
+            <th>MAX AC AT LAX</th> 
+            <th>MAX AC AT ORD</th> 
+            <th>MAX AC AT MIA</th> 
+            <th>MAX AC AT LGA</th> 
+            <th>MAX AC AT DWH</th> 
+            <th>MAX AC AT PHL</th> 
+            <th>MAX AC AT JFK</th> 
+            <th>UPDATED DATETIME</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let x of resp">
+            <td>{{ x.DATA_SOURCE }}</td>
+            <td>{{ x.EO_NUMBER }}</td>
+            <td>{{ x.DASH_8 }}</td>
+            <td>{{ x.EO_DESC }}</td>
+            <td>{{ x.MFG_PART_NUMBER }}</td>
+            <td>{{ x.AD_IND }}</td>
+            <td>{{ x.REVISION_DATE | date:'yyyy-MM-dd' }}</td>
+            <td>{{ x.SCHEDULING_STATUS }}</td>
+            <td>{{ x.MAINT_TYPE }}</td>
+            <td>{{ x.CNT_SCHDLD }}</td>
+            <td>{{ x.STATION_REQUIREMENTS }}</td>
+            <td>{{ x.ATA }}</td>
+            <td>{{ x.PLANNER }}</td>
+            <td>{{ x.MAX_AC_AT_SYSTEM }}</td>
+            <td>{{ x.MAX_AC_AT_DFW }}</td>
+            <td>{{ x.MAX_AC_AT_TUL }}</td>
+            <td>{{ x.MAX_AC_AT_CLT }}</td>
+            <td>{{ x.MAX_AC_AT_PHX }}</td>
+            <td>{{ x.MAX_AC_AT_PIT }}</td>
+            <td>{{ x.MAX_AC_AT_LAX }}</td>
+            <td>{{ x.MAX_AC_AT_ORD }}</td>
+            <td>{{ x.MAX_AC_AT_MIA }}</td>
+            <td>{{ x.MAX_AC_AT_LGA }}</td>
+            <td>{{ x.MAX_AC_AT_DWH }}</td>
+            <td>{{ x.MAX_AC_AT_PHL }}</td>
+            <td>{{ x.MAX_AC_AT_JFK }}</td>
+            <td>{{ x.UPDATED_DATETIME | date:'yyyy-MM-dd' }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

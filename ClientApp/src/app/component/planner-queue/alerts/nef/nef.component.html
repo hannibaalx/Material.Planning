@@ -1,0 +1,52 @@
+<div class="nefcontainer">
+    <div class="datacontainer">
+        <div class="row">
+            <div class="col-2 datacenter">
+                <b>M&E</b>
+            </div>
+            <div class="col-1 datacenter">
+                <b>TAIL</b>
+            </div>
+            <div class="col-2 datacenter">
+                <b>LOG PAGE</b>
+            </div>
+            <div class="col-1 datacenter">
+                <b>CODE</b>
+            </div>
+            <div class="col-3 datacenter">
+                <b>KEYWORD</b>
+            </div>
+            <div class="col-2 datacenter">
+                <b>DROP DEAD DATE</b>
+            </div>
+            <div class="col-1 datacenter">
+                <b>TIME REMAIN</b>
+            </div>
+        </div>
+        <div class="row hoverable nefrow " *ngFor="let nef of nef$ | async">
+            <div class="col-2 datacenter">
+                <a class="badge badge-secondary" routerLink="../ata/{{nef.ME_NBR.trim()}}" target="_blank" role="button">{{ nef.ME_NBR }}</a>
+            </div>
+            <div class="col-1 datacenter">
+                {{ nef.TAIL }}
+            </div>
+            <div class="col-2 datacenter">
+                {{ nef.LOG_PAGE }}
+            </div>
+            <div class="col-1 datacenter">
+                {{ nef.CODE_1}}
+            </div>
+            <div class="col-3 datacenter">
+                {{ nef.DESCRIPTION }}
+            </div>
+            <div class="col-2 datacenter">
+                {{ nef.TWD }}
+            </div>
+            <div class="col-1 datacenter">
+                {{ nef.TIME_REMAIN }}
+            </div>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,196 @@
+<div class="kspcontainer">
+    <div class="datacontainer">
+        <div class="row">
+            <div class="col-12 header-color">
+                <b class="queue-header">Kit Shortage by Parts</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 dataright">
+                <div>
+                    <button mat-stroked-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName:'Kit Shortage by Parts summary'})">DOWNLOAD SUMMARY</button>
+                    &nbsp;<button mat-stroked-button class="exportbtn stroked-button" (click)="exporter2.exportTable('xlsx', {fileName:'Kit Shortage by Parts detail'})">DOWNLOAD DETAIL</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mattablecontainer">
+                <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+                <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortKitShortageByParts($event)" class="mat-elevation-z8">
+                    <ng-container matColumnDef="ME_PART_NUMBER">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header><b>M&E</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x">
+                            <a mat-raised-button class="mebtn" href="javascript:void(0);" (click)="sendMeDetails(x.ME_PART_NUMBER.trim())">{{ x.ME_PART_NUMBER }}</a>
+                            &nbsp;
+                            <a mat-button color="primary" [routerLink]="['../ata/', x.ME_PART_NUMBER]" class="atalaunch" target="_blank">
+                                <mat-icon>launch</mat-icon>
+                            </a>
+                        </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="KEYWORD">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>KEYWORD</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.KEYWORD }} </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="BUILD_STATION_SHORTAGE_COUNT">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>BUILD STA SHORTAGE CNT</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.BUILD_STATION_SHORTAGE_COUNT }} </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="TOTAL_KIT_WO_QTY">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>KIT WO TOTAL QTY</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.TOTAL_KIT_WO_QTY }} </mat-cell>
+                    </ng-container>
+          
+                    <ng-container matColumnDef="DAYSINQUEUE">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>DAYS IN QUEUE</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.DAYSINQUEUE }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="COMMENTS">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMMENTS</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LAST_UPDATES">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>LAST UPDATES</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }} </mat-cell>
+                    </ng-container>
+                 
+                    <mat-header-row *matHeaderRowDef="kitShortageByParts_displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: kitShortageByParts_displayedColumns;"></mat-row>
+                </mat-table>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mattablecontainer">
+                <mat-table matTableExporter #exporter2="matTableExporter" [dataSource]="detaildatasource" class="mat-elevation-z8 detaildata">
+                    
+                    <ng-container matColumnDef="KIT">
+                    <mat-header-cell *matHeaderCellDef><b>KIT</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x">
+                            {{ x.KIT }}
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ME_KIT_DESCRIPTION">
+                        <mat-header-cell *matHeaderCellDef><b>ME KIT DESCRIPTION</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.ME_KIT_DESCRIPTION }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="BUILD_STATION_SHORTAGE_COUNT">
+                        <mat-header-cell *matHeaderCellDef><b>BUILD STATION SHORTAGE COUNT</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.BUILD_STATION_SHORTAGE_COUNT }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="TOTAL_KIT_WO_QTY">
+                        <mat-header-cell *matHeaderCellDef><b>TOTAL KIT WO QTY</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.TOTAL_KIT_WO_QTY }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="STA_BUILD">
+                        <mat-header-cell *matHeaderCellDef><b>STA BUILD</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.STA_BUILD }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="STA_FOR">
+                        <mat-header-cell *matHeaderCellDef><b>STA FOR</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.STA_FOR }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="STA_KIT_WO_QTY">
+                        <mat-header-cell *matHeaderCellDef><b>STA KIT WO QTY</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.STA_KIT_WO_QTY }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ME_PART_NUMBER_IN_KIT">
+                        <mat-header-cell *matHeaderCellDef><b>ME PART NUMBER IN KIT</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.ME_PART_NUMBER_IN_KIT }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="KEYWORD_IN_KIT">
+                        <mat-header-cell *matHeaderCellDef><b>KEYWORD IN KIT</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.KEYWORD_IN_KIT }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="QTY_PER_KIT">
+                        <mat-header-cell *matHeaderCellDef><b>QTY PER KIT</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.QTY_PER_KIT }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="BUILD_STA_TTL_REQ">
+                        <mat-header-cell *matHeaderCellDef><b>BUILD STA TTL REQ</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.BUILD_STA_TTL_REQ }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="BUILD_STA_TTL_OHB">
+                        <mat-header-cell *matHeaderCellDef><b>BUILD STA TTL OHB</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.BUILD_STA_TTL_OHB }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="ALL_STA_TTL_QTY">
+                        <mat-header-cell *matHeaderCellDef><b>ALL STA TTL QTY</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.ALL_STA_TTL_QTY }}
+                            </mat-cell>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="ALL_STA_TTL_OHB">
+                        <mat-header-cell *matHeaderCellDef><b>ALL STA TTL OHB</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.ALL_STA_TTL_OHB }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="DaysInQueue">
+                        <mat-header-cell *matHeaderCellDef><b>DaysInQueue</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.DaysInQueue }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LAST_UPDATES">
+                        <mat-header-cell *matHeaderCellDef><b>LAST UPDATES</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }}
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="COMMENTS">
+                        <mat-header-cell *matHeaderCellDef><b>COMMENTS</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.COMMENTS }}
+                            </mat-cell>
+                    </ng-container>           
+
+                    <mat-header-row *matHeaderRowDef="kitShortageByPartsDetail_displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: kitShortageByPartsDetail_displayedColumns;"></mat-row>
+                </mat-table>
+            </div>
+        </div>
+    </div>
+</div>
+

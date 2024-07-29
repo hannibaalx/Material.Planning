@@ -1,0 +1,220 @@
+<div class="rocontainer">
+    <div class="row">
+        <div class="col-3">
+            <!-- <mat-form-field>
+                <mat-label>Start Date</mat-label>
+                <input matInput [matDatepicker]="dpstartdate" [min]="minDate" [max]="maxDate" [formControl]="date">
+                <mat-datepicker-toggle matSuffix [for]="dpstartdate"></mat-datepicker-toggle>
+                <mat-datepicker #dpstartdate></mat-datepicker>
+            </mat-form-field>
+              <br />
+              <mat-form-field>
+                <mat-label>End Date</mat-label>
+                <input matInput [matDatepicker]="dpenddate" [min]="minDate" [max]="maxDate" [formControl]="date">
+                <mat-datepicker-toggle matSuffix [for]="dpenddate"></mat-datepicker-toggle>
+                <mat-datepicker #dpenddate></mat-datepicker>
+            </mat-form-field> -->
+            <div class="center-text"><label class="mat-subheading-1 label-top-20">RO Request Date Range</label></div> 
+            <div class="sectioncontainer center-text">
+                <mat-form-field>
+                    <mat-label>Start Date</mat-label>
+                    <input matInput [matDatepicker]="startdp" [min]="minDate" [max]="maxDate" id="startdate" [formControl]="startdate">
+                    <mat-datepicker-toggle matSuffix [for]="startdp"></mat-datepicker-toggle>
+                    <mat-datepicker #startdp></mat-datepicker>
+                </mat-form-field>
+                <br />
+                <mat-form-field>
+                    <mat-label>End Date</mat-label>
+                    <input matInput [matDatepicker]="enddp" [min]="minDate" [max]="maxDate" id="enddate" [formControl]="enddate">
+                    <mat-datepicker-toggle matSuffix [for]="enddp"></mat-datepicker-toggle>
+                    <mat-datepicker #enddp></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="center-text"><label class="mat-subheading-1 label-top-20">RO Status</label></div>
+            <div class="sectioncontainer">
+                <mat-selection-list #allRoSelected dense>
+                    <mat-list-option class="mat-body-1 listitem" *ngFor="let ros of rostatus$ | async" color="primary">
+                        {{ ros.RO_STATUS }}
+                    </mat-list-option>
+                </mat-selection-list>                  
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="center-text"><label class="mat-subheading-1 label-top-20">Ship Station</label></div>
+            <div class="sectioncontainer">
+                <mat-selection-list #allStationSelected dense class="selectlistcontainer">
+                    <mat-list-option class="mat-body-1 listitem" *ngFor="let sta of stations$ | async" color="primary">
+                        {{sta.SHIP_STA}}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div> 
+        </div>
+        <div class="col-2">
+            <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>M & E</label><br />
+                <input type="text" #roSearchMEN class="input200" id="roSearchMEN" name="roSearchMEN" (input)="autoSearch($event, 'men')" />
+                <ul *ngIf="filteredMEN$ && hideMEN" class="search-result">
+                    <li *ngFor="let m of filteredMEN$ | async" (click)="roSearchMEN.value=m.ME_PART_NUMBER; hideMEN= false" value="m.ME_PART_NUMBER">
+                        {{m.ME_PART_NUMBER}}
+                    </li>
+                </ul>
+            </div>
+            <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>MPN</label><br />
+                <input type="text" #roSearchMPN class="input200" id="roSearchMPN" name="roSearchMPN" (input)="autoSearch($event, 'mpn')" />
+                <ul *ngIf="filteredMPN$ && hideMPN" class="search-result">
+                    <li *ngFor="let m of filteredMPN$ | async" (click)="roSearchMPN.value=m.MPN; hideMPN=false" value="m.MPN">
+                        {{m.MPN}}
+                    </li>
+                </ul>
+            </div>
+            <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>Repaired Order Number</label><br />
+                <input type="text" #roSearchRON class="input200" id="roSearchRON" name="roSearchRON" (input)="autoSearch($event, 'ron')" />
+                <ul *ngIf="filteredRON$ && hideRON" class="search-result">
+                    <li *ngFor="let ron of filteredRON$ | async" (click)="roSearchRON.value=ron.RO_NUMBER; hideRON=false" value="ron.RO_NUMBER">
+                        {{ron.RO_NUMBER}}
+                    </li>
+                </ul>
+            </div>
+            <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>ATA</label><br />
+                <input type="text" #roSearchATA class="input200" id="roSearchATA" name="roSearchATA" (input)="autoSearch($event, 'ata')" />
+                <ul *ngIf="filteredATA$ && hideATA" class="search-result">
+                    <li *ngFor="let a of filteredATA$ | async" (click)="roSearchATA.value=a.ATA; hideATA=false" value="a.ATA">
+                        {{a.ATA}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="row spacer50">
+        <div class="col-12">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-3">&nbsp;</div>
+        <div class="col-3 center-text">
+            <button mat-raised-button (click)="selectAll('rostatus')" color="primary">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('rostatus')" color="accent">Deselect All</button>
+        </div>
+        <div class="col-2 center-text">
+            <button mat-raised-button (click)="selectAll('shipstation')" color="primary">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('shipstation')" color="accent">Deselect All</button>
+        </div>
+        <div class="col-2 center-text">
+            <!-- <span [hidden]="false">
+                <mat-spinner diameter="50"></mat-spinner>
+            </span> -->
+            <span [hidden]="hideRoBtn">
+                <button mat-raised-button (click)="generateReport()" color="primary">SUBMIT</button>
+                <span class="loadingRoSpinner"><mat-spinner diameter="30" [hidden]="hideRoSpinner"></mat-spinner></span>
+            </span>
+            <span [hidden]="!hideRoBtn">
+                <button mat-raised-button (click)="exportReport()" color="primary">DOWNLOAD</button>
+                <span class="loadingRoSpinner"><mat-spinner diameter="30" [hidden]="hideRoSpinner"></mat-spinner></span>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="tableFixedHead">
+                <table id="tblRoResult" class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ATA PLNR</th>
+                            <th>RO NUMBER</th>
+                            <th>SER NUM</th>
+                            <th>RECEIPT NUMBER</th>
+                            <th>RO STATUS</th>
+                            <th>ME PART NUMBER</th>
+                            <th>MFG PART NUMBER</th>
+                            <th>KEYWORD DESCRIPTION</th>
+                            <th>RO RVW DT</th>
+                            <th>RO REQ DT</th>
+                            <th>RO QTY</th>
+                            <th>REC STA</th>
+                            <th>TAT</th>
+                            <th>REQUEST DATE</th>
+                            <th>SHIP STA</th>
+                            <th>WORK REQUES</th>
+                            <th>ESTIMATED COST</th>
+                            <th>VENDOR NAME</th>
+                            <th>RO REC QTY</th>
+                            <th>DAYS LATE</th>
+                            <th>WAYBILL NUMBER</th>
+                            <th>RO ORIGINATOR EMP FIRST NAME</th>
+                            <th>RO ORIGINATOR EMP LAST NAME</th>
+                            <th>RO ORIGINATOR EMPLOYEE NUMBER</th>
+                            <th>RO RECEIPT DATE</th>
+                            <th>RO RECEIPT EMPLOYEE NUMBER</th>
+                            <th>RO RECEIPT EMPLOYEE LAST NAME</th>
+                            <th>RO RECEIPT EMPLOYEE FIRST NAME</th>
+                            <th>IRM DATE</th>
+                            <th>APPR DT</th>
+                            <th>PRNT DT</th>
+                            <th>SHIP OUT DATE</th>
+                            <th>POSITION</th>
+                            <th>SHIP TO VENDOR NUMBER</th>
+                            <th>CITY</th>
+                            <th>STATE</th>
+                            <th>COUNTRY</th>
+                            <th>REMOVED AIRCRAFT NUMBER</th>
+                            <th>REMOVED ALPHA STATION</th>
+                            <th>INVOICE AMT</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let x of resp">
+                            <td>{{ x.ATA_PLNR }}</td>
+                            <td>{{ x.RO_NUMBER }}</td>
+                            <td>{{ x.SER_NUM }}</td>
+                            <td>{{ x.RECEIPT_NUMBER }}</td>
+                            <td>{{ x.RO_STATUS }}</td>
+                            <td>{{ x.ME_PART_NUMBER }}</td>
+                            <td>{{ x.MFG_PART_NUMBER }}</td>
+                            <td>{{ x.KEYWORD_DESCRIPTION }}</td>
+                            <td>{{ x.RO_RVW_DT }}</td>
+                            <td>{{ x.RO_REQ_DT }}</td>
+                            <td>{{ x.RO_QTY }}</td>
+                            <td>{{ x.REC_STA }}</td>
+                            <td>{{ x.TAT }}</td>
+                            <td>{{ x.REQUEST_DATE }}</td>
+                            <td>{{ x.SHIP_STA }}</td>
+                            <td>{{ x.WORK_REQUES }}</td>
+                            <td>{{ x.ESTIMATED_COST }}</td>
+                            <td>{{ x.VENDOR_NAME }}</td>
+                            <td>{{ x.RO_REC_QTY }}</td>
+                            <td>{{ x.DAYS_LATE }}</td>
+                            <td>{{ x.WAYBILL_NUMBER }}</td>
+                            <td>{{ x.RO_ORIGINATOR_EMP_FIRST_NAME }}</td>
+                            <td>{{ x.RO_ORIGINATOR_EMP_LAST_NAME }}</td>
+                            <td>{{ x.RO_ORIGINATOR_EMPLOYEE_NUMBER }}</td>
+                            <td>{{ x.RO_RECEIPT_DATE }}</td>
+                            <td>{{ x.RO_RECEIPT_EMPLOYEE_NUMBER }}</td>
+                            <td>{{ x.RO_RECEIPT_EMPLOYEE_LAST_NAME }}</td>
+                            <td>{{ x.RO_RECEIPT_EMPLOYEE_FIRST_NAME }}</td>
+                            <td>{{ x.IRM_DATE }}</td>
+                            <td>{{ x.APPR_DT }}</td>
+                            <td>{{ x.PRNT_DT }}</td>
+                            <td>{{ x.SHIP_OUT_DATE }}</td>
+                            <td>{{ x.POSITION }}</td>
+                            <td>{{ x.SHIP_TO_VENDOR_NUMBER }}</td>
+                            <td>{{ x.CITY }}</td>
+                            <td>{{ x.STATE }}</td>
+                            <td>{{ x.COUNTRY }}</td>
+                            <td>{{ x.REMOVED_AIRCRAFT_NUMBER }}</td>
+                            <td>{{ x.REMOVED_ALPHA_STATION }}</td>
+                            <td>{{ x.INVOICE_AMT }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

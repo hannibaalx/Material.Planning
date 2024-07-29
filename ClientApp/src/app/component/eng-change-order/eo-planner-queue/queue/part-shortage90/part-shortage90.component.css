@@ -1,0 +1,40 @@
+.ps90container{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 99%;
+}
+table{
+    font-size: 11px; 
+}
+th, td{
+    border: 1px solid black;
+    text-align: center;
+}
+.tableFixedHead {
+  height: 264px;
+  overflow-y: auto;
+  width: 100%;
+}
+.tableFixedHead th{
+  position: sticky;
+  top: 0;
+}
+.datacenter{
+    text-align: center;
+}
+.dataright{
+    text-align: right;
+}
+.ps90row:nth-of-type(even){
+    background-color: #f2f2f2;
+  }
+.hoverable:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.pleasewaitind {
+    position: relative;
+    top: 150px;
+    background-color: #36495a!important;
+}

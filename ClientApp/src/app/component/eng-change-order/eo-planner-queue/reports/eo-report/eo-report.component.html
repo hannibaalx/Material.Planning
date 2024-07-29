@@ -1,0 +1,41 @@
+    <!-- <div class="eotitle">
+      <h5><b>EO Reports</b></h5>
+    </div> -->
+    <div class="eoreportcontainer">
+      <div class="row">
+        <div class="col-12">
+          <mat-tab-group>
+            <mat-tab label="Part Shortage Report" style="overflow: unset!important">
+              <app-part-shortage></app-part-shortage>
+            </mat-tab>
+            <mat-tab label="Full Schedule Report" style="overflow: unset!important">
+              <app-full-schedule></app-full-schedule>
+            </mat-tab>
+            <mat-tab label="Repair Order Report" style="overflow: unset!important">
+              <app-eo-cancelled-po></app-eo-cancelled-po>
+            </mat-tab>
+            <mat-tab label="Purchase Order" style="overflow: unset!important">
+              <app-purchase-order></app-purchase-order>
+            </mat-tab>
+
+            <mat-tab label="Bom Inventory" style="overflow: unset!important">
+              <app-bom-inventory></app-bom-inventory>
+            </mat-tab> 
+       
+            <mat-tab label="PO Discrepancy" style="overflow: unset!important">
+              <app-po-discrepancy></app-po-discrepancy>
+            </mat-tab> 
+
+            <mat-tab label="EO Station Readiness" style="overflow: unset!important">
+              <app-eco-station-readiness></app-eco-station-readiness>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+        <div class="row">
+          <div class="col-12">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-maint-snackbar></app-maint-snackbar>

@@ -1,0 +1,49 @@
+.ssdcontainer{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 99%;
+}
+table{
+    font-size: 11px;
+    width: 100%;
+}
+th, td{
+    border: 1px solid black;
+    text-align: center;
+}
+.tableFixedHead {
+  height: 264px;
+  overflow-y: auto;
+  width: 100%;
+}
+.tableFixedHead th{
+  position: sticky;
+  top: 0;
+}
+.datacenter{
+    text-align: center;
+}
+.dataright{
+    text-align: right;
+}
+.nscrow:nth-of-type(even){
+    background-color: #f2f2f2;
+  }
+.hoverable:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.nowrap{
+    white-space: nowrap;
+}
+.closebtn{
+    color: #fff;
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+.pleasewaitind {
+    position: relative;
+    top: 150px;
+    background-color: #36495a!important;
+}

@@ -1,0 +1,311 @@
+mat-sidenav-container{
+    font-family: Helvetica, Sans-serif;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+}
+
+mat-sidenav, mat-sidenav-content{
+    padding: 16px;
+    height: 100%;
+    background-color: white;
+    overflow: hidden;
+}
+
+mat-sidenav{
+    background-color: white;
+    width: 250px;
+}
+
+.smtitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+
+.refresh-textright{
+    text-align: right;
+}
+
+.search-result0 li {
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    border-top: 1px solid gray;
+    width: 85px;
+    height: 25px;
+    padding: 5px;
+    background-color: white;
+    cursor: pointer;
+    list-style-type: none;
+    left: -40px;
+    position: relative;
+    z-index: 100;
+  }
+
+.search-result1 li {
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    border-top: 1px solid gray;
+    width: 95px;
+    height: 25px;
+    padding: 5px;
+    background-color: white;
+    cursor: pointer;
+    list-style-type: none;
+    left: -40px;
+    position: relative;
+    z-index: 100;
+  }
+
+.search-result2 li {
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    border-top: 1px solid gray;
+    width: 560px;
+    height: 25px;
+    padding: 5px;
+    background-color: white;
+    cursor: pointer;
+    list-style-type: none;
+    left: -40px;
+    position: relative;
+    z-index: 100;
+  }
+
+.fleetfield{
+    width:100px !important;
+}
+.full-width{
+    width: 260px;
+}
+.smInput1{
+    width:125px !important;
+}
+
+.smInput2{
+    width:128px !important;
+}
+
+.smInput3{
+    width:161px !important;
+}
+
+.meBomRightMargin{
+    margin-right: 120px;
+}
+
+mat-form-field {
+    font-size: 11px;
+    margin-right: 15px;
+}
+
+
+/* .mat-sort-header-arrow {
+    color: #ffffff !important;
+    opacity: 1 !important;
+} */
+
+/* ::ng-deep .mat-sort-header-container:not(.mat-sort-header-sorted) .mat-sort-header-arrow {
+    color: #ffffff !important;
+    opacity: 0.54 !important;
+    transform: translateY(0px) !important;
+} */
+mat-header-row{
+    top: -15px !important;
+    position: sticky !important;
+    z-index: 100 !important;
+}
+
+.badgecolor{
+    background-color: #3f51b5;
+}
+
+a.badge-info:focus, a.badge-info:hover {
+    color: #fff;
+    background-color: #3f51b5;
+}
+
+.mat-header-cell {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: unset;
+    word-wrap: break-word;
+    min-height: inherit;
+    color: #fff;
+    background-color: #36495a!important;
+    border: 1px, solid, black;
+    font-family: 'AmericanSans';
+    font-size: 16px;
+    white-space: nowrap;
+}
+
+mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-type {
+    padding-right: 0px;
+}
+
+.mat-row:nth-of-type(even){
+    background-color: #f2f2f2;
+}
+
+.mat-cell{
+    border-top: .5px solid black;
+    border-bottom: .5px solid black;
+    border-left: .5px solid black;
+    border-right: .5px solid black;
+    margin-top: -1px;
+    font-size: 10px;
+    align-items: center;
+    justify-content: center;
+    /* overflow: auto; */
+}
+
+.mat-column-FLEET{
+    width: 65px !important;
+    flex: 0 0 65px !important;
+    padding-left: 0px;
+}
+
+.mat-column-DASH_8{
+    width: 140px !important;
+    flex: none !important;
+}
+.mat-column-DASH8_DESC{
+    width: 260px !important;
+    /* flex: none !important; */
+    justify-content: center;
+}
+.mat-column-TSX_CHECKTYPE{
+    width: 130px !important;
+    flex: 0 0 130px !important;
+}
+.mat-column-TSX_WCNUM{
+    width: 140px !important;
+    /* flex: none !important; */
+}
+.mat-column-TSX_WCTITLE{
+    width: 200px !important;
+    flex: 0 0 200px !important;
+    justify-content: center;
+}
+
+.mat-column-MIN_SCHDLD_DATE{
+    width: 140px !important;
+    flex: none !important;
+    padding-right: 0px;
+}
+
+.mat-column-ME_PART_NUMBER{
+    width: 130px !important;
+    flex: none !important;
+    padding-left: 0px;
+}
+
+.mat-column-SYS_STATUS{
+    width: 130px !important;
+    flex: none !important;
+    padding-right: 0px;
+}
+
+.mat-elevation-z8{
+    box-shadow: none;
+}
+.mat-row:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+
+.mat-cell{
+  /* display: table-cell; */
+  vertical-align: middle;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.mat-button, .mat-flat-button, .mat-icon-button, .mat-stroked-button {
+    box-sizing: border-box;
+    position: relative;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor: pointer;
+    outline: 0;
+    border: none;
+    -webkit-tap-highlight-color: transparent;
+    display: inline-block;
+    white-space: nowrap;
+    text-decoration: none;
+    vertical-align: baseline;
+    text-align: center;
+    margin: 0;
+    min-width: 0;
+    line-height: 36px;
+    padding: 0;
+    border-radius: 4px;
+    overflow: visible;
+    background-color: transparent;
+    font-size: 12px;
+}
+
+a.mat-button{
+    color: #3f51b5;
+    text-decoration: underline;
+}
+
+.table-container {
+  margin-top: 10px;
+  max-height: 350px;
+  overflow: auto;
+}
+
+.needtext {
+    color: red;
+    text-align: center;
+    font-size: 12px;
+}
+.goodtext {
+    color: green;
+    text-align: center;
+    font-size: 12px;
+}
+.reviewtext {
+    color: orange;
+    text-align: center;
+    font-size: 12px;
+}
+.tooltext {
+    color: lightseagreen;
+    text-align: center;
+    font-size: 12px;
+}
+
+mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type {
+    padding-left: 0px !important;
+}
+
+.text-center {
+    text-align: center;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+.pleasewaitind {
+    position: relative;
+    top: 200px;
+    background-color: #36495a!important;
+    z-index: 100;
+}

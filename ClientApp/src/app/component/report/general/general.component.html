@@ -1,0 +1,60 @@
+<!-- <mat-sidenav-container>
+  <mat-sidenav #sidenav mode="side">
+    <app-navigation></app-navigation>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <button (click)="sidenav.toggle()"><i class="fa fa-bars"></i></button>
+    <div class="reportTitle">
+      <h5><b>General Reports</b></h5>
+    </div> -->
+    <div class="eoreportcontainer">
+      <div class="row">
+        <div class="col-12">
+          <mat-tab-group>
+            <mat-tab label="Purchase Order Report" class="dex" bodyClass="dex1" labelClass="dex2" classList="dex3" className="dex4">
+              <app-eo-purchase-order></app-eo-purchase-order>
+            </mat-tab>
+            <mat-tab label="Repair Order Report" style="overflow: unset!important; font-family: 'AmericanSans';">
+              <app-eo-repair-order></app-eo-repair-order>  
+            </mat-tab>
+            <mat-tab label="Cancelled PO Report" style="overflow: unset!important; font-family: 'AmericanSans' !important;">
+              <app-eo-cancelled-po></app-eo-cancelled-po>
+            </mat-tab>
+          </mat-tab-group>
+          <!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+              <a class="nav-link" id="purchase-order-tab" data-toggle="tab" href="#purchase-order" role="tab"
+                aria-controls="purchase-order" aria-selected="false">Purchase Order Report</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="repair-order-tab" data-toggle="tab" href="#repair-order" role="tab"
+                aria-controls="repair-order" aria-selected="false">Repair Order Report</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" id="cancelled-po-tab" data-toggle="tab" href="#cancelled-po" role="tab"
+                aria-controls="cancelled-po" aria-selected="false">Cancelled PO Report</a>
+            </li>
+          </ul> -->
+          <div class="tab-content" id="myTabContent">
+            <!-- <div class="tab-pane fade show active" id="purchase-order" role="tabpanel"
+              aria-labelledby="purchase-order-tab">
+              <app-eo-purchase-order></app-eo-purchase-order>
+            </div> -->
+            <!-- <div class="tab-pane fade" id="repair-order" role="tabpanel" aria-labelledby="repair-order-tab">
+              <app-eo-repair-order></app-eo-repair-order>
+            </div> -->
+            <!-- <div class="tab-pane fade" id="cancelled-po" role="tabpanel" aria-labelledby="cancelled-po-tab">
+              <app-eo-cancelled-po></app-eo-cancelled-po>
+            </div> -->
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <app-maint-snackbar></app-maint-snackbar>
+  <!-- </mat-sidenav-content>
+</mat-sidenav-container> -->

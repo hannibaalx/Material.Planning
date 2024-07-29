@@ -1,0 +1,147 @@
+.form-container{
+    position: relative;
+    top: 30px;
+}
+
+.smtitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+
+.fleet-chip-list {
+    width: 90%;
+    font-size: 12px;
+}
+
+.mat-chip {
+    font-size: 10px;
+}
+
+.mat-option {
+    font-size: 14px;
+}
+.okbutton{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 90%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    height: 18px;
+    margin-top: 3px;
+    position: relative;
+    top: 10px;
+    left: -70px;
+}
+.queuebutton{
+    /* display: inline-block;
+    padding: .25em .4em;
+    font-size: 90%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    width: 356px;
+    height: 18px;
+    margin-top: 3px; */
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    /* margin: 0 2px 0 5px!important; */
+    line-height: 22px!important;
+    margin-top: 3px;
+    top: 2px;
+    width: 356px;
+}
+
+.btn-rule-left{
+    position: relative;
+    float: left;
+}
+
+/* .btn-rule-center{
+    position: relative;
+    text-align: center;
+} */
+
+.btn-rule-right{
+    position: relative;
+    float:right;
+    top: 4px;
+    font-size: 9px;
+    background-color: #0078d2;
+    color: #fff;
+ }
+
+ .comment_section{
+    position: relative;
+    top: -60px;
+ }
+ .mat-button:hover {
+    pointer-events:none;
+  }
+html, body {
+    height: 100% !important;
+    width: 100% !important;
+}
+.mat-drawer-content {
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 100%;
+    overflow:unset;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+.header-color {
+    color: #fff;
+    background-color: #36495a!important;
+    height: 50px;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0px;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+.mat-header-cell{
+    color: #fff;
+    background-color: #36495a!important;
+    height: 50px;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0px;
+}
+.plannerspinner{
+    position: absolute;
+    left: 200px;
+    top: 20px;
+    /* color: #36495a!important; */
+}
+.pleasewaitind {
+    position: relative;
+    top: 150px;
+    background-color: #36495a!important;
+}

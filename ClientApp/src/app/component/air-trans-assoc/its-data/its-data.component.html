@@ -1,0 +1,58 @@
+<div class="itscontainer">
+  <div class="row">
+    <div class="col-12 mattablecontainer dataright">
+      <div>
+        &nbsp;<button mat-raised-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName: fileName})" color="primary">DOWNLOAD</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 headerleft meheader">
+      <b>{{itsId}} - {{itsStation}} - ITS Details</b>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-12">
+        <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortItsDetail($event)"
+          class="mat-elevation-z8">
+          <ng-container matColumnDef="TRACKING_NUMBER">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>TRACKING NUMBER</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.TRACKING_NUMBER }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="SERIAL_NUMBER">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>SERIAL NUMBER</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.SERIAL_NUMBER }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="FROM_STA">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>FROM STA</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.FROM_STA }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="TO_STA">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>TO STA</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.TO_STA }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ACTIVITY_DATE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>ACTIVITY DATE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.ACTIVITY_DATE | date:'yyyy-MM-dd'}}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="COMPNT_TRACK_LOC_TXT">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMPNT TRACK LOC TXT</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.COMPNT_TRACK_LOC_TXT }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="TRANSFER_TYPE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>TRANSFER TYPE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.TRANSFER_TYPE }}</mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="its_displayedColumns; sticky: true;"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: its_displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+</div>

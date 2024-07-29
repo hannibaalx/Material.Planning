@@ -1,0 +1,314 @@
+<div class="odcontainer">
+  <div class="row">
+    <div class="col-12 dataright">
+      <div>
+        &nbsp;<button mat-stroked-button class="exportbtn stroked-button"
+          (click)="exporter.exportTable('xlsx', {fileName: fileName})">DOWNLOAD</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 mattablecontainer">
+      <div class="row">
+        <div class="col-12 headerleft meheader">
+          <b>Ownership Details - {{ ownershipId }} </b>
+        </div>
+      </div>
+      <div class="meheader sparelbl">SPARE -</div>
+      <div class="ayn_buttons">
+        <mat-button-toggle-group name="btn_ayn" aria-label="OwnershipDetail" value="all">
+          <mat-button-toggle value="all" class="ayn_buttons_spacing" (change)="filterBySpare('all')">All&nbsp;<span class="btn-rule">&nbsp;{{ allcount }}&nbsp;</span></mat-button-toggle>
+          <mat-button-toggle value="yes" class="ayn_buttons_spacing" (change)="filterBySpare('yes')">Yes&nbsp;<span class="btn-rule">&nbsp;{{ yescount }}&nbsp;</span></mat-button-toggle>
+          <mat-button-toggle value="no" class="ayn_buttons_spacing" (change)="filterBySpare('no')">No&nbsp;<span class="btn-rule">&nbsp;{{ nocount }}&nbsp;</span></mat-button-toggle>
+        </mat-button-toggle-group>
+        <span class="loadingSpinner"><mat-spinner diameter="30" [hidden]="hideSpinner"></mat-spinner></span>
+      </div>
+      <br />        
+        <p>
+          <mat-table  matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortOwnershipDetail($event)" class="mat-elevation-z8">
+            <ng-container matColumnDef="ME_PART_NUMBER">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>M&E</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.ME_PART_NUMBER }} 
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.ME_PART_NUMBER }} 
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="SERIAL_NUMBER">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>SERIAL NBR</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.SERIAL_NUMBER }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.SERIAL_NUMBER }}
+                </span>
+                </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="TRACKING_NUMBER">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>TT#</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.TRACKING_NUMBER }} 
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.TRACKING_NUMBER }} 
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="MFG_PART_NUMBER">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>MPN</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.MFG_PART_NUMBER }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.MFG_PART_NUMBER }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="SERVICEABILITY_STATUS">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>SRVC STATUS</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.SERVICEABILITY_STATUS }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.SERVICEABILITY_STATUS }}
+                </span>
+              </mat-cell>
+            </ng-container>
+          
+            <ng-container matColumnDef="INDEX_TYPE_CODE_DESC">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>INDEX CODE DESC</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.INDEX_TYPE_CODE_DESC }}
+                </span>
+                <span *ngIf="x.SPARE == 'no' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.INDEX_TYPE_CODE_DESC }}
+                </span>
+              </mat-cell>
+            </ng-container>
+            
+            <ng-container matColumnDef="ALPHA_STATION">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>STA</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.ALPHA_STATION }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.ALPHA_STATION }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="DSC">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>DSC</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.DSC }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.DSC }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="DS_CREW_NAME">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>DS CREW NAME</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.DS_DESC + "-" + x.DS_CREW_NAME }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.DS_DESC + "-" + x.DS_CREW_NAME }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="ACTIVITY_DATE">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>ACTIVITY DATE</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                    {{ x.ACTIVITY_DATE | date:'yyyy-MM-dd' }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.ACTIVITY_DATE | date:'yyyy-MM-dd' }}
+              </span>
+            </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="DATE_REMOVED">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>DATE REMOVED</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                    {{ x.DATE_REMOVED | date:'yyyy-MM-dd' }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.DATE_REMOVED | date:'yyyy-MM-dd' }}
+              </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="AIRCRAFT_REMOVED_FROM">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>ARCFT REMOVED FROM</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.AIRCRAFT_REMOVED_FROM }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.AIRCRAFT_REMOVED_FROM }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="SHIP_FROM_STATION">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>SHIP FROM STA</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.SHIP_FROM_STATION }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.SHIP_FROM_STATION }}
+                </span>
+              </mat-cell>
+            </ng-container>
+      
+            <ng-container matColumnDef="RO_NUMBER">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>RO#</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.RO_NUMBER }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.RO_NUMBER }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="COMPNT_TRACK_LOC_TXT">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>JTH CURRENT STATUS</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.COMPNT_TRACK_LOC_TXT }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.COMPNT_TRACK_LOC_TXT }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="LUS_PRSNEL_ID">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>JTH EMPL#</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.LUS_PRSNEL_ID }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.LUS_PRSNEL_ID }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="BUCKET">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>BUCKET</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.BUCKET }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.BUCKET }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="RESP_PARTY">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>RESP PARTY</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.RESP_PARTY }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.RESP_PARTY }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <ng-container matColumnDef="RESP_STA">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>RESP STA</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SPARE == 'Yes' || btn_ayn == 'all' || btn_ayn == 'yes'">
+                  {{ x.RESP_STA }}
+                </span>
+                <span *ngIf="x.SPARE == 'No' || btn_ayn == 'all' || btn_ayn == 'no'">
+                  {{ x.RESP_STA }}
+                </span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="SPARE">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>SPARE</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span>
+                  {{ x.SPARE }}
+                </span>
+              </mat-cell>
+            </ng-container>
+    
+            <mat-header-row *matHeaderRowDef="osd_displayedColumnsSpare; sticky: true;"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: osd_displayedColumnsSpare;"></mat-row>
+          </mat-table>
+        </p>
+    </div>
+  </div>
+  <!-- <div class="row" *ngIf="ownershipDetail$ | async">
+    <div class="tableFixedHead">
+      <table class="table table-striped">
+        <thead class="thead-light">
+          <tr>
+            <th>SERIAL NUMBER</th>
+            <th>TRACKING NUMBER</th>
+            <th>MFG PART NUMBER</th>
+            <th>MFG SERIAL NUMBER</th>
+            <th>SERVICEABILITY STATUS</th>
+            <th>INDEX TYPE CODE</th>
+            <th>INDEX TYPE CODE DESC</th>
+            <th>ALPHA STATION</th>
+            <th>DSC</th>
+            <th>DS DESC</th>
+            <th>DS CREW NAME</th>
+            <th>ACTIVITY DATE</th>
+            <th>DATE REMOVED</th>
+            <th>AIRCRAFT REMOVED FROM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let od of ownershipDetail$ | async">
+            <td>{{ od.SERIAL_NUMBER }}</td>
+            <td>{{ od.TRACKING_NUMBER }}</td>
+            <td>{{ od.MFG_PART_NUMBER }}</td>
+            <td>{{ od.MFG_SERIAL_NUMBER }}</td>
+            <td>{{ od.SERVICEABILITY_STATUS }}</td>
+            <td>{{ od.INDEX_TYPE_CODE }}</td>
+            <td class="td-nowrap">{{ od.INDEX_TYPE_CODE_DESC }}</td>
+            <td>{{ od.ALPHA_STATION }}</td>
+            <td class="td-nowrap">{{ od.DSC }}</td>
+            <td class="td-nowrap">{{ od.DS_DESC }}</td>
+            <td class="td-nowrap">{{ od.DS_CREW_NAME }}</td>
+            <td class="td-nowrap">{{ od.ACTIVITY_DATE | date :'yyyy-MM-dd' }}</td>
+            <td class="td-nowrap">{{ od.DATE_REMOVED | date :'yyyy-MM-dd' }}</td>
+            <td>{{ od.AIRCRAFT_REMOVED_FROM }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div> -->
+</div>

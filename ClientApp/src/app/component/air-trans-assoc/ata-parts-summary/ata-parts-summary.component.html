@@ -1,0 +1,1835 @@
+<!-- <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side">
+      <app-ata-nav></app-ata-nav>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <button class="hamburger_btn" (click)="sidenav.toggle()"><i class="fa fa-bars"></i></button>
+      <div class="atatitle">
+        <h5><b>SAFE</b></h5>
+        <span class="title_IM3">&nbsp;IM3</span>
+      </div> -->
+      <div class="atacontainer">
+        <div class="searchcontainer" id="search-component">
+            <form>
+              <div class="row">
+                  <div class="col-1">
+                  <mat-form-field class="margin-left">
+                      <mat-label>Search Type</mat-label>
+                      <mat-select [(value)]="currentSearchType" id="search-type" name="search-type" (selectionChange)="searchChanged()">
+                      <mat-option *ngFor="let st of searchType" [value]="st.VALUE">{{st.TYPE}}</mat-option>
+                      </mat-select>          
+                  </mat-form-field>
+                  </div>  
+              </div>
+              <div class="row">
+                  <div class="col-12 stinputpadding">
+                    <input autofocus #partSearchInput id="part-search-input" name="part-search-input" class="inputwidth" maxlength="searchlength"/>
+                    <input #currentMeNumberinput id="currentMeNumber-input" name="currentMeNumber-input" [value]="currentMePartNumber" hidden class="inputwidth" maxlength="20"/>
+                    <button mat-stroked-button id="btnSearch" class="leftmargin ata-stroked-button" (click)="searchPartNumberClick(partSearchInput.value)">Search</button>
+                    <button mat-stroked-button id="btnImqHpf" class="leftmargin ata-stroked-button" *ngIf="currentMePartNumber.length == 14 && showImq || showHpf" [hidden]="hideMeSummary" (click)="openImqHpfModal(currentMePartNumber)">IMQ / HPF</button>
+                    <a mat-stroked-button class="leftmargin ata-stroked-button" *ngIf="currentMePartNumber.length == 14 && currentMePartNumber.includes('-9-') && showBtnOptions" href="ata/rotspareanalysis/{{ currentMePartNumber }}" target="_blank">ROT SPARE ANALYSIS</a>
+                    <a mat-stroked-button class="leftmargin ata-stroked-button" *ngIf="currentMePartNumber.length == 14 && currentMePartNumber.includes('-4-') && showBtnOptions" href="ata/repspareanalysis/{{ currentMePartNumber }}" target="_blank">REP SPARE ANALYSIS</a>
+                    <button mat-stroked-button id="btnSplitME" class="leftmargin ata-stroked-button" *ngIf="currentMePartNumber.length == 14 && showSplitMEBtn" (click)="openSplitMEModal(currentMePartNumber)">SPLIT M&E</button>
+                    <a mat-stroked-button class="leftmargin ata-stroked-button" *ngIf="currentMePartNumber.length == 14 && showBtnOptions && (currentMePartNumber.includes('-3-') || currentMePartNumber.includes('-4-') || currentMePartNumber.includes('-9-') || currentMePartNumber.includes('-0-'))" [hidden]="hideMeSummary" style="text-decoration:none;" href="https://safeeq.aa.com/lookup/me/{{currentMePartNumber}}/detail" target="_blank" title="Opens M&E in SAFE Engineering & Quality">SAFE EQ</a>
+                    <button mat-stroked-button id="btnMEReview" class="leftmargin ata-stroked-button" *ngIf="currentMePartNumber.length == 14" [hidden]="hideMeSummary" (click)="openMEReviewModal(currentMePartNumber)">ME Review</button>
+                  </div>
+              </div>
+            </form>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <mat-spinner class="plannerspinner" diameter="20" [hidden]="isLoadingComplete"></mat-spinner>
+            <div class="mestatuscontainer" *ngIf="mestatus != null && showBtnOptions">
+              <a mat-button class="badge badge-warning msranchor" [hidden]="hideMeSummary" target="_self">
+              <b class="msrlabel">MSR - {{ mestatus }}</b>
+            </a>
+            </div>
+            <div *ngFor="let part of parts$">
+              <a mat-button class="badge msranchor allocationfillratecontainer" [hidden]="hideMeSummary" target="_self">
+                <b class="msrlabel">FTA - {{ part.Fill_to_Allocation * 100 >= 100 ? 100 : (part.Fill_to_Allocation * 100 | number:'2.0-0') }}%</b>
+              </a>
+            </div>
+            <div *ngFor="let es of excessstatus_data">
+              <a mat-button class="badge msranchor excessstatus" [hidden]="hideMeSummary" target="_self">
+                <b class="msrlabel">Excess - {{ es.Excess_Bucket }}</b>
+              </a>
+            </div>
+            <div class="mestatuscontainer"  *ngFor="let part of parts$">
+              <a mat-button class="badge badge-danger msranchor"  [hidden]="hideMeSummary" target="_self">
+                <b class="msrlabel">Zero Stock Rate - {{ part.ZS_Rate ? (part.ZS_Rate | percent) : "0%" }}</b>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div>
+          <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+        </div>
+        <div class="mesummarycontainer" [hidden]="hideMeSummary">
+            <div class="row" *ngFor="let part of parts$">
+            <div class="col-12 mesummary_data_container">
+                <div class="row header-color">
+                  <div class="col-12">
+                      <span *ngFor="let t of refreshtime$ | async ">
+                      <div class="timelabel"><b>Last refreshed:</b> {{ t.REFRESHDATE | date :'yyyy-MM-dd, hh:mm:ss a' }}</div>
+                      </span>
+                      <div class="txtleft">
+                      <span class="txtleft">
+                        <b>M&E Number:&nbsp;{{ currentMePartNumber }}</b>
+                        ,&nbsp;
+                      </span>
+                      <span class="txtleft"><b>{{ part.KEYWORD }}</b></span>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-5">
+                      <div class="txtleft">
+                      <span class="txtleft">&nbsp;</span>
+                      </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <table class="partsummarytable">
+                      <tr>
+                        <th class="partsummaryheader path">MPN</th>
+                        <td class="partsummarycell">:
+                         <span class="padata" *ngIf="showAllOtherMpnList">
+                            <a style="position: relative; left:-3px; cursor:pointer;" matTooltip="Prime MPN shown. Click to see other MPN(s)." matTooltipPosition="after" [matMenuTriggerFor]="mpnList" tabIndex="-1">
+                              {{ part.MFG_PART_NUMBER }}
+                            </a>
+                            <mat-menu #mpnList="matMenu">
+                              <span mat-menu-item matTooltipPosition="after" *ngFor="let mpn of all_other_mpn">
+                                <span>{{ mpn.MFG_PART_NUMBER }}</span>
+                              </span>
+                            </mat-menu>
+                          </span>
+                          <span *ngIf="!showAllOtherMpnList" style="position: relative; left:-3px;" class="padata">{{ part.MFG_PART_NUMBER }}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader2 path">ESS</th>
+                        <td class="partsummarycell2">:<span class="padata">{{ part.ESS_CODE }}</span></td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader path">UNIT OF MEASURE</th>
+                        <td class="partsummarycell">:<span class="padata">{{ part.UOM }}</span></td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader2 path">PART TYPE</th>
+                        <td class="partsummarycell2">:<span class="padata">{{ part.PART_TYPE }}</span></td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader path">MTYPE B/S</th>
+                        <td class="partsummarycell">
+                          :<span class="padata">
+                            <a #tooltip="matTooltip" style="position: relative; left:-4px;" matTooltip="Material Type" matTooltipPosition="after">
+                              <button mat-icon-button [matMenuTriggerFor]="pimenu" class="partAttributesLink" tabIndex="-1" aria-label="menu to display part indicators">
+                                <b>{{ part.MATERIAL_TYPE }}</b>
+                              </button>
+                            </a>
+                          </span>
+                          <mat-menu #pimenu="matMenu">
+                            <a mat-menu-item #tooltip="matTooltip" matTooltip="Buy Indicator" matTooltipPosition="after">
+                              <mat-icon class="material-icons-outlined">shopping_cart</mat-icon>
+                              <span>{{ part.BUY_IND }}</span>
+                            </a>
+                            <a mat-menu-item #tooltip="matTooltip" matTooltip="Stock Indicator" matTooltipPosition="after">
+                              <mat-icon class="material-icons-two-tone">inventory</mat-icon>
+                              <span>{{ part.STOCK_IND }}</span>
+                            </a>
+                          </mat-menu>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader2 fleetlabel path">FLEET</th>
+                        <td class="partsummarycell2">
+                          <div class="fleetcontents partAttributesLink">
+                            :<span class="padata fleetdrop">
+                              <span *ngIf="fleetlabel1">
+                                <button mat-icon-button [matMenuTriggerFor]="fleetmenu1" class="fleetmenu partAttributesLink" tabIndex="-1" *ngIf="airbusitems" color="primary" aria-label="menu to display airbus fleets">
+                                  <b>{{fleetlabel1.toUpperCase()}}</b>
+                                </button>
+                                <br />
+                              </span>
+                              <button mat-icon-button [matMenuTriggerFor]="fleetmenu2" class="fleetmenu partAttributesLink" tabIndex="-1" *ngIf="boeingitems" color="primary" aria-label="menu to display boeing fleets">
+                                <b>{{fleetlabel2.toUpperCase()}}</b>
+                              </button>
+                            </span>
+                            <mat-menu #fleetmenu1="matMenu">
+                              <a *ngIf="airbusitems" mat-menu-item #tooltip="matTooltip" matTooltip="Airbus" matTooltipPosition="after">
+                                <div class="airbusitemsfont partAttributesLink">{{airbusitems}}</div>
+                              </a>
+                            </mat-menu>
+                            <mat-menu #fleetmenu2="matMenu">
+                              <a *ngIf="boeingitems" mat-menu-item #tooltip="matTooltip" matTooltip="Boeing" matTooltipPosition="after">
+                                <div class="boeingitemsfont partAttributesLink">{{boeingitems}}</div>
+                              </a>
+                            </mat-menu>
+                            <div *ngIf="airbusitems.length == 0 && boeingitems.length == 0" >&nbsp;</div>   
+                          </div> 
+                        </td>
+                      </tr>
+                      <tr class="ipcdesc_row">
+                        <th class="partsummaryheader2 path">IPC DESC</th>
+                        <td class="partsummarycell2 ipcdesc">:<span class="padata atavalue ipcdescvalue">{{ part.IPC_DESCRIPTION }}</span></td>
+                      </tr>
+                    </table>
+                  </div>
+                  
+                  <div class="col-3">
+                    <table class="partsummarytable">
+                      <tr>
+                        <th class="partsummaryheader path">SHELF LIFE</th>
+                        <td class="partsummarycell partattribicon">
+                          <span *ngIf="part.SHELF_LIFE then show_shelflife"></span>
+                          <span *ngIf="part.SHELF_LIFE == null then show_n_shelflife"></span>
+                          <ng-template #show_shelflife>
+                            <!-- :<span class="padata">{{ part.SHELF_LIFE }}</span> -->
+                            :<span class="padata">{{part.SHELF_LIFE}}&nbsp;
+                            <!-- <button mat-icon-button tabIndex="-1" color="primary" matTooltip="Shelf Life" aria-label="menu to display item prices">
+                              <mat-icon>calendar_month</mat-icon>
+                            </button> -->
+                          </span>
+                          </ng-template>
+                          <ng-template #show_n_shelflife>
+                            <!-- :<span class="padata">N</span> -->
+                            :<span class="padata">N&nbsp;
+                            <!-- <button mat-icon-button tabIndex="-1" color="primary" matTooltip="Shelf Life" aria-label="menu to display item prices">
+                              <mat-icon>calendar_month</mat-icon>
+                            </button> -->
+                          </span>
+                          </ng-template>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader2 path">HAZMAT</th>
+                        <td class="partsummarycell2 partattribicon">
+                          :<span class="padata">{{ part.HAZARDOUS_MATERIAL | uppercase }}</span>
+                          <!-- <button mat-icon-button class="hazmaticon" tabIndex="-1" color="primary" matTooltip="Hazardous Material" aria-label="menu to display item prices">
+                            <mat-icon  class="partattribicon">report_problem</mat-icon>
+                          </button> -->
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader path">WORKCARD</th>
+                        <td class="partsummarycell">
+                          :<span class="padata">
+                            <span *ngIf="part.Sched_Mntnc.trim() == 'N/A' || part.Sched_Mntnc.trim() == 'NO'" style="color: #000000 !important;">N/A</span>
+                            <span *ngIf="part.Sched_Mntnc.trim() == 'Active'" class= "partAttributesLink">&nbsp;<a [routerLink]="['/sm/sm-search/ata/', currentMePartNumber.trim()]" style="position: relative; left:-3px;" href="#" target="_blank">{{ part.Sched_Mntnc | uppercase }}</a></span>
+                            <span *ngIf="part.Sched_Mntnc.trim() == 'Inactive'" class= "partAttributesLink">&nbsp;<a [routerLink]="['/sm/sm-search/ata/', currentMePartNumber.trim()]" style="position: relative; left:-3px;" href="#" target="_blank">{{ part.Sched_Mntnc | uppercase }}</a></span>
+                            <!-- <button mat-icon-button class="hazmaticon" tabIndex="-1" color="primary" matTooltip="Workcard" aria-label="menu to display item prices">
+                              <mat-icon>summarize</mat-icon>
+                            </button> -->
+                          </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader2 path">EO</th>
+                        <td class="partsummarycell2">
+                          :<span class="padata">
+                            <span *ngIf="part.ECO.trim() == 'NO' || part.ECO.trim() == 'N/A'" style="color: #000000 !important;">{{ part.ECO.trim() | uppercase }}</span>
+                            <span *ngIf="part.ECO.trim() == 'Active' || part.ECO.trim() == 'Inactive' || part.ECO.trim() == 'YES'" class="partAttributesLink">&nbsp;<a [routerLink]="['/eo/menumber/', currentMePartNumber.trim()]" matTooltip="Active" style="position: relative; left:-3px;" href="#" target="_blank">{{ part.ECO.trim() | uppercase }}</a></span>
+                          </span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader path">IN KIT</th>
+                        <td class="partsummarycell">
+                          :<span class="padata">{{ part.IN_KIT }}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader2 path">CPN</th>
+                        <td class="partsummarycell2">:<span class="padata">{{ part.CPN }}</span></td>
+                      </tr>
+                    </table>
+                  </div>
+                  
+                  <div class="col-3">
+                    <table class="partsummarytable">
+                      <tr>
+                        <th class="partsummaryheader path">OWNERSHIP</th>
+                        <td class="partsummarycell">
+                          <span *ngIf="!currentMePartNumber.includes('-9-') then ownershipNoLink"></span>
+                          <span *ngIf="currentMePartNumber.includes('-9-') && !fromUrl then ownershipsearched"></span>
+                          <span *ngIf="currentMePartNumber.includes('-9-') && fromUrl then ownershipurl">
+                            :<span class="padata"><a [routerLink]="['../ownershipdetail', currentMePartNumber.trim()]" class= "partAttributesLink" href="#" target="_blank">{{ part.OWNERSHIP }}</a></span>
+                          </span>
+                          <ng-template #ownershipNoLink>
+                            :<span class="padata">{{ part.OWNERSHIP }}</span>
+                          </ng-template>
+                          <ng-template #ownershipsearched>
+                            :<span class="padata"><a [routerLink]="['./ownershipdetail', currentMePartNumber.trim()]" href="#" target="_blank">{{ part.OWNERSHIP }}</a></span>
+                          </ng-template>
+                          <ng-template #ownershipurl>
+                            :<span class="padata"><a [routerLink]="['../ownershipdetail', currentMePartNumber.trim()]" href="#" target="_blank">{{ part.OWNERSHIP }}</a></span>
+                          </ng-template>                          
+                        </td>
+                      </tr>
+                       <tr *ngIf="part.OPTIMAL_OWNERSHIP === null">
+                        <th class="partsummaryheader2 path atavalue">OPTIMAL OWNERSHIP</th> 
+                        <td class="partsummarycell2">:<span class="padata">N/A</span></td>
+                      </tr> 
+                       <!-- try reading from a hidden textbox  -->
+                       <tr *ngIf="part.OPTIMAL_OWNERSHIP !== null">
+                        <th class="partsummaryheader2 path atavalue">OPTIMAL OWNERSHIP</th>
+                        <td class="partsummarycell2">:<span class="padata">{{ part.OPTIMAL_OWNERSHIP }}<input #ooinput id="oo-input" name="oo-input" [value]="part.OPTIMAL_OWNERSHIP" hidden /></span></td>
+                      </tr> 
+                      <tr>
+                        <th class="partsummaryheader2 path">COQ</th>
+                        <td class="partsummarycell2">:<span class="padata">{{ part.corp_owned_qty }}</span></td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader path">PRICE</th>
+                        <td class="partsummarycell">
+                          :<span class="padata">{{part.CATALOG_PRICE | currency }}&nbsp;
+                            <button mat-icon-button [matMenuTriggerFor]="menu" tabIndex="-1" class="pricebutton" aria-label="menu to display item prices">
+                              <mat-icon>paid</mat-icon>
+                            </button>
+                          </span>
+                          <mat-menu #menu="matMenu">
+                            <a mat-menu-item #tooltip="matTooltip" matTooltip="AUP" matTooltipPosition="after">
+                              <mat-icon class="material-icons-outlined">paid</mat-icon>
+                              <span>{{ part.AUP | currency }}</span>
+                            </a>
+                            <a mat-menu-item #tooltip="matTooltip" matTooltip="Catalog Price" matTooltipPosition="after">
+                              <mat-icon>shopping_cart</mat-icon>
+                              <span>{{ part.CATALOG_AMOUNT | currency }}</span>
+                            </a>
+                            <a mat-menu-item #tooltip="matTooltip" matTooltip="Last PO Price" matTooltipPosition="after">
+                              <mat-icon>shopping_basket</mat-icon>
+                              <span>{{ part.LAST_PO_PRICE | currency }}</span>
+                            </a>
+                          </mat-menu>
+                        </td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader2 path">PO LEAD TIME</th>
+                        <td class="partsummarycell2">:<span class="padata">{{ part.CATALOG_LEAD_TIME }}</span></td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader path">RO TAT</th>
+                        <td class="partsummarycell">:<span class="padata">{{ part.RO_TAT }}</span></td>
+                      </tr>
+                    </table>
+                  </div>
+
+                  <div class="col-3">
+                    <table class="partsummarytable">
+                      <tr>
+                        <th class="partsummaryheader path">COMMODITY</th>
+                        <td class="partsummarycell">:<span class="padata">{{ part.COMMODITY }}</span></td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader2 path">PLANNER</th>
+                        <td class="partsummarycell2">:<span class="padata">{{ displayplanner_fnln | uppercase }}</span></td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader path">SUPERVISOR</th>
+                        <td class="partsummarycell">:<span class="padata">{{ part.Supervisor | uppercase }}</span></td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader2 path">BUYER</th>
+                        <td class="partsummarycell2">:<span class="padata">{{ part.BUYER_NAME | uppercase }}</span></td>
+                      </tr>
+                      <tr>
+                        <th class="partsummaryheader path">RO ADMIN</th>
+                        <td class="partsummarycell">:<span class="padata">{{ part.RO_ADMIN.toUpperCase()}}</span></td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+            </div>
+          </div>
+        </div> 
+        <div class="stockcontainer" [hidden]="hideMeSummary"> <!--*ngIf="stock_datasource"-->
+          <div class="row">
+            <div class="col-12 mattablecontainer" *ngIf="stock_datasource && (partSearchInput.value.includes('-3-') || currentMePartNumber.includes('-3-'))">
+              <div class="col-12 dataright" *ngIf="(stock_datasource && partSearchInput.value.includes('-3-')) || (stock_datasource && currentMePartNumber.includes('-3-'))">
+                <button mat-stroked-button class="exportbtn0 ata-stroked-button" (click)="exporter0.exportTable('xlsx', {fileName:'Stock Data'})">STOCK DATA DOWNLOAD DETAIL</button>
+              </div>
+              <mat-table matTableExporter #exporter0="matTableExporter" matSort [dataSource]="stock_datasource" (matSortChange)="sortStockData($event)" class="mat-elevation-z8">
+                <ng-container matColumnDef="ALPHA_STATION">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>Alpha Station</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else total3alphastation">
+                      {{ x.ALPHA_STATION }}
+                    </span>
+                    <ng-template #total3alphastation>
+                      <b>
+                        {{ x.ALPHA_STATION }}
+                      </b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="REPLENISHING_STATION">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>Repl Station</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x"> {{ x.REPLENISHING_STATION }} </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="MIN">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>Min</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else total3min">
+                      {{ x.MIN }}
+                    </span>
+                    <ng-template #total3min>
+                      <b>
+                        {{ x.MIN }}
+                      </b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="MAX_QTY">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>Max</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else total3maxqty">
+                      {{ x.MAX_QTY }}
+                    </span>
+                    <ng-template #total3maxqty>
+                      <b>
+                        {{ x.MAX_QTY }}
+                      </b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ON_HAND">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>On Hand</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else total3onhand">
+                      {{ x.ON_HAND }}
+                    </span>
+                    <ng-template #total3onhand>
+                      <b>
+                        {{ x.ON_HAND }}
+                      </b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ANALYST_FIXED_GROUP">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>AFG</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x"> {{ x.ANALYST_FIXED_GROUP }} </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="TOTAL_12M_USAGE">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>12M USAGE</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL';">{{ x.TOTAL_12M_USAGE  | number }}</span> <!-- else total312musage-->
+                    <!-- <ng-template #total312musage>
+                      <b>
+                        {{ x.TOTAL_12M_USAGE  | number }}
+                      </b>
+                    </ng-template> -->
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ITS">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>ITS</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else total3its">
+                      {{ x.ITS }}
+                    </span>
+                    <ng-template #total3its>
+                      <b>
+                        {{ x.ITS }}
+                      </b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="SO_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>SO</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.SO_Qty != 0 ; else plain3soqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else total3soqty">
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'SO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.SO_Qty}}</a>
+                      </span>
+                      <ng-template #total3soqty>
+                        <b>
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'SO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.SO_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain3soqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.SO_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.SO_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="PO_REQ_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>REQ</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.PO_REQ_Qty != 0 ; else plain90poreqqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalporeqqty">
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'PO', 'REQ']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_REQ_Qty}}</a>
+                      </span>
+                      <ng-template #totalporeqqty>
+                        <b>
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'PO', 'REQ']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_REQ_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain90poreqqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.PO_REQ_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.PO_REQ_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="PO_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>PO</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.PO_Qty != 0 ; else plain3poqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else total3poqty">
+                          <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'PO', 'PO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_Qty}}</a>
+                      </span>
+                      <ng-template #total3poqty>
+                        <b>
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'PO', 'PO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain3poqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.PO_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.PO_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="RO_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>RO</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.RO_Qty != 0 ; else plain3roqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else total3roqty">
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'RO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.RO_Qty}}</a>
+                      </span>
+                      <ng-template #total3roqty>
+                        <b>
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'RO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.RO_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain3roqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.RO_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.RO_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <mat-header-row *matHeaderRowDef="dash3_displayedColumns; sticky: true;"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: dash3_displayedColumns;"></mat-row>
+              </mat-table>
+            </div>
+        
+            <div class="col-12 mattablecontainer" *ngIf="stock_datasource && (partSearchInput.value.includes('-9-') || currentMePartNumber.includes('-9-') || partSearchInput.value.includes('-0-') || currentMePartNumber.includes('-0-'))">
+              <div class="col-12 dataright" *ngIf="stock_datasource && (menumber.includes('-9-') || menumber.includes('-0-'))">
+                <button mat-stroked-button class="exportbtn1 ata-stroked-button" (click)="exporter1.exportTable('xlsx', {fileName:'Stock Data'})">STOCK DATA DOWNLOAD DETAIL</button>
+              </div>
+              <mat-table matTableExporter #exporter1="matTableExporter" matSort [dataSource]="stock_datasource" (matSortChange)="sortStockData($event)" class="mat-elevation-z8">
+                <ng-container matColumnDef="ALPHA_STATION">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>Alpha Station</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' && x.ALPHA_STATION.trim() != 'TOTAL' ; else totalalphastation">{{ x.ALPHA_STATION }}</span>
+                    <!-- <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL' && x.ALPHA_STATION.trim() != 'TOTAL'">TOTAL</span> -->
+                    <ng-template #totalalphastation>
+                      <b>TOTAL</b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="REPLENISHING_STATION">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>Repl Station</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x"> {{ x.REPLENISHING_STATION }} </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ALLOCATION">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>Alloc</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalallocation">{{ x.ALLOCATION }}</span>
+                    <ng-template #totalallocation>
+                      <b>{{ x.ALLOCATION }}</b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ON_HAND">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>On Hand</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalonhand">{{ x.ON_HAND }}</span>
+                    <ng-template #totalonhand>
+                      <b>{{ x.ON_HAND }}</b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ANALYST_FIXED_GROUP">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>AFG</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x"> {{ x.ANALYST_FIXED_GROUP }} </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="TOTAL_12M_USAGE">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>12M USAGE</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL';">{{x.TOTAL_12M_USAGE  | number}}</span><!-- else total12musage -->
+                    <!-- <ng-template #total12musage>
+                      <b>{{x.TOTAL_12M_USAGE  | number}}</b>
+                    </ng-template> -->
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ITS">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>ITS</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ITS != 0 ; else plain90itsqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalits">
+                        <a [routerLink]="[itsDetailUrl, currentMePartNumber, x.ALPHA_STATION.trim()]" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.ITS}}</a>
+                      </span>
+                      <ng-template #totalits>
+                        <b>
+                          <a [routerLink]="[totalItsDetailUrl, currentMePartNumber]" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.ITS}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain90itsqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.ITS}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.ITS}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="SO_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>SO</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.SO_Qty != 0 ; else plain90soqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalsoqty">
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'SO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.SO_Qty}}</a>
+                      </span>
+                      <ng-template #totalsoqty>
+                        <b>
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'SO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.SO_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain90soqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.SO_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.SO_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="PO_REQ_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>REQ</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.PO_REQ_Qty != 0 ; else plain90poreqqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalporeqqty">
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'PO', 'REQ']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_REQ_Qty}}</a>
+                      </span>
+                      <ng-template #totalporeqqty>
+                        <b>
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'PO', 'REQ']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_REQ_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain90poreqqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.PO_REQ_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.PO_REQ_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="PO_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>PO</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.PO_Qty != 0 ; else plain90poqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalpoqty">
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'PO', 'PO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_Qty}}</a>
+                      </span>
+                      <ng-template #totalpoqty>
+                        <b>
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'PO','PO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain90poqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.PO_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.PO_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+       
+                <ng-container matColumnDef="RO_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>RO</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.RO_Qty != 0 ; else plain90roqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalroqty">
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'RO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.RO_Qty}}</a>
+                      </span>
+                      <ng-template #totalroqty>
+                        <b>
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'RO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.RO_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain90roqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.RO_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.RO_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <mat-header-row *matHeaderRowDef="dash4or9or0_displayedColumns; sticky: true;"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: dash4or9or0_displayedColumns;"></mat-row>
+              </mat-table>
+            </div>
+        
+            <div class="col-12 mattablecontainer" *ngIf="stock_datasource && (partSearchInput.value.includes('-4-') || currentMePartNumber.includes('-4-'))">
+              <div class="col-12 dataright" *ngIf="stock_datasource && menumber.includes('-4-')">
+                <button mat-stroked-button class="exportbtn2 ata-stroked-button" (click)="exporter2.exportTable('xlsx', {fileName:'Stock Data'})">STOCK DATA DOWNLOAD DETAIL</button>
+              </div>
+              <mat-table matTableExporter #exporter2="matTableExporter" matSort [dataSource]="stock_datasource" (matSortChange)="sortStockData($event)" class="mat-elevation-z8">
+                <ng-container matColumnDef="ALPHA_STATION">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>Alpha Station</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalalphastation">{{ x.ALPHA_STATION }}</span>
+                    <ng-template #totalalphastation>
+                      <b>{{ x.ALPHA_STATION }}</b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="REPLENISHING_STATION">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>Repl Station</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x"> {{ x.REPLENISHING_STATION }} </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ALLOCATION">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>Alloc</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalallocation">{{ x.ALLOCATION }}</span>
+                    <ng-template #totalallocation>
+                      <b>{{ x.ALLOCATION }}</b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ON_HAND">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>On Hand</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalonhand">{{ x.ON_HAND }}</span>
+                    <ng-template #totalonhand>
+                      <b>{{ x.ON_HAND }}</b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ANALYST_FIXED_GROUP">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>AFG</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x"> {{ x.ANALYST_FIXED_GROUP }} </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="TOTAL_12M_USAGE">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>12M USAGE</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL';">{{x.TOTAL_12M_USAGE  | number}}</span><!-- else total12musage-->
+                    <!-- <ng-template #total12musage>
+                      <b>{{x.TOTAL_12M_USAGE  | number}}</b>
+                    </ng-template> -->
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="ITS">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>ITS</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalits">
+                      {{x.ITS}}
+                    </span>
+                    <ng-template #totalits>
+                      <b>
+                        {{x.ITS}}
+                      </b>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="SO_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>SO</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.SO_Qty != 0 ; else plain4soqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalsoqty">
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'SO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.SO_Qty}}</a>
+                      </span>
+                      <ng-template #totalsoqty>
+                        <b>
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'SO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.SO_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain4soqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.SO_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.SO_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="PO_REQ_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>REQ</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.PO_REQ_Qty != 0 ; else plain90poreqqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalporeqqty"> 
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'PO', 'REQ']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_REQ_Qty}}</a>
+                      </span>
+                    <ng-template #totalporeqqty>
+                      <b>
+                        <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'PO', 'REQ']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_REQ_Qty}}</a>
+                      </b>
+                    </ng-template>
+                    </span>
+                    <ng-template #plain90poreqqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.PO_REQ_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.PO_REQ_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="PO_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>PO</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.PO_Qty != 0 ; else plain4poqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalpoqty">
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'PO', 'PO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_Qty}}</a>
+                      </span>
+                      <ng-template #totalpoqty>
+                        <b>
+                          <!-- <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'PO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_Qty}}</a> -->
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'PO', 'PO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.PO_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain4poqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.PO_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.PO_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+       
+                <ng-container matColumnDef="RO_Qty">
+                  <mat-header-cell *matHeaderCellDef mat-sort-header><b>RO</b></mat-header-cell>
+                  <mat-cell *matCellDef="let x">
+                    <span *ngIf="x.RO_Qty != 0 ; else plain4roqty">
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL' ; else totalroqty">
+                        <a [routerLink]="[detailUrl, currentMePartNumber, x.ALPHA_STATION.trim(), 'RO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.RO_Qty}}</a>
+                      </span>
+                      <ng-template #totalroqty>
+                        <b>
+                          <a [routerLink]="[totalDetailUrl, currentMePartNumber, 'RO']" class="badge badge-pill badge-secondary mr-2" target="_blank">{{x.RO_Qty}}</a>
+                        </b>
+                      </ng-template>
+                    </span>
+                    <ng-template #plain4roqty>
+                      <span *ngIf="x.ALPHA_STATION.trim() != 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> {{x.RO_Qty}} </span>
+                      <span *ngIf="x.ALPHA_STATION.trim() == 'TOTAL'" class="badge badge-pill badge-secondary mr-2"> <b>{{x.RO_Qty}}</b> </span>
+                    </ng-template>
+                  </mat-cell>
+                </ng-container>
+        
+                <mat-header-row *matHeaderRowDef="dash4or9or0_displayedColumns; sticky: true;"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: dash4or9or0_displayedColumns;"></mat-row>
+              </mat-table>
+            </div>
+          </div>
+        </div>
+        <div class="usagecontainer" [hidden]="hideMeSummary">
+            <div class="row" >
+              <div class="col-12">
+                <br />
+                <ul class="nav nav-tabs" [hidden]="hideUsage">
+                  <li class="active">
+                    <a data-toggle="tab" href="#usageactivity" class="nav-link active">Usage</a>
+                    <!-- <a data-toggle="tab" href="#usageactivity" class="nav-link active">Usage by Activity Station</a> -->
+                  </li>
+                  <!-- <li class="">
+                    <a data-toggle="tab" href="#usagecenter" class="nav-link">Usage by Center Station</a>
+                  </li> -->
+                  <li class="">
+                    <a data-toggle="tab" href="#forecast" class="nav-link">Forecast</a>
+                  </li>
+                  <li class="">
+                      <a data-toggle="tab" href="#aog" class="nav-link">AOG</a>
+                  </li>
+                  <li class="">
+                      <a data-toggle="tab" href="#deferral" class="nav-link">Deferral</a>
+                  </li>
+                  <li class="">
+                    <a data-toggle="tab" href="#delays" class="nav-link">Delays</a>
+                  </li>
+                  <li class="">
+                    <a data-toggle="tab" href="#cancels" class="nav-link">Cancels</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="tab-content col-12">
+                <div id="usageactivity" class="tab-pane fade in active collapse show" [hidden]="hideUsage"><!---->
+                    <div class="card-body">
+                      <!--<div *ngIf="menumber !== undefined">-->
+                        <div class="top-radio-margin" *ngIf="(partSearchInput.value.includes('-3-') || partSearchInput.value.includes('-4-'))" >
+                          <mat-radio-group aria-label="Select an option">
+                            <mat-radio-button value="1" (click)="setUsageType('A')" [checked]="rdoDefault" class="right-pad-radio">Usage by Activity Station</mat-radio-button>
+                            <mat-radio-button value="2" (click)="setUsageType('S')" class="left-pad-radio">Usage by Send To Station</mat-radio-button>
+                          </mat-radio-group> 
+                        </div>  
+                      <!--</div>-->
+                      <table class="table table-responsive table-hover" style="border-collapse:collapse;" *ngIf="usage_a">
+                        <thead>
+                          <tr>
+                            <th class="th-nowrap station-ph" ></th>
+                            <th class="th-nowrap"><button mat-button style="font-size:16px;" matTooltip="Total Usage from last 12 months to last 24 months"><b>Last 12Mth - 24Mth</b></button></th>
+                            <th class="th-nowrap">{{setHeaderMonth(12) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(11) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(10) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(9) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(8) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(7) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(6) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(5) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(4) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(3) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(2) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(1) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(0) }}</th>
+                            <th class="th-nowrap">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr data-toggle="collapse" data-target="#total" class="accordion-toggle" (click)="status1 = !status1 && usa.USAGETOTAL > 0" *ngFor="let usa of usage_a_data_total">
+                            <td class="" *ngIf="usa.IND == 0"><i [ngClass]="status1 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> Total</td>
+                            <!-- Total level 0  -->
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.LAST_12_24M}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M0}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="total" *ngFor="let usa of usage_a_data_total">
+                            <!-- Total Level 1-->
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.LAST_12_24M}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M0}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr data-toggle="collapse" data-target="#Scheduled" class="accordion-toggle" (click)="status2 = !status2 && usa.USAGETOTAL > 0" *ngFor="let usa of usage_a_data_scheduled">
+                            <td class="" *ngIf="usa.IND == 0">&nbsp;&nbsp;&nbsp;<i [ngClass]="status2 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> Scheduled</td>
+                            <!-- Scheduled level 0  -->
+                            <td class="td-center" *ngIf="usa.IND == 0"></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M0}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="Scheduled" *ngFor="let usa of usage_a_data_scheduled">
+                            <!-- Scheduled Level 1-->
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"></td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M0}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr data-toggle="collapse" data-target="#unschedule" class="accordion-toggle" (click)="status3 = !status3 && usa.USAGETOTAL > 0" *ngFor="let usa of usage_a_data_unscheduled">
+                            <td class="" *ngIf="usa.IND == 0">&nbsp;&nbsp;&nbsp;<i [ngClass]="status3 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> Unscheduled</td>
+                            <!-- Unscheduled level 0  -->
+                            <td class="td-center" *ngIf="usa.IND == 0"></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M0}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="unschedule" *ngFor="let usa of usage_a_data_unscheduled">
+                            <!-- Unscheduled Level 1-->
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"></td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M0}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr data-toggle="collapse" data-target="#eco" class="accordion-toggle" (click)="status4 = !status4 && usa.USAGETOTAL > 0" *ngFor="let usa of usage_a_data_eco">
+                            <td class="" *ngIf="usa.IND == 0">&nbsp;&nbsp;&nbsp;<i [ngClass]="status4 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> EO</td>
+                            <!-- ECO level 0  -->
+                            <td class="td-center" *ngIf="usa.IND == 0"></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M0}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="eco" *ngFor="let usa of usage_a_data_eco">
+                            <!-- EO Level 1-->
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"></td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      <table class="table table-responsive table-hover" style="border-collapse:collapse;" *ngIf="usage_s">
+                        <thead>
+                          <tr>
+                            <th class="th-nowrap station-ph" ></th>
+                            <th class="th-nowrap"><button mat-button style="font-size:16px;" matTooltip="Total Usage from last 12 months to last 24 months"><b>Last 12Mth - 24Mth</b></button></th>
+                            <th class="th-nowrap">{{setHeaderMonth(12) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(11) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(10) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(9) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(8) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(7) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(6) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(5) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(4) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(3) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(2) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(1) }}</th>
+                            <th class="th-nowrap">{{setHeaderMonth(0) }}</th>
+                            <th class="th-nowrap">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr data-toggle="collapse" data-target="#total" class="accordion-toggle" (click)="status1 = !status1 && usa.USAGETOTAL > 0" *ngFor="let usa of usage_s_data_total">
+                            <td class="" *ngIf="usa.IND == 0"><i [ngClass]="status1 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> Total</td>
+                            <!-- Total level 0  -->
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.LAST_12_24M}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M0}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="total" *ngFor="let usa of usage_s_data_total">
+                            <!-- Total Level 1-->
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.LAST_12_24M}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M0}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr data-toggle="collapse" data-target="#Scheduled" class="accordion-toggle" (click)="status2 = !status2 && usa.USAGETOTAL > 0" *ngFor="let usa of usage_s_data_scheduled">
+                            <td class="" *ngIf="usa.IND == 0">&nbsp;&nbsp;&nbsp;<i [ngClass]="status2 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> Scheduled</td>
+                            <!-- Scheduled level 0  -->
+                            <td class="td-center" *ngIf="usa.IND == 0"></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M0}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="Scheduled" *ngFor="let usa of usage_s_data_scheduled">
+                            <!-- Scheduled Level 1-->
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"></td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M0}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr data-toggle="collapse" data-target="#unschedule" class="accordion-toggle" (click)="status3 = !status3 && usa.USAGETOTAL > 0" *ngFor="let usa of usage_s_data_unscheduled">
+                            <td class="" *ngIf="usa.IND == 0">&nbsp;&nbsp;&nbsp;<i [ngClass]="status3 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> Unscheduled</td>
+                            <!-- Unscheduled level 0  -->
+                            <td class="td-center" *ngIf="usa.IND == 0"></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M0}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="unschedule" *ngFor="let usa of usage_s_data_unscheduled">
+                            <!-- Unscheduled Level 1-->
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"></td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M0}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr data-toggle="collapse" data-target="#eco" class="accordion-toggle" (click)="status4 = !status4 && usa.USAGETOTAL > 0" *ngFor="let usa of usage_s_data_eco">
+                            <td class="" *ngIf="usa.IND == 0">&nbsp;&nbsp;&nbsp;<i [ngClass]="status4 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> EO</td>
+                            <!-- EO level 0  -->
+                            <td class="td-center" *ngIf="usa.IND == 0"></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M_1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M0}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="eco" *ngFor="let usa of usage_s_data_eco">
+                            <!-- EO Level 1-->
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"></td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M_1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.USAGETOTAL}}</b></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                </div>
+                <div id="forecast" class="tab-pane fade">
+                  <!-- <div aria-labelledby="headingOne" data-parent="#accordionExample"> -->
+                    <div class="card-body">
+                      <table class="table table-responsive table-hover" style="border-collapse:collapse;">
+                        <thead>
+                          <tr>
+                            <th class="th-nowrap station-ph" ></th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(0)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(1)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(2)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(3)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(4)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(5)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(6)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(7)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(8)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(9)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(10)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(11)}}</th>
+                            <th class="th-nowrap">{{setHeaderMonthAdd(12)}}</th>
+                            <th class="th-nowrap">Total</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr data-toggle="collapse" data-target="#forecasttotal" class="accordion-toggle" (click)="status5 = !status5 && usa.FORECASTTOTAL > 0" *ngFor="let usa of forecast_data_total">
+                            <td class="" *ngIf="usa.IND == 0"><i [ngClass]="status5 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> {{usa.STATION | titlecase}}</td>
+                            <!-- Forecasttotal level 0  -->
+                            <!-- <td class="station-ph" *ngIf="usa.IND == 0"></td> -->
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M00}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M1}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M2}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M3}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M4}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M5}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M6}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M7}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M8}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M9}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M10}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M11}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.M12}}</b></td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 0"><b>{{usa.FORECASTTOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="forecasttotal" *ngFor="let usa of forecast_data_total">
+                            <!-- Total Level 1-->
+                            <td class="td-center-forcast td-text-right" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.STATION}}</td>
+                            <!-- <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND"></td> -->
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M00}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M1}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M2}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M3}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M4}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M5}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M6}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M7}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M8}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M9}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M10}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M11}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND">{{usa.M12}}</td>
+                            <td class="td-center-forcast" *ngIf="usa.IND == 1 && usa.FORECASTIND"><b>{{usa.FORECASTTOTAL}}</b></td>
+                          </tr>
+                          <tr data-toggle="collapse" data-target="#forecastScheduled" class="accordion-toggle" (click)="status6 = !status6 && usa.FORECASTTOTAL > 0" *ngFor="let usa of forecast_data_scheduled">
+                            <td class="" *ngIf="usa.IND == 0">&nbsp;&nbsp;&nbsp;<i [ngClass]="status6 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> Scheduled</td>
+                            <!-- forecastScheduled level 0  -->
+                            <!-- <td class="td-center" *ngIf="usa.IND == 0">{{usa.M0}}</td> -->
+                            <!-- <td class="station-ph" *ngIf="usa.IND == 0"></td> -->
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M00}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.FORECASTTOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="forecastScheduled" *ngFor="let usa of forecast_data_scheduled">
+                            <!-- forecastScheduled Level 1-->
+                            <td class="td-center td-text-right" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M00}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.FORECASTTOTAL}}</b></td>
+                          </tr>
+                          <tr data-toggle="collapse" data-target="#forecastunsched" class="accordion-toggle" (click)="status7 = !status7 && usa.FORECASTTOTAL > 0" *ngFor="let usa of forecast_data_unscheduled">
+                            <td class="" *ngIf="usa.IND == 0">&nbsp;&nbsp;&nbsp;<i [ngClass]="status7 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> Unschedule</td>
+                            <!-- forecastunsched level 0  -->
+                            <!-- <td class="td-center station-ph" *ngIf="usa.IND == 0"></td> -->
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M00}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.FORECASTTOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="forecastunsched" *ngFor="let usa of forecast_data_unscheduled">
+                            <!-- forecastunsched Level 1-->
+                            <td class="td-center td-text-right" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <!-- <td class="td-center" *ngIf="usa.IND == 1">{{usa.M0}}</td> -->
+                            
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M00}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.FORECASTTOTAL}}</b></td>
+                          </tr>
+                          <tr data-toggle="collapse" data-target="#forecasteco" class="accordion-toggle" (click)="status8 = !status8 && usa.FORECASTTOTAL > 0" *ngFor="let usa of forecast_data_eco">
+                            <td class="" *ngIf="usa.IND == 0">&nbsp;&nbsp;&nbsp;<i [ngClass]="status8 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i> EO</td>
+                            <!-- forecasteco level 0  -->
+                            <!-- <td class="td-center station-ph" *ngIf="usa.IND == 0"></td> -->
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M00}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M1}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M2}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M3}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M4}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M5}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M6}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M7}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M8}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M9}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M10}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M11}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.M12}}</b></td>
+                            <td class="td-center" *ngIf="usa.IND == 0"><b>{{usa.FORECASTTOTAL}}</b></td>
+                          </tr>
+                          <tr class="hiddenRow accordian-body collapse grey-nth" id="forecasteco" *ngFor="let usa of forecast_data_eco">
+                            <!-- forecasteco Level 1-->
+                            <td class="td-center td-text-right" *ngIf="usa.IND == 1">{{usa.STATION}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M00}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M1}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M2}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M3}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M4}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M5}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M6}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M7}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M8}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M9}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M10}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M11}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1">{{usa.M12}}</td>
+                            <td class="td-center" *ngIf="usa.IND == 1"><b>{{usa.FORECASTTOTAL}}</b></td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  <!-- </div> -->
+                </div>
+                <div id="aog" class="tab-pane fade">
+                    <!-- <div aria-labelledby="headingOne" data-parent="#accordionExample"> -->
+                      <div class="card-body">
+                        <table class="table table-responsive table-hover table-striped" style="border-collapse:collapse;">
+                          <thead>
+                              <tr>
+                                <th class="th-nowrap station-ph"></th>
+                                <th class="td-center"></th>
+                                <th class="th-nowrap">{{setHeaderMonth(12)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(11)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(10)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(9)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(8)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(7)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(6)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(5)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(4)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(3)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(2)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(1)}}</th>
+                                <th class="th-nowrap">{{setHeaderMonth(0)}}</th>
+                                <th class="th-nowrap">Total</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-toggle="collapse" data-target="#aogtotal" class="accordion-toggle" (click)="status9 = !status9 && at.T00 > 0" *ngFor="let at of aog_data_total"> <!--data-toggle="collapse" data-target="aog" class="accordion-toggle" *ngFor="let a of aog$ | async" -->
+                                  <td class="td-center no-data" *ngIf="at.T12 == null" colspan="16"><b>{{at.T12 == null ? 'No Data Found' : at.T12 }}</b></td>
+                                  <td class="" *ngIf="at.T12 != null"><i [ngClass]="status9 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i><b> Total</b></td>
+                                  <td></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T12}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T11}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T10}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T9}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T8}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T7}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T6}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T5}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T4}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T3}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T2}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T1}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T0}}</b></td>
+                                  <td class="td-center" *ngIf="at.T12 != null"><b>{{at.T00}}</b></td>
+                              </tr>
+                              <tr id="aogtotal" class="hiddenRow accordian-body collapse"  *ngFor="let a of aog_data">
+                                <td class="td-center">{{a.ALPHA_STATION}}</td>
+                                <td></td>
+                                <td class="td-center">{{a.M_12}}</td>
+                                <td class="td-center">{{a.M_11}}</td>
+                                <td class="td-center">{{a.M_10}}</td>
+                                <td class="td-center">{{a.M_9}}</td>
+                                <td class="td-center">{{a.M_8}}</td>
+                                <td class="td-center">{{a.M_7}}</td>
+                                <td class="td-center">{{a.M_6}}</td>
+                                <td class="td-center">{{a.M_5}}</td>
+                                <td class="td-center">{{a.M_4}}</td>
+                                <td class="td-center">{{a.M_3}}</td>
+                                <td class="td-center">{{a.M_2}}</td>
+                                <td class="td-center">{{a.M_1}}</td>
+                                <td class="td-center">{{a.M0}}</td>
+                                <td class="td-center"><b>{{a.TOTAL}}</b></td>
+                              </tr>
+                            </tbody>  
+                        </table>
+                        <!-- ITS RIGHT HERE
+                        <app-aircraft-on-ground></app-aircraft-on-ground> -->
+                      </div>
+                    <!-- </div> -->
+                </div>
+                <div id="deferral" class="tab-pane fade">
+                    <!-- <div aria-labelledby="headingOne" data-parent="#accordionExample"> -->
+                      <div class="card-body">
+                        <table class="table table-responsive table-hover table-striped" style="border-collapse:collapse;">
+                          <thead>
+                            <tr>
+                              <th class="th-nowrap station-ph"></th>
+                              <th class="td-center"></th>
+                              <th class="th-nowrap">{{setHeaderMonth(12)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(11)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(10)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(9)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(8)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(7)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(6)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(5)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(4)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(3)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(2)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(1)}}</th>
+                              <th class="th-nowrap">{{setHeaderMonth(0)}}</th>
+                              <th class="th-nowrap">Total</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              <tr data-toggle="collapse" data-target="#deferralTotal" class="accordion-toggle" (click)="status10 = !status10 && dt.DeferralTotal > 0" *ngFor="let dt of deferral_data_total"> <!--data-toggle="collapse" data-target="deferral" class="accordion-toggle" *ngFor="let d of deferral$ | async" -->
+                                <td class="td-center no-data" *ngIf="dt.DeferralTotal == null" colspan="16"><b>{{dt.DeferralTotal == null ? 'No Data Found' : dt.DeferralTotal }}</b></td>
+                                <td class="" *ngIf="dt.DeferralTotal != null"><i [ngClass]="status10 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i><b> Total</b></td>
+                                <td *ngIf="dt.DeferralTotal != null"></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T12}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T11}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T10}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T9}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T8}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T7}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T6}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T5}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T4}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T3}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T2}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T1}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.T0}}</b></td>
+                                <td class="td-center" *ngIf="dt.DeferralTotal != null"><b>{{dt.DeferralTotal}}</b></td>
+                            </tr>
+                            <tr data-toggle="collapse" id="deferralTotal" class="hiddenRow accordian-body collapse" *ngFor="let d of deferral_data">
+                                <td class="td-center">{{d.STATION}}</td>
+                                <td class="td-center">{{d.TASKTYPE}}</td>
+                                <td class="td-center">{{d.M_12}}</td>
+                                <td class="td-center">{{d.M_11}}</td>
+                                <td class="td-center">{{d.M_10}}</td>
+                                <td class="td-center">{{d.M_9}}</td>
+                                <td class="td-center">{{d.M_8}}</td>
+                                <td class="td-center">{{d.M_7}}</td>
+                                <td class="td-center">{{d.M_6}}</td>
+                                <td class="td-center">{{d.M_5}}</td>
+                                <td class="td-center">{{d.M_4}}</td>
+                                <td class="td-center">{{d.M_3}}</td>
+                                <td class="td-center">{{d.M_2}}</td>
+                                <td class="td-center">{{d.M_1}}</td>
+                                <td class="td-center">{{d.M0}}</td>
+                                <td class="td-center"><b>{{d.TOTAL}}</b></td>
+                            </tr>  
+                          </tbody>
+                        </table>
+                      </div>
+                    <!-- </div> -->
+                </div>
+                <div id="delays" class="tab-pane fade">
+                  <div class="card-body">
+                    <table class="table table-responsive table-hover table-striped" style="border-collapse:collapse;">
+                      <thead>
+                        <tr>
+                          <th class="th-nowrap station-ph"></th>
+                          <th class="td-center"></th>
+                          <th class="th-nowrap">{{setHeaderMonth(12)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(11)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(10)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(9)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(8)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(7)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(6)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(5)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(4)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(3)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(2)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(1)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(0)}}</th>
+                          <th class="th-nowrap">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr data-toggle="collapse" data-target="#delaysTotal" class="accordion-toggle" (click)="status11 = !status11 && dt.DelaysTotal > 0" *ngFor="let dt of delay_data_total">
+                          <td class="td-center no-data" *ngIf="dt.T12 == 0" colspan="16"><b>{{dt.T12 == 0 ? 'No Data Found' : dt.T12 }}</b></td>
+                          <td class="" *ngIf="dt.T12 != 0"><i [ngClass]="status11 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i><b> Total</b></td>
+                          <td *ngIf="dt.T12 != 0"></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T12}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T11}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T10}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T9}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T8}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T7}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T6}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T5}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T4}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T3}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T2}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T1}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.T0}}</b></td>
+                          <td class="td-center" *ngIf="dt.T12 != 0"><b>{{dt.DelaysTotal}}</b></td>
+                        </tr>
+                        <tr data-toggle="collapse" id="delaysTotal" class="hiddenRow accordian-body collapse" *ngFor="let d of delay_data">
+                          <td class="td-center">{{d.Station}}</td>
+                          <td class="td-center"></td>
+                          <td class="td-center">{{d.M_12}}</td>
+                          <td class="td-center">{{d.M_11}}</td>
+                          <td class="td-center">{{d.M_10}}</td>
+                          <td class="td-center">{{d.M_9}}</td>
+                          <td class="td-center">{{d.M_8}}</td>
+                          <td class="td-center">{{d.M_7}}</td>
+                          <td class="td-center">{{d.M_6}}</td>
+                          <td class="td-center">{{d.M_5}}</td>
+                          <td class="td-center">{{d.M_4}}</td>
+                          <td class="td-center">{{d.M_3}}</td>
+                          <td class="td-center">{{d.M_2}}</td>
+                          <td class="td-center">{{d.M_1}}</td>
+                          <td class="td-center">{{d.M0}}</td>
+                          <td class="td-center"><b>{{d.TOTAL}}</b></td>
+                        </tr>    
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div id="cancels" class="tab-pane fade">
+                  <div class="card-body">
+                    <table class="table table-responsive table-hover table-striped" style="border-collapse:collapse;">
+                      <thead>
+                        <tr>
+                          <th class="th-nowrap station-ph"></th>
+                          <th class="td-center"></th>
+                          <th class="th-nowrap">{{setHeaderMonth(12)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(11)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(10)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(9)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(8)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(7)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(6)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(5)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(4)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(3)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(2)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(1)}}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(0)}}</th>
+                          <th class="th-nowrap">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr data-toggle="collapse" data-target="#cancelsTotal" class="accordion-toggle" (click)="status12 = !status12 && ct.CancelsTotal > 0" *ngFor="let ct of cancel_data_total">
+                          <td class="td-center no-data" *ngIf="ct.T12 == 0" colspan="16"><b>{{ct.T12 == 0 ? 'No Data Found' : ct.T12 }}</b></td>
+                          <td class="" *ngIf="ct.T12 != 0"><i [ngClass]="status12 ? 'fa fa-minus-circle' : 'fa fa-plus-circle'" aria-hidden="true"></i><b> Total</b></td>
+                          <td *ngIf="ct.T12 != 0"></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T12}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T11}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T10}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T9}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T8}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T7}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T6}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T5}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T4}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T3}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T2}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T1}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.T0}}</b></td>
+                          <td class="td-center" *ngIf="ct.T12 != 0"><b>{{ct.CancelsTotal}}</b></td>
+                        </tr>
+                        <tr data-toggle="collapse" id="cancelsTotal" class="hiddenRow accordian-body collapse" *ngFor="let ct of cancel_data">
+                          <td class="td-center">{{ct.Station}}</td>
+                          <td class="td-center"></td>
+                          <td class="td-center">{{ct.M_12}}</td>
+                          <td class="td-center">{{ct.M_11}}</td>
+                          <td class="td-center">{{ct.M_10}}</td>
+                          <td class="td-center">{{ct.M_9}}</td>
+                          <td class="td-center">{{ct.M_8}}</td>
+                          <td class="td-center">{{ct.M_7}}</td>
+                          <td class="td-center">{{ct.M_6}}</td>
+                          <td class="td-center">{{ct.M_5}}</td>
+                          <td class="td-center">{{ct.M_4}}</td>
+                          <td class="td-center">{{ct.M_3}}</td>
+                          <td class="td-center">{{ct.M_2}}</td>
+                          <td class="td-center">{{ct.M_1}}</td>
+                          <td class="td-center">{{ct.M0}}</td>
+                          <td class="td-center"><b>{{ct.TOTAL}}</b></td>
+                        </tr>
+                      </tbody>
+                    </table>  
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+        <div class="scrapcontainer" [hidden]="hideMeSummary">
+            <div class="row">
+              <div class="col-12">
+                <ul class="nav nav-tabs">
+                  <li class="active">
+                    <a data-toggle="tab" href="#scrap" class="nav-link active">Scrap</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="row">
+              <div class="tab-content col-12">
+                <div id="scrap" class="tab-pane fade in active collapse show">
+                  <div class="card-body">
+                    <table class="table table-responsive table-hover table-striped scraptable">
+                      <thead>
+                        <tr>
+                          <!-- <th class="th-nowrap">&nbsp;</th>
+                          <th class="th-nowrap">&nbsp;</th> -->
+                          <th class="th-nowrap station-ph">&nbsp;</th>
+                          <td class="scrapheaderspacer">&nbsp;</td>
+                          <th class="th-nowrap">{{setHeaderMonth(12) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(11) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(10) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(9) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(8) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(7) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(6) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(5) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(4) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(3) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(2) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(1) }}</th>
+                          <th class="th-nowrap">{{setHeaderMonth(0) }}</th>
+                          <th class="th-nowrap">Total</th>
+                        </tr>
+                      </thead>
+                      <tbody > <!--*ngIf="scrapTotal$ | async"-->
+                        <tr data-toggle="collapse" data-target="#scrapstations" class="accordion-toggle" (click)="status11 = !status11 && st.ScrapTotal > 0" *ngFor="let st of scrap_data_total"> <!--class="accordian-body" id="scrap" *ngFor="let sa of scrap$ | async" -->
+                            <!-- <td></td>-->
+                            <!-- <td>&nbsp;</td>  -->
+                            <td class="td-center no-data" *ngIf="st.T12 == null" colspan="16"><b>{{st.T12 == null ? 'No Data Found' : st.T12 }}</b></td>
+                            <td class="" *ngIf="st.T12 != null"><i [ngClass]="status11 ? 'fa fa-minus-circle' : 'fa fa-plus-circle' " aria-hidden="false"></i><b> Total</b></td>
+                            <td *ngIf="st.T12 != null">&nbsp;</td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T12}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T11}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T10}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T9}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T8}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T7}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T6}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T5}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T4}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T3}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T2}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T1}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.T0}}</b></td>
+                            <td class="td-center" *ngIf="st.T12 != null"><b>{{st.ScrapTotal}}</b></td>
+                          </tr>
+                        <tr class="accordian-body collapse grey-nth" id="scrapstations" *ngFor="let sa of scrap_data">
+                          <!-- <td>&nbsp;</td>-->
+                          <td>&nbsp;</td> 
+                          <td class="td-center">{{sa.ALPHA_STATION}}</td>
+                          <td class="td-center">{{sa.M_12}}</td>
+                          <td class="td-center">{{sa.M_11}}</td>
+                          <td class="td-center">{{sa.M_10}}</td>
+                          <td class="td-center">{{sa.M_9}}</td>
+                          <td class="td-center">{{sa.M_8}}</td>
+                          <td class="td-center">{{sa.M_7}}</td>
+                          <td class="td-center">{{sa.M_6}}</td>
+                          <td class="td-center">{{sa.M_5}}</td>
+                          <td class="td-center">{{sa.M_4}}</td>
+                          <td class="td-center">{{sa.M_3}}</td>
+                          <td class="td-center">{{sa.M_2}}</td>
+                          <td class="td-center">{{sa.M_1}}</td>
+                          <td class="td-center">{{sa.M0}}</td>
+                          <td class="td-center"><b>{{sa.TOTAL}}</b></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="row">
+                      <div class="col-12 scrap-bottom-height">
+                        
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+        </div>
+        <div class="sescontainer" [hidden]="hideMeSummary">
+            <div class="row" *ngFor="let ses of ses_data">
+                <div class="col-12 textcenter tdes-header-color">
+                    <span class="tdes-title">Total Demand Expendable Shortage</span>
+                </div>
+            </div>
+            <div class="row" *ngFor="let ses of ses_data">
+                <div class="col-2 textcenter">M&E Number</div>
+                <div class="col-1 textcenter">On hand</div>
+                <div class="col-1 textcenter">Scheduled</div>
+                <div class="col-1 textcenter">EO</div>
+                <div class="col-1 textcenter">Unscheduled</div>
+                <div class="col-1 textcenter">In Kit</div>
+                <div class="col-1 textcenter">Open PO</div>
+                <div class="col-1 textcenter">Lead Time</div>
+                <div class="col-1 textcenter">Zerostock Date</div>
+                <div class="col-1 textcenter">Order Date</div>
+                <div class="col-1 textcenter">Days To Order</div>
+            </div>
+            <div class="row" *ngFor="let ses of ses_data">
+                <div class="col-12 textcenter" *ngIf="ses.ME_PART_NUMBER == null" ><b>{{ses.ME_PART_NUMBER == null || ses.ME_PART_NUMBER === undefined ? 'No Data Found' : ''}}</b></div>
+                <div class="col-2 textcenter" *ngIf="ses.ME_PART_NUMBER != null">
+                    <a [routerLink]="[sesDetailUrl, ses.ME_PART_NUMBER.trim()]" class="" href="#" target="_blank">{{ses.ME_PART_NUMBER}}</a>
+                </div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null">{{ses.Current_Onhand}}</div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null">{{ses.Scheduled}}</div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null">{{ses.ECO}}</div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null">{{ses.Unscheduled}}</div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null">{{ses.In_Kit}}</div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null">{{ses.Open_PO}}</div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null">{{ses.Leadtime}}</div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null">{{ses.ZeroStockDate | date: 'yyyy-MM-dd'}}</div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null">{{ses.OrderDate | date: 'yyyy-MM-dd'}}</div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null && ses.DaysToOrder != null && ses.DaysToOrder > 90" style="color:green"><b>{{ses.DaysToOrder}}</b></div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null && ses.DaysToOrder != null && ses.DaysToOrder > 30 && ses.DaysToOrder <= 90" style="color:yellow"><b>{{ses.DaysToOrder}}</b></div>
+                <div class="col-1 textcenter" *ngIf="ses.ME_PART_NUMBER != null && ses.DaysToOrder != null && ses.DaysToOrder <= 30" style="color:red"><b>{{ses.DaysToOrder}}</b></div>
+            </div>
+            <div class="row">
+              <div class="col-12 bottom-height">
+                
+              </div>
+            </div>
+        </div>
+        <div class="row" [hidden]="hideFooter">
+            <div class="col-12 atafooter">
+              <app-ata-sticky-footer></app-ata-sticky-footer>
+            </div>
+        </div>
+        <app-maint-snackbar></app-maint-snackbar>
+            <!-- </div> -->
+      </div>
+    <!-- </mat-sidenav-content>
+</mat-sidenav-container> -->
+

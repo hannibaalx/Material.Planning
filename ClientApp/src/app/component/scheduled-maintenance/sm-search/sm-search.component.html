@@ -1,0 +1,340 @@
+    <div class="form-container">
+      <!-- <div class="smtitle">
+        <h5><b>SM Search</b></h5>
+      </div> -->
+      <form [formGroup]="sForm" (ngSubmit)="submitSearchForm(searchForm, 'form')" #searchForm="ngForm">
+        <div class="row">
+          <div class="col-12">
+            <mat-form-field floatLabel="auto" class="full-width smInput1" appearance="outline">
+              <mat-label>FLEET</mat-label>
+              <input matInput type="text" #fleet formControlName="fleet" name="fleet" class="form-control" placeholder="Fleet" (input)="autoSearch($event, 'FLEET')">
+              <mat-icon matSuffix color="primary">flight_takeoff</mat-icon>
+              <ul *ngIf="filteredFleet$ && hideFleet" class="search-result0">
+                <li *ngFor="let x of filteredFleet$ | async" (click)="sForm.controls.fleet.setValue(x.FLEET);hideFleet= false;" value="x.FLEET">
+                  {{ x.FLEET }}
+                </li>
+              </ul>
+            </mat-form-field>
+            <mat-form-field floatLabel="auto" class="full-width smInput1" appearance="outline">
+              <mat-label>DASH 8</mat-label>
+              <input matInput type="text" #dash8 formControlName="dash8" name="dash8" class="form-control" placeholder="Dash8" (input)="autoSearch($event, 'DASH_8')">
+              <mat-icon matSuffix color="primary">miscellaneous_services</mat-icon>
+              <ul *ngIf="filteredDash8$ && hideDash8" class="search-result1">
+                <li *ngFor="let x of filteredDash8$ | async" (click)="sForm.controls.dash8.setValue(x.DASH_8);hideDash8= false;" value="x.DASH_8">
+                  {{ x.DASH_8 }}
+                </li>
+              </ul>
+            </mat-form-field>
+            <mat-form-field floatLabel="auto" class="full-width" appearance="outline">
+              <mat-label>DESCRIPTION</mat-label>
+              <input matInput type="text" #dash8Desc formControlName="dash8Desc" name="dash8Desc" class="form-control" placeholder="Description" (input)="autoSearch($event, 'DASH8_DESC')">
+              <mat-icon matSuffix color="primary">description</mat-icon>
+              <ul *ngIf="filteredDash8Desc$ && hideDash8Desc" class="search-result1">
+                <li *ngFor="let x of filteredDash8Desc$ | async" (click)="sForm.controls.dash8Desc.setValue(x.DASH8_DESC);hideDash8Desc= false;" value="x.DASH8_DESC">
+                  {{ x.DASH8_DESC }}
+                </li>
+              </ul>
+            </mat-form-field>
+            <mat-form-field floatLabel="auto" class="full-width smInput1" appearance="outline">
+              <mat-label>CHECK TYPE</mat-label>
+              <input matInput type="text" #checkType formControlName="checkType" name="checkType" class="form-control" placeholder="Check Type">
+              <!--(input)="autoSearch($event, 'TSX_CHECKTYPE')"-->
+              <mat-icon matSuffix color="primary">check</mat-icon>
+              <!-- <ul *ngIf="filteredCheckType$ && hideCheckType" class="search-result2">
+                <li *ngFor="let x of filteredCheckType$ | async" (click)="checkType.value = x.TSX_CHECKTYPE;hideCheckType= false;" value="x.TSX_CHECKTYPE">
+                  {{ x.TSX_CHECKTYPE }}
+                </li>
+              </ul> -->
+            </mat-form-field>
+            <mat-form-field floatLabel="auto" class="full-width smInput2" appearance="outline">
+              <mat-label>WORK CARD</mat-label>
+              <input matInput type="text" #workCard formControlName="workCard" name="workCard" class="form-control" placeholder="Work Card" (input)="autoSearch($event, 'TSX_WCNUM')">
+              <mat-icon matSuffix color="primary">engineering</mat-icon>
+              <ul *ngIf="filteredWorkCard$ && hideWorkCard" class="search-result1">
+                <li *ngFor="let x of filteredWorkCard$ | async" (click)="sForm.controls.workCard.setValue(x.TSX_WCNUM);hideWorkCard= false;" value="x.TSX_WCNUM">
+                  {{ x.TSX_WCNUM }}
+                </li>
+              </ul>
+            </mat-form-field>
+            <mat-form-field floatLabel="auto" class="full-width smInput3" appearance="outline">
+              <mat-label>STATION REQUIREMENT</mat-label>
+              <input matInput type="text" #altNumber formControlName="altNumber" name="altNumber" class="form-control" maxlength="3" placeholder="STATION REQUIREMENT">
+              <!-- (input)="autoSearch($event, 'STATION_REQUIREMENT')" -->
+              <mat-icon matSuffix color="primary">assignment_turned_in</mat-icon>
+              <!-- <ul *ngIf="filteredStaReq$ && hideStaReq" class="search-result1">
+                <li *ngFor="let x of filteredStaReq$ | async" (click)="altNumber.value = x.STATION_REQUIREMENT;hideStaReq= false;" value="x.STATION_REQUIREMENT">
+                  {{ x.STATION_REQUIREMENT }}
+                </li>
+              </ul> -->
+            </mat-form-field>
+            <mat-form-field floatLabel="auto" class="full-width smInput2 meBomRightMargin" appearance="outline">
+              <mat-label>M&E on BOM</mat-label>
+              <input matInput type="text" #meOnBom formControlName="meOnBom" name="meOnBom" class="form-control" placeholder="M&E on BOM" (input)="autoSearch($event, 'NEW_SM_PARTS_TTL_REQ')">
+              <mat-icon matSuffix color="primary">confirmation_number</mat-icon>
+              <ul *ngIf="filteredMeBOM$ && hideMeBOM" class="search-result1">
+                <li *ngFor="let x of filteredMeBOM$ | async" (click)="sForm.controls.meOnBom.setValue(x.ME_PART_NUMBER_USED);hideMeBOM= false;" value="x.ME_PART_NUMBER_USED">
+                  {{ x.ME_PART_NUMBER_USED }}
+                </li>
+              </ul>
+            </mat-form-field>
+            <button mat-stroked-button type="submit" [disabled]="submitStatus(searchForm)" class="searchbutton stroked-button">
+              Search
+            </button>&nbsp;
+            <button mat-stroked-button type="button" class="clearbutton stroked-button" (click)="clearSearchForm()">
+              X Clear
+            </button>
+          </div>
+        </div>
+      </form>
+
+        <div class="row">
+          <div class="col-12">
+            <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+          </div>
+        </div>      
+      <div class="row" [hidden]="hideResults">
+          <div class="col-12 refresh-textright">
+            <span *ngFor="let t of refreshtime$ | async ">
+              <div>
+                <h6><b>Last refreshed:</b> {{ t.UPDATED_DATETIME | date :'yyyy/MM/dd, hh:mm:ss a' }}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</h6>
+              </div>
+            </span>
+          </div>
+        <div class="col-12 table-container">
+          <mat-table matTableExporter matSort (matSortChange)="sortSearchResults($event)" [dataSource]="datasource" class="mat-elevation-z8">
+            <!--matSort (matSortChange)="sortItsDetail($event)" -->
+            <ng-container matColumnDef="FLEET">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>FLEET</b></mat-header-cell> <!-- mat-sort-header -->
+              <mat-cell *matCellDef="let x"> {{ x.FLEET }}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="DASH_8">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>DASH 8</b></mat-header-cell> <!-- mat-sort-header -->
+              <mat-cell *matCellDef="let x">
+                <!-- <a [routerLink]="['/sm/dash8detail', x.DASH_8]" class="" href="#" target="_blank">
+                {{ x.DASH_8 }}
+                </a> -->
+                <span *ngIf="x.DASH_8 != null">
+                  <a mat-button [routerLink]="['/sm/dash8detail', x.DASH_8]" target="_blank">{{ x.DASH_8 }}</a>
+                </span>         
+                &nbsp;
+                <span *ngIf="x.DASH_8 != null">
+                  <span *ngIf="x.DASH8_COMMENT != null">
+                    <button type="button" mat-flat-button matBadge (click)="openHistory('DASH_8', x.DASH_8);">
+                      <mat-icon matSuffix color="primary" style="background-color: transparent;">comment</mat-icon>
+                    </button>                     
+                  </span>
+                  <span *ngIf="x.DASH8_COMMENT == null">
+                    <button type="button" mat-flat-button matBadge (click)="openHistory('DASH_8', x.DASH_8);">
+                      <mat-icon matSuffix style="color: #545b62; background-color: transparent;">comment</mat-icon>
+                    </button>
+                  </span>              
+                </span>            
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="DASH8_DESC">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>DESCRIPTION</b></mat-header-cell> <!-- mat-sort-header -->
+              <mat-cell *matCellDef="let x"> {{ x.DASH8_DESC }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TSX_CHECKTYPE">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>TSX CHECKTYPE</b></mat-header-cell> <!-- mat-sort-header -->
+              <mat-cell *matCellDef="let x"> {{ x.TSX_CHECKTYPE }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TSX_WCNUM">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>TSX WORK CARD NBR</b></mat-header-cell> <!-- mat-sort-header -->
+              <mat-cell *matCellDef="let x"> 
+                <!-- {{ x.TSX_WCNUM }}  -->
+                <span *ngIf="x.TSX_WCNUM != null">
+                  <b><a mat-button [routerLink]="['/sm/tsxwcnum', x.TSX_WCNUM]" target="_blank">{{ x.TSX_WCNUM }}</a></b>
+                </span>
+                <span *ngIf="x.TSX_WCNUM == null">
+                  {{ x.TSX_WCNUM }}
+                </span>
+                &nbsp;
+                <span *ngIf="x.TSX_WCNUM != null">
+                  <span *ngIf="x.WC_COMMENT">
+                    <button type="button" mat-flat-button matBadge (click)="openHistory('TSX_WCNUM', x.TSX_WCNUM);">
+                      <mat-icon matSuffix color="primary" style="background-color: transparent;">comment</mat-icon>
+                    </button>
+                  </span>
+                  <span *ngIf="!x.WC_COMMENT">
+                    <button type="button" mat-flat-button matBadge (click)="openHistory('TSX_WCNUM', x.TSX_WCNUM);">
+                      <mat-icon matSuffix style="color: #545b62;background-color: transparent;">comment</mat-icon>
+                    </button>
+                  </span>
+                </span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TSX_ALTNUM">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>TSX ALTERNATIVE</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TSX_ALTNUM }} 
+                <!--&nbsp;
+                <span *ngIf="x.TSX_ALTNUM != null">
+                  <span *ngIf="x.ALT_COMMENT">
+                    <button type="button" mat-flat-button matBadge (click)="openHistory('TSX_ALTNUM', x.TSX_ALTNUM);">
+                      <mat-icon matSuffix color="primary" style="background-color: transparent;">comment</mat-icon>
+                    </button>
+                  </span>
+                   <span *ngIf="!x.ALT_COMMENT">
+                    <button type="button" mat-flat-button matBadge (click)="openHistory('TSX_ALTNUM', x.TSX_ALTNUM);">
+                      <mat-icon matSuffix style="color: #545b62;background-color: transparent;">comment</mat-icon>
+                    </button>
+                  </span> 
+                </span>-->
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TSX_WCTITLE">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>TSX WORK CARD TITLE</b></mat-header-cell> <!-- mat-sort-header -->
+              <mat-cell *matCellDef="let x"> {{ x.TSX_WCTITLE }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="STATION_REQUIREMENT">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>STATION REQUIREMENT</b></mat-header-cell> <!-- mat-sort-header -->
+              <mat-cell *matCellDef="let x"> {{ x.STATION_REQUIREMENT }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="AUTH_STA">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>AUTH STA</b></mat-header-cell> <!-- mat-sort-header -->
+              <mat-cell *matCellDef="let x"> {{ x.AUTH_STA }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="MIN_SCHDLD_DATE">
+              <mat-header-cell *matHeaderCellDef mat-sort-header><b>MIN SCHDLD DATE</b></mat-header-cell> <!-- mat-sort-header -->
+              <mat-cell *matCellDef="let x">
+                <b>
+                  <a mat-button (click)="openMinSchDate(x.DASH_8);"> {{ x.MIN_SCHDLD_DATE | date:'yyyy-MM-dd' }} </a>
+                </b>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="sm_displayedColumns; sticky: true;"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: sm_displayedColumns;"></mat-row>
+          </mat-table>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+            &nbsp;
+        </div>
+      </div>
+      <div class="row" [hidden]="hidePartNumberTotalRequirement">
+        <div class="col-12 text-center">
+          <h5>Part Number Total Requirement</h5>
+        </div>
+        <div class="col-12 table-container">
+          <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+          <mat-table matTableExporter [dataSource]="partNumberTotalRequirementDataSource" class="mat-elevation-z8">
+            
+            <ng-container matColumnDef="ME_PART_NUMBER">
+              <mat-header-cell *matHeaderCellDef><b>M & E</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.ME_PART_NUMBER != null">
+                    <a mat-button [routerLink]="['/sm/medetail', x.ME_PART_NUMBER]" target="_blank">{{ x.ME_PART_NUMBER }}</a>
+                  &nbsp;
+                  <a href="javascript:void(0);" [tabindex]="i" class="badge badge-info badgecolor" data-boundary="window" data-toggle="popover" [title]="x.KEYWORD" data-animation="true" data-html="true" data-placement="bottom" (click)="popSmMeSummary($event, x.ME_FLEET, x.ME_RESOURCE_CODE, x.ME_ATA_CODE, x.PRIME_MPN, x.KEYWORD, x.CTLG_PRICE, x.SHLF_LIFE, x.CHEMCL_IND, x.UI, x.MT, x.CTLG_LT)" data-content=""><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                  </a>
+                </span>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="COUNT_DASH_8">
+              <mat-header-cell *matHeaderCellDef><b>COUNT DASH 8</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.COUNT_DASH_8 }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="NO_OF_AC">
+              <mat-header-cell *matHeaderCellDef><b>NO OF AC</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.NO_OF_AC }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="KEYWORD">
+              <mat-header-cell *matHeaderCellDef><b>KEYWORD</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.KEYWORD }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="AVG_COST">
+              <mat-header-cell *matHeaderCellDef><b>AVG COST</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.AVG_COST }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TOTAL_365_DAY_REQ">
+              <mat-header-cell *matHeaderCellDef><b>365 DAY REQ</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TOTAL_365_DAY_REQ }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TOTAL_30_DAY_REQ">
+              <mat-header-cell *matHeaderCellDef><b>30 DAY REQ</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TOTAL_30_DAY_REQ }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TOTAL_60_DAY_REQ">
+              <mat-header-cell *matHeaderCellDef><b>60 DAY REQ</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TOTAL_60_DAY_REQ }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TOTAL_90_DAY_REQ">
+              <mat-header-cell *matHeaderCellDef><b>90 DAY REQ</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TOTAL_90_DAY_REQ }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TOTAL_120_DAY_REQ">
+              <mat-header-cell *matHeaderCellDef><b>120 DAY REQ</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TOTAL_120_DAY_REQ }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TOTAL_180_DAY_REQ">
+              <mat-header-cell *matHeaderCellDef><b>180 DAY REQ</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TOTAL_180_DAY_REQ }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TOTAL_ONHAND">
+              <mat-header-cell *matHeaderCellDef><b>ONHAND</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TOTAL_ONHAND }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TOTAL_ITS">
+              <mat-header-cell *matHeaderCellDef><b>ITS</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TOTAL_ITS }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TOTAL_OPEN_PO">
+              <mat-header-cell *matHeaderCellDef><b>OPEN PO</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TOTAL_OPEN_PO }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="TOTAL_OPEN_RO">
+              <mat-header-cell *matHeaderCellDef><b>OPEN RO</b></mat-header-cell>
+              <mat-cell *matCellDef="let x"> {{ x.TOTAL_OPEN_RO }} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="SYS_STATUS">
+              <mat-header-cell *matHeaderCellDef><b>STATUS</b></mat-header-cell>
+              <mat-cell *matCellDef="let x">
+                <span *ngIf="x.SYS_STATUS.trim() == 'GOOD'" class="goodtext"><b>{{x.SYS_STATUS}}</b></span>
+                <span *ngIf="x.SYS_STATUS.trim() == 'NEED'" class="needtext"><b>{{x.SYS_STATUS}}</b></span>
+                <span *ngIf="x.SYS_STATUS.trim() == 'REVIEW'" class="reviewtext"><b>{{x.SYS_STATUS}}</b></span>
+                <span *ngIf="x.SYS_STATUS.trim() == 'TOOL'" class="tooltext"><b>{{x.SYS_STATUS}}</b></span>
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="partNumberTotalRequirement_displayColumns; sticky: true;"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: partNumberTotalRequirement_displayColumns;"></mat-row>
+          </mat-table>
+        </div> 
+      </div>
+    </div>
+    <app-maint-snackbar></app-maint-snackbar>
+
+
+<!-- <ng-template #loadingplane>
+  <div class="spinner-container" [hidden]="hideLoading">
+    <div class="spinners">
+      <img src="assets/images/loader.gif" alt="loading...." height="275" width="275">
+    </div>
+  </div>
+</ng-template> -->

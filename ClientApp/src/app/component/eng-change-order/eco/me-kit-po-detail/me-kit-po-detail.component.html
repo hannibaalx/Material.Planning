@@ -1,0 +1,74 @@
+    <!-- <div class="eotitle">
+      <h5><b>M & E Kit PO Details</b></h5>
+    </div> -->
+    <div class="mepodetailcontainer">
+      <span *ngIf="mePoKitDetail$ | async; else loading">
+        <div class="row">
+          <div class="col-12 header">
+            <h5><label class="badge badge-info">M & E - {{ menumberid }}</label></h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="tableFixedHead">
+              <table class="table table-striped">
+                <thead class="thead-light">
+                  <tr>
+                    <th>MFG PART NUMBER</th>
+                    <th>PO NUMBER</th>
+                    <th>ORDER STATUS IND</th>
+                    <th>ORDER DATE</th>
+                    <th>RECEIVED DATE</th>
+                    <th>REQUIRED DATE</th>
+                    <th>UNIT COST</th>
+                    <!--<th>VENDOR NAME</th>
+                                     <th>BUYER_CODE</th>
+                                    <th>BUYER_EMPLOYEE_NUMBER</th> -->
+                    <th>STATION</th>
+                    <th>PURCHASE QTY ON ORDER</th>
+                    <th>TOTAL QTY RECEIVED</th>
+                    <th>OPEN QTY</th>
+                    <th>COMMENT LINE</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let m of mePoKitDetail$ | async">
+                    <td>{{ m.MFG_PART_NUMBER }}</td>
+                    <td>{{ m.PO_NUMBER }}</td>
+                    <td>{{ m.ORDER_STATUS_IND_DESC }}</td>
+                    <td>{{ m.ORDER_DATE | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ m.RECEIVED_DATE | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ m.REQUIRED_DATE | date: 'yyyy-MM-dd' }}</td>
+                    <td>{{ m.UNIT_COST  | currency}}</td>
+                    <!-- <td>{{ m.VENDOR_NAME}}</td> -->
+                    <td>{{ m.STATION}}</td>
+                    <td>{{ m.PURCHASE_QTY_ON_ORDER}}</td>
+                    <td>{{ m.TOTAL_QTY_RECEIVED}}</td>
+                    <td>{{ m.OPEN_QTY}}</td>
+                    <td class="nowrap">{{ m.COMMENT_LINE}}</td>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </span>
+    </div>
+
+    <ng-template #loading>
+      <div class="spinner-container">
+        <div class="text-center">
+          <div class="spinner-grow text-primary" style="position: relative; float:left;width: 3rem; height: 3rem;"
+            role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+          <div class="spinner-border text-secondary" style="position: relative; float:left;width: 3rem; height: 3rem;"
+            role="status">
+            <span class="sr-only"></span>
+          </div>
+          <div class="spinner-grow text-danger" style="position: relative; float:left;width: 3rem; height: 3rem;"
+            role="status">
+            <span class="sr-only"></span>
+          </div>
+        </div>
+      </div>
+    </ng-template>

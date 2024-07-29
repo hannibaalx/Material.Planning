@@ -1,0 +1,165 @@
+<div class="sprcontainer">
+    <div class="datacontainer">
+        <div class="row">
+            <div class="col-12 header-color">
+                <b class="queue-header">SO Pending Review</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 dataright">
+              <div>
+                  <button mat-stroked-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName:'SO Pending Review summary'})">DOWNLOAD SUMMARY</button>
+                  &nbsp;<button mat-stroked-button class="exportbtn stroked-button" (click)="exporter2.exportTable('xlsx', {fileName:'SO Pending Review detail'})">DOWNLOAD DETAIL</button>
+              </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mattablecontainer">
+              <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+                <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortSoPendingReview($event)" class="mat-elevation-z8">
+                    <ng-container matColumnDef="ME_PART_NUMBER">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>M&E</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        <a mat-raised-button class="mebtn" href="javascript:void(0);" (click)="sendMeDetails(x.ME_PART_NUMBER)">{{ x.ME_PART_NUMBER }}</a>
+                        &nbsp;
+                        <a mat-button color="primary" [routerLink]="['../ata/', x.ME_PART_NUMBER.trim()]" class="atalaunch" target="_blank">
+                            <mat-icon>launch</mat-icon>
+                        </a>
+                      </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="KEYWORD">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>KEYWORD</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.KEYWORD }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="SO_TO_STA">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>PENDING SO CNT</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.SO_TO_STA }} </mat-cell>
+                    </ng-container>                    
+                  
+                    <ng-container matColumnDef="DAYSINQUEUE">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>DAYS IN QUEUE</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.DAYSINQUEUE }} </mat-cell>
+                      </ng-container>
+
+                    <ng-container matColumnDef="COMMENTS">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMMENTS</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LAST_UPDATES">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>LAST UPDATES</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }} </mat-cell>
+                    </ng-container>
+                 
+                    <mat-header-row *matHeaderRowDef="soPendingReview_displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: soPendingReview_displayedColumns;"></mat-row>
+                  </mat-table>   
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mattablecontainer">
+              <mat-table matTableExporter #exporter2="matTableExporter" [dataSource]="detaildatasource" class="mat-elevation-z8 detaildata">
+                  <ng-container matColumnDef="ME_PART_NUMBER">
+                    <mat-header-cell *matHeaderCellDef><b>ME PART NUMBER</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.ME_PART_NUMBER }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="KEYWORD">
+                    <mat-header-cell *matHeaderCellDef><b>KEYWORD</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.KEYWORD }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="PENDING_SO_COUNT">
+                    <mat-header-cell *matHeaderCellDef><b>PENDING SO COUNT</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.PENDING_SO_COUNT }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="SO_FROM_STA">
+                    <mat-header-cell *matHeaderCellDef><b>SO FROM STA</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.SO_FROM_STA }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="SO_TO_STA">
+                    <mat-header-cell *matHeaderCellDef><b>SO TO STA</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.SO_TO_STA }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="ME_SO_DATE">
+                    <mat-header-cell *matHeaderCellDef><b>ME SO DATE</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.ME_SO_DATE }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="SO_ORDER_QTY">
+                    <mat-header-cell *matHeaderCellDef><b>SO ORDER QTY</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.SO_ORDER_QTY }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="SO_REQUESTOR">
+                    <mat-header-cell *matHeaderCellDef><b>SO REQUESTOR</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.SO_REQUESTOR }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="FROM_STA_OH">
+                    <mat-header-cell *matHeaderCellDef><b>FROM_STA_OH</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.FROM_STA_OH }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="TO_STA_ZERO_STOCK">
+                    <mat-header-cell *matHeaderCellDef><b>TO STA ZERO STOCK</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.TO_STA_ZERO_STOCK }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="PENDING_TYPE">
+                    <mat-header-cell *matHeaderCellDef><b>PENDING TYPE</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.PENDING_TYPE }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="DAYSINQUEUE">
+                    <mat-header-cell *matHeaderCellDef><b>DAYSINQUEUE</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x">
+                      {{ x.DAYSINQUEUE }}
+                    </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="LAST_UPDATES">
+                    <mat-header-cell *matHeaderCellDef><b>LAST UPDATES</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }} </mat-cell>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="COMMENTS">
+                    <mat-header-cell *matHeaderCellDef><b>COMMENTS</b></mat-header-cell>
+                    <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="soPendingReviewDetail_displayedColumns; sticky: true;"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: soPendingReviewDetail_displayedColumns;"></mat-row>
+              </mat-table>
+          </div>
+        </div>
+    </div>
+</div>
+

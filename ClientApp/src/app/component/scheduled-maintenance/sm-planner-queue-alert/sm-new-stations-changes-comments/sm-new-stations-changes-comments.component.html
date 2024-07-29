@@ -1,0 +1,258 @@
+<mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+<form [formGroup]="form" *ngIf="newSmObj.DASH_8">
+  <div class="row">
+    <div class="col-12">
+      {{newSmObj.DASH_8}}
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 dataright">
+      <div>
+        &nbsp;<button mat-stroked-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName: filename_download})">DOWNLOAD DATA</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 mattablecontainer">
+      <mat-table matTableExporter matSort [dataSource]="datasource" 
+        (matSortChange)="sortCommentSection($event)" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="ME_PART_NUMBER_USED">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>ME PART NUMBER USED</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.ME_PART_NUMBER_USED }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="KEYWORD_DESCRIPTION">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>KEYWORD</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.KEYWORD_DESCRIPTION }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="AIRCRAFT_COUNT">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>AIRCRAFT COUNT</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.AIRCRAFT_COUNT }} </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="QTY_REQ">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>QTY REQ</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.QTY_REQ }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="REQD_IND">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>REQ IND</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.REQD_IND }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="KIT_IND">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>KIT IND</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.KIT_IND }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_OH">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL OH</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_OH }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_PO">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL PO</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_PO }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_RO">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL RO</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_RO }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_30_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 30 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_30_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_60_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 60 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_60_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_90_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 90 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_90_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_120_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 120 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_120_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_180_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 180 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_180_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_365_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 365 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_365_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="MATL_STS_ALL">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>MATL<br />STATUS</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+              <span *ngIf="x.MATL_STS_ALL == 'GOOD'" class="goodtext"><b>{{ x.MATL_STS_ALL }}</b></span>
+              <span *ngIf="x.MATL_STS_ALL == 'NEED'" class="needtext"><b>{{ x.MATL_STS_ALL }}</b></span>
+              <span *ngIf="x.MATL_STS_ALL == 'REVIEW'" class="reviewtext"><b>{{ x.MATL_STS_ALL }}</b></span>
+              <span *ngIf="x.MATL_STS_ALL == 'TOOL'" class="tooltext"><b>{{ x.MATL_STS_ALL }}</b></span>
+              <span *ngIf="x.MATL_STS_ALL == null" class=""><b>UNKNOWN</b></span>
+          </mat-cell>
+      </ng-container>
+
+        <!-- <ng-container matColumnDef="STATION_ADDED_SHORT">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>STATION ADDED SHORT</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            <a mat-button (click)="openStationAddedShortModal(newSmObj.DASH_8, x.ME_PART_NUMBER_USED);" class="underlinetext" >{{ x.STATION_ADDED_SHORT }}</a>
+          </mat-cell>
+        </ng-container> -->
+
+        <ng-container matColumnDef="CHEKEY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMMENTS</b></mat-header-cell>
+          <mat-cell *matCellDef="let x; let i = index">
+            <!-- {{ x.CHEKEY }}  -->
+            <span *ngIf="x.CHKKEY == null && i == 0">
+              <button type="button" class="modal-button" mat-flat-button matBadge disabled (click)="openHistory(newSmObj.DASH_8);">
+                <mat-icon aria-hidden="false" aria-label="comment icon" style="color: #545b62;">comment</mat-icon>
+              </button>
+            </span>
+            <span *ngIf="x.CHKKEY != null && i == 0">
+              <button type="button" class="modal-button" mat-flat-button matBadge (click)="openHistory(newSmObj.DASH_8);">
+                <mat-icon aria-hidden="false" aria-label="comment icon" style="color: #3f51b5;">comment</mat-icon>
+              </button>
+            </span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="CHKKEY">
+          <mat-header-cell *matHeaderCellDef><b>SELECT <button type="button" mat-raised-button color="primary" class="selectalltbtn" (click)="selectAllChkkey();">ALL</button></b></mat-header-cell>
+          <mat-cell *matCellDef="let x; let i = index">
+            <!-- {{x.CHEKEY}} -->
+            <mat-slide-toggle [color]="color" [id]="i" *ngIf="i == 0" (change)="updateSelected(x.CHEKEY, $event)">
+            </mat-slide-toggle>
+            <!-- {{selectedMePartNumberUsed[i].value}} [id]="selectedMePartNumberUsed[i]"-->
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="comment_detail_displayedColumns; sticky: true;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: comment_detail_displayedColumns;"></mat-row>
+      </mat-table>
+      <mat-table matTableExporter #exporter="matTableExporter" [hidden]="true" matSort [dataSource]="datasource_download" (matSortChange)="sortCommentSection($event)" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="ME_PART_NUMBER_USED">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>ME PART NUMBER USED</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.ME_PART_NUMBER_USED }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="KEYWORD_DESCRIPTION">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>KEYWORD</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.KEYWORD_DESCRIPTION }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="AIRCRAFT_COUNT">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>AIRCRAFT COUNT</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.AIRCRAFT_COUNT }} </mat-cell>
+        </ng-container>
+        
+        <ng-container matColumnDef="QTY_REQ">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>QTY REQ</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.QTY_REQ }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="REQD_IND">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>REQ IND</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.REQD_IND }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="KIT_IND">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>KIT IND</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.KIT_IND }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_OH">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL OH</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_OH }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_PO">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL PO</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_PO }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_RO">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL RO</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_RO }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_30_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 30 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_30_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_60_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 60 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_60_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_90_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 90 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_90_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_120_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 120 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_120_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_180_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 180 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_180_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TTL_REQ_365_DAY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TTL REQ 365 DAY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TTL_REQ_365_DAY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="MATL_STS_ALL">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>MATL<br />STATUS</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+              <span *ngIf="x.MATL_STS_ALL == 'GOOD'" class="goodtext"><b>{{ x.MATL_STS_ALL }}</b></span>
+              <span *ngIf="x.MATL_STS_ALL == 'NEED'" class="needtext"><b>{{ x.MATL_STS_ALL }}</b></span>
+              <span *ngIf="x.MATL_STS_ALL == 'REVIEW'" class="reviewtext"><b>{{ x.MATL_STS_ALL }}</b></span>
+              <span *ngIf="x.MATL_STS_ALL == 'TOOL'" class="tooltext"><b>{{ x.MATL_STS_ALL }}</b></span>
+              <span *ngIf="x.MATL_STS_ALL == null" class=""><b>UNKNOWN</b></span>
+          </mat-cell>
+      </ng-container>
+
+        <mat-header-row *matHeaderRowDef="comment_detail_download_displayedColumns; sticky: true;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: comment_detail_download_displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+    <div class="row">
+      <div class="col-11">
+        <span class="commentsection">
+          <mat-form-field appearance="outline" style="width: 1200px;">
+            <mat-label name="cardLabel">
+              <b>ENTER NEW COMMENTS</b>
+            </mat-label>
+            <textarea matInput formControlName="taComment" id="taComment" name="taComment" rows="5" cols="70"></textarea>
+          </mat-form-field>
+        </span>
+        <div class="col-1 btnsavedrop">
+          <button mat-stroked-button type="button" class="stroked-button" [id]="btnOk" (click)="saveComment();"><b>SAVE</b></button>
+          <br /><br />
+          <button mat-stroked-button type="button" class="stroked-button" [id]="btnDrop" [disabled]="dropBtnStatus" (click)="dropSelectedMenused(newSmObj.DASH_8);"><b>DROP</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+  

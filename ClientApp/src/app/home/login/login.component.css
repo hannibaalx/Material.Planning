@@ -1,0 +1,42 @@
+mat-form-field {
+    font-size: 12px;
+    width: 100%;
+}
+.ata-stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+
+.alert-danger[_ngcontent-ng-cli-universal-c279] {
+    color: #721c24;
+    background-color: #ffffff;
+    border-color: #ffffff;
+}
+.alert[_ngcontent-ng-cli-universal-c279] {
+    position: relative;
+    /* padding: 0.75rem 1.25rem; */
+    /* margin-bottom: 1rem; */
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    line-height: 0;
+    /* left: -20px; */
+}
+.alert {
+    position: relative;
+    padding: 1rem 1.25rem 0.75rem 0.75rem;
+    /* margin-bottom: 1rem; */
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    top: 3px;
+}
+.alert-danger {
+    color: #721c24;
+    background-color: #ffffff; 
+    border-color: #ffffff;
+}

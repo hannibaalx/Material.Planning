@@ -1,0 +1,71 @@
+<div class="form-container">
+  <!-- <div class="smtitle">
+    <h5><b>SM SO Detail</b></h5>
+  </div> -->
+  
+  <div class="row">
+    <div class="col-12 table-container">
+      <mat-table [dataSource]="datasource" class="mat-elevation-z8 sodetails">
+
+        <ng-container matColumnDef="ME_PART_NUMBER">
+          <mat-header-cell *matHeaderCellDef><b>ME PART NUMBER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.ME_PART_NUMBER }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="SHIP_FROM_STA">
+          <mat-header-cell *matHeaderCellDef><b>SHIP FROM STA</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.SHIP_FROM_STA }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="STATION">
+          <mat-header-cell *matHeaderCellDef><b>STATION</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.STATION }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="DATE_ORDERED">
+          <mat-header-cell *matHeaderCellDef><b>DATE ORDERED</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.DATE_ORDERED | date :'yyyy-MM-dd' }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="QUANTITY_ORDERED">
+          <mat-header-cell *matHeaderCellDef><b>QUANTITY ORDERED</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.QUANTITY_ORDERED }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ORDER_STATUS">
+          <mat-header-cell *matHeaderCellDef><b>ORDER STATUS</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.ORDER_STATUS }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="QTY_FILLED">
+          <mat-header-cell *matHeaderCellDef><b>QTY FILLED</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.QTY_FILLED }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="STA_SO_OPEN_QTY">
+          <mat-header-cell *matHeaderCellDef><b>STA SO OPEN QTY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.STA_SO_OPEN_QTY }}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="smSoStaDetail_displayedColumns; sticky: true;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: smSoStaDetail_displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>

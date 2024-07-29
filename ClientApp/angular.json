@@ -1,0 +1,171 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "f4508e31-f51f-4b50-bc1e-fd9fb87e7b32"
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "Material.Planning": {
+      "root": "",
+      "sourceRoot": "src",
+      "projectType": "application",
+      "prefix": "app",
+      "schematics": {},
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "progress": true,
+            "outputPath": "dist",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.app.json",
+            "allowedCommonJsDependencies": [
+              "cdk-table-exporter",
+              "xlsx"
+            ],
+            "assets": [
+              "src/assets",
+              "src/web.config"
+            ],
+            "styles": [
+              "src/aa-custom-theme.scss",
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/font-awesome.min.css",
+              "src/styles.css"
+
+            ],
+            "scripts": [
+              "src/assets/js/polyfill.min.js",
+              "src/assets/js/es5-shim.min.js",
+              "src/assets/js/es6-shim.min.js",
+              "src/assets/js/FileSaver.min.js",
+              "src/assets/js/jquery-3.3.1.slim.min.js",
+              "src/assets/js/popper.min.js",
+              "src/assets/js/bootstrap.min.js",
+              "node_modules/chart.js/dist/Chart.bundle.min.js"
+            ]
+          },
+          "configurations": {
+            "development": {
+              "sourceMap": true,
+              "optimization": false
+            },
+            "production": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "tsConfig": "src/tsconfig-es5.app.json"
+            },
+            "es5": {
+              "sourceMap": true,
+              "optimization": false,
+              "tsConfig": "src/tsconfig-es5.app.json"
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "Material.Planning:build",
+            "proxyConfig": "src/proxy.conf.json"
+          },
+          "configurations": {
+            "development": {
+              "browserTarget": "Material.Planning:build:development"
+            },
+            "production": {
+              "browserTarget": "Material.Planning:build:production"
+            },
+            "es5": {
+              "browserTarget": "Material.Planning:build:es5"
+            }
+          }
+        },
+
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "Material.Planning:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "src/test.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "src/tsconfig.spec.json",
+            "karmaConfig": "src/karma.conf.js",
+            "styles": [ "styles.css" ],
+            "scripts": [],
+            "assets": [ "src/assets" ]
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [ "src/tsconfig.app.json", "src/tsconfig.spec.json" ],
+            "exclude": [ "**/node_modules/**" ]
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist-server",
+            "main": "src/main.ts",
+            "tsConfig": "src/tsconfig.server.json"
+          },
+          "configurations": {
+            "dev": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": true
+            },
+            "production": {
+              "optimization": false,
+              "outputHashing": "all",
+              "sourceMap": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "tsConfig": "src/tsconfig-es5.app.json"
+            }
+          }
+        }
+      }
+    },
+    "Material.Planning-e2e": {
+      "root": "e2e/",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@angular-devkit/build-angular:protractor",
+          "options": {
+            "protractorConfig": "e2e/protractor.conf.js",
+            "devServerTarget": "Material.Planning:serve"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": "e2e/tsconfig.e2e.json",
+            "exclude": [ "**/node_modules/**" ]
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "Material.Planning"
+}

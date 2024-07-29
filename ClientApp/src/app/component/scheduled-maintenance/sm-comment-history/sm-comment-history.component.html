@@ -1,0 +1,67 @@
+<h2 mat-dialog-title>Comment History</h2>
+<form [formGroup]="form" >
+    <!-- (smCommentsData$ | async) -->
+  <mat-dialog-content>
+    <mat-tab-group *ngIf="cardsContent.controls">
+      <mat-tab label="View/Modify">
+        <div class="row">
+          <div class="col-12">
+            <div formArrayName="cardsContent">
+              <div *ngFor="let content of cardsContent.controls; let i = index">
+                <mat-card [formGroupName]="i">
+                  <mat-card-title dense>
+                  </mat-card-title>
+                  <mat-card-content>
+                    <mat-form-field>
+                      <div>
+                        <mat-label name="cardLabel">
+                          <b>{{ content.value.cardPlanner }}</b>&nbsp;{{ content.value.cardUpdateTime | date:'yyyy-MM-dd hh:mm'  }}
+                        </mat-label>
+                        <br /><br />
+                        <mat-label [hidden]="!blnEditCard[i]">
+                          {{ content.value.cardContent }}
+                        </mat-label>
+                        <br />
+                        <br />
+                        <textarea matInput formControlName="cardContent" [id]="cardContent[i]" name="cardContent[i]" [hidden]="blnEditCard[i]" rows="5" cols="70">{{ content.value.cardContent.COMMENTS }}</textarea>
+                        <input matInput formControlName="contentId" [id]="contentId[i]" name="contentId[i]" [hidden]="true">{{ content.value.cardContent.ID }}
+                      </div>
+                    </mat-form-field>
+                  </mat-card-content>
+                  <mat-card-actions align="start">
+                    <button mat-flat-button type="button" color="primary" [id]="btnOk[i]" (click)="saveCard(content.value, i); cardLabel[i] = i.value" [hidden]="blnHideOK[i]">OK</button>
+                    <button mat-flat-button type="button" color="primary" [id]="btnEdit[i]" (click)="editCardContent(i)" [hidden]="blnHideEdit[i]">Edit</button>&nbsp;
+                    <button mat-flat-button type="button" color="accent" [id]="btnDelete[i]" (click)="removeCardContent(content.value, i)">Delete</button>
+                  </mat-card-actions>
+                </mat-card>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="New Comment">
+        <div class="row" style="overflow: unset !important;">
+          <div class="col-12">
+              <mat-card formGroupName="newComment">
+                <mat-card-title dense>
+                </mat-card-title>
+                <mat-card-content>
+                  <mat-form-field>
+                    <div>
+                      <textarea matInput formControlName="addComment" [id]="addComment" name="addComment" class="form-control" placeholder="Add new comment" rows="5" cols="70"></textarea>
+                    </div>
+                  </mat-form-field>
+                </mat-card-content>
+                <mat-card-actions align="start">
+                  <button mat-flat-button type="button" [id]="btnAdd" color="primary" (click)="saveNewComment(form.controls.newComment);">Save</button>
+                </mat-card-actions>
+              </mat-card>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-dialog-content>
+</form>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close mat-dialog-close="false" color="primary" type="button" #closebtn (click)="closeDialog()">Close</button>
+</mat-dialog-actions>

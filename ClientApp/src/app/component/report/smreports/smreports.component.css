@@ -1,0 +1,12 @@
+.mat-drawer-content {
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 100%;
+    overflow: unset;
+}
+.reportTitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}

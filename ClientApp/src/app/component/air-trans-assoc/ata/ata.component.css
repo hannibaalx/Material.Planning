@@ -1,0 +1,162 @@
+mat-sidenav-container{
+    font-family: Helvetica, Sans-serif;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+    /* overflow: hidden; */
+}
+
+mat-sidenav, mat-sidenav-content{
+    padding: 16px;
+    height: 100%;
+    background-color: white;
+}
+
+mat-sidenav{
+    background-color: white;
+    width: 175px;
+}
+span button.btn.btn-info{
+    background: #0366D6;
+}
+button.btn.btn-link{
+    text-decoration: none;
+    color: #0366D6;
+    width: 100%;
+}
+.atatitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+.atacontainer{
+    /* background-color: #e9ecef; */
+    min-height: 100%;
+    /* min-width: 1400px; */
+    /* width: 100%;*/
+    /* height: 100%;
+    display: flex;
+    flex-direction: column; 
+    flex: 1 0 auto; */
+}
+.atafooter{
+    background-color: #e9ecef;
+    position: fixed;
+    bottom: 0;
+    left: 17px;
+    right: 0;
+    width: 98%;
+  }
+  .whitespacer{
+      height: 150px;
+  }
+.stockcontainer {
+    background-color: #e9ecef;
+    min-width: 1400px;
+    
+}
+.usagecontainer{
+    min-width: 1400px; 
+    max-width: 100%;
+}
+.ataitem{
+    padding: 0 5px 5px 15px;
+}
+.ataleft{
+    text-align: left;
+    position: relative;
+    float:left;
+}
+.ataright{
+    text-align: right;
+    position: relative;
+    float:right;
+}
+.atacenter{
+    text-align: center;
+    /* position: relative;
+    float:center; */
+}
+.atavalue{
+    white-space: nowrap;
+}
+
+/* COPY FROM HERE */
+.stockitem{
+    padding: 0 0px 5px 15px;
+    text-align: center;
+}
+.sectionheadcontainer{
+    padding: 0;
+}
+.noborder
+{
+    border: none;
+}
+.sectionspacer{
+    margin-top: .58em; /* Adjust to your liking */
+    display: block; /* Could also use inline-block */
+}
+.carouselspacer{
+    margin-top: 2em; /* Adjust to your liking */
+    display: block; /* Could also use inline-block */
+}
+.bckwhite{
+    background-color: white;
+}
+.caloverflow{
+    overflow:scroll;
+    width: 100%;
+}
+.accordionwidth{
+    width: 100%;
+
+}
+.accordioncolor{
+    /* background-color: #e9ecef; */
+    background-color: #ffffff;
+    border: none;
+}
+.actionpanel{
+    padding: 0;
+    margin: 0;
+}
+.hiddenRow {
+    padding: 0 !important;
+}
+table{
+    overflow: auto;
+    width: 100%;
+}
+.th-nowrap{
+    white-space: nowrap;
+}
+.td-center{
+    text-align: center;
+}
+
+.nav-tabs{
+    border-bottom: none;
+}
+
+.minbutton200{
+    min-width: 100px;
+}
+
+.sectionheadcontainer{
+    padding: 0;
+}
+.sectionspacer{
+    margin-top: .58em; /* Adjust to your liking */
+    display: block; /* Could also use inline-block */
+}
+
+  /* .tableFixedHead {
+    height: 264px;
+    overflow-y: auto;
+    width: 100%;
+  }
+  .tableFixedHead th{
+    position: sticky;
+    top: 0;
+  } */

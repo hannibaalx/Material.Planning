@@ -1,0 +1,159 @@
+.bssContainer{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 98%;
+    background-color: white;
+}
+.bssHeader{
+    background-color: #f2f2f2;
+}
+.datacenter{
+    text-align: center;
+}
+.btn{
+    position: relative;
+    margin-top: 60px;
+}
+.texttop{
+    position: relative;
+}
+.chkDrop{
+    position: relative;
+    float: right;
+    left: -62%;
+}
+.td-center{
+    text-align: center;
+}
+table{
+    overflow: auto; 
+    width: 100% !important;
+    table-layout: fixed;
+    border: 1px solid #dee2e6;
+}
+.table-select-chk{
+    left: 2%;
+}
+th, td {
+    border: 1px solid#dee2e6;
+}
+th{
+    font-size: 12px;
+}
+.comment-toggle{
+    position: relative;
+    top: -15px;
+}
+.comment-btn-top{
+    position: relative;
+    top: -44px;
+    left: 110px;
+}
+.notification{
+    width: 100px;
+}
+.commentLabel{
+    font-size: 14px;
+}
+.dropped{
+    background-color:#17a2b8;
+    color:#ffffff
+}
+.linkbtn{
+    text-decoration: underline!important;
+}
+.dataright{
+    text-align: right;
+    position: relative;
+    top: -25px;
+    font-size: 10px;
+}
+.hoverable:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.mat-header-cell{
+    flex-direction: column;
+    justify-content: center;
+}
+.mat-cell{
+    font-size: 12px;
+    text-align: center;
+    justify-content: center;
+}
+.mat-button-wrapper{
+    position: relative;
+    left: 10px;
+}
+.mat-row:nth-of-type(even){
+    background-color: #f2f2f2;
+}
+.onhandtooltip{
+    white-space: pre-line;
+    color: #3f51b5;
+    font-size: 12px;
+    position: relative;
+    top: 2px;
+}
+
+.selectalltbtn{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    min-width: 30px;
+    background-color: #007bff;
+    color: #ffffff;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+table thead th{
+    flex-direction: column;
+    font-size: 14px;
+    font-family: 'AmericanSans';
+    justify-content: center;
+    background-color: #36495a!important;
+    color: #ffffff;
+}
+.save-btn-top{
+    position: relative;
+    color: #0078d2;
+    /* top: -44px; */
+    /* left: -160px; */
+}
+.drop-btn-disable{
+    position: relative;
+    /* left: -282px; */
+    top: 35px;
+    /* background-color: #999999; */
+    border-color:#999999;
+    color: #0078d2;
+}
+.drop-btn-enable{
+    position: relative;
+    /* left: -282px; */
+    top: 35px;
+    background-color: #ffffff;
+    color: #0078d2;
+}
+tr:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.pleasewaitind {
+    position: relative;
+    top: 150px;
+}

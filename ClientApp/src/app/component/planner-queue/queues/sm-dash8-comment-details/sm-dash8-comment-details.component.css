@@ -1,0 +1,95 @@
+.smdcdcontainer {
+  font-size: 12px;
+  margin: auto;
+  min-width: 80%;
+  max-width: 99%;
+}
+
+.table-container {
+  margin-top: 10px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.mat-column-name {
+  border-right: 1px solid grey;
+  align-self: stretch;
+  text-align: center
+}
+
+.mat-column-position {
+  border-right: 1px solid grey;
+  align-self: stretch;
+  text-align: center;
+}
+
+.mat-column-weight {
+  border-right: 1px solid grey;
+  align-self: stretch;
+  text-align: center;
+}
+
+.mat-column-symbol {
+  text-align: center;
+  align-self: stretch;
+}
+
+.mat-column-weight {
+  align-self: stretch;
+}
+.mat-cell, .mat-footer-cell {
+    font-size: 10px;
+    justify-content: center;
+}
+.mat-header-cell{
+  flex-direction: column;
+  font-size: 20vm;
+  font-family: 'AmericanSans';
+  justify-content: center;
+  background-color: #36495a!important;
+  color: #ffffff;
+}
+.mat-cell{
+  font-size: 12px;
+  text-align: center;
+  justify-content: center;
+}
+.mat-row:nth-of-type(even){
+  background-color: #f2f2f2;
+}
+.mat-row:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type {
+    padding-left: 0px;
+}
+mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-type {
+    padding-right: 0px;
+}
+.mat-column-IAG_SCHD{
+    width: 70px !important;
+    flex: none !important;
+}
+.mat-column-DASH8_DESC{
+    width: 200px !important;
+    flex: none !important;
+}
+.mat-column-REQUIRED_IND{
+    width: 100px !important;
+    flex: none !important;
+}
+.mat-column-QUANTITY_REQUIRED{
+    width: 90px !important;
+    flex: none !important;
+}
+.stroked-button {
+  background-color: #fff;
+  border: 2px solid #0078d2!important;
+  color: #4db4fa;
+  min-width: 115px;
+  font-size: 16px;
+  margin: 0 2px 0 5px!important;
+  line-height: 22px!important;
+  top: 2px;
+}

@@ -1,0 +1,23 @@
+mat-sidenav-container{
+    font-family: Helvetica, Sans-serif;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+    /* overflow: hidden; */
+}
+
+mat-sidenav, mat-sidenav-content{
+    padding: 16px;
+    height: 100%;
+    background-color: white;
+}
+
+mat-sidenav{
+    background-color: white;
+    width: 100px;
+}
+.reportTitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}

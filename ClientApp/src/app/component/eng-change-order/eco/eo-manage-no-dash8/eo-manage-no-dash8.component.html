@@ -1,0 +1,756 @@
+    <div class="form-container">
+      <!-- <div class="eotitle">
+        <h5><b>Manage EO No Dash 8</b></h5>
+      </div> -->
+      <mat-tab-group animationDuration="0ms">
+        <mat-tab label="Create New EO">
+          <form [formGroup]="dynamicForm" (ngSubmit)="submitDynamicForm(dynaForm)" #dynaForm="ngForm">
+            <mat-horizontal-stepper linear #stepperCreate>
+              <mat-step label="CREATE NEW EO" (click)="hideInventoryRptBtn=false; hideDownloadBtn=true; hideSaveBtn=false; hideInventoryRptBtn=true;">
+                <div class="row">
+                  <div class="col-3">
+                    <p>
+                      <mat-form-field floatLabel="auto" class="full-width" appearance="outline">
+                        <mat-label>EO NUMBER</mat-label>
+                        <input matInput type="text" formControlName="fcEoNumber" name="fcEoNumber" class="form-control" placeholder="Enter EO Number" required>
+                        <mat-icon matSuffix color="primary">flight_takeoff</mat-icon>
+                        <mat-hint>ENTER NEW EO NUMBER</mat-hint>
+                        <mat-error *ngIf="df.fcEoNumber.hasError('minLength(2)')">
+                          EO NUMBER MINIMUM LENGTH IS 2
+                        </mat-error>
+                        <mat-error *ngIf="df.fcEoNumber.hasError('required')">
+                          EO NUMBER IS <strong>REQUIRED</strong>
+                        </mat-error>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div class="col-3">
+                    <p>
+                      <mat-form-field floatLabel="auto" class="full-width" appearance="outline">
+                        <mat-label>EO DESCRIPTION</mat-label>
+                        <textarea matInput type="text" formControlName="fcEoDesc" name="fcEoDesc" class="form-control" rows="10"></textarea>
+                        <mat-icon matSuffix color="primary">description</mat-icon>
+                        <mat-hint>ENTER EO DESCRIPTION</mat-hint>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div class="col-3">
+                    <p>
+                      <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>NEW EO COMMENTS</mat-label>
+                        <textarea matInput type="text" formControlName="fcEoComment" name="fcEoComment" class="form-control" rows="10"></textarea>
+                        <mat-icon matSuffix color="primary">comment</mat-icon>
+                        <mat-hint>ENTER EO COMMENTS</mat-hint>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div class="col-2">
+                    <p>
+                      <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>AIRCRAFT COUNT</mat-label>
+                        <input matInput type="number" formControlName="fcAircraftCount" name="fcQty" class="form-control" placeholder="Enter QTY">
+                        <mat-icon matSuffix color="primary">flight</mat-icon>
+                        <mat-hint>ENTER AIRCRAFT COUNT</mat-hint>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <button type="button" mat-stroked-button matStepperNext class="stroked-button">NEXT</button>&nbsp;
+                  </div>
+                </div>
+                <ng-template matStepperIcon="edit">
+                  <mat-icon color="primary">edit</mat-icon>
+                </ng-template>
+              </mat-step>
+              <mat-step label="BUILD BOM DETAIL" (click)="hideInventoryRptBtn=true; hideDownloadBtn=true; hideSaveBtn=false;">
+                <div formArrayName="fcBomDetails" class="row" *ngFor="let x of formData.controls; let i = index;">
+                  <!-- let x of dynamicForm.get('fcBomDetails').controls -->
+                  <div [formGroupName]="i" class="col-2">
+                    <p>
+                      <mat-form-field floatLabel="auto" appearance="outline">
+                        <mat-label>ME PART NUMBER</mat-label>
+                        <input matInput type="text" formControlName="fcMePartNumber" name="fcMePartNumber" class="form-control" placeholder="ENTER ME PART NUMBER">
+                        <mat-icon matSuffix color="primary">build</mat-icon>
+                        <mat-hint>ENTER ME PART NUMBER</mat-hint>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div [formGroupName]="i" class="col-2">
+                    <p>
+                      <mat-form-field floatLabel="auto" appearance="outline">
+                        <mat-label>PRIME MPN</mat-label>
+                        <input matInput type="text" formControlName="fcPrimeMpn" name="fcPrimeMpn" class="form-control" placeholder="ENTER PRIME MPN">
+                        <mat-icon matSuffix color="primary">card_travel</mat-icon>
+                        <mat-hint>ENTER PRIME MPN</mat-hint>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div [formGroupName]="i" class="col-2">
+                    <p>
+                      <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>QTY</mat-label>
+                        <input matInput type="number" formControlName="fcQty" name="fcQty" class="form-control" placeholder="Enter QTY">
+                        <mat-icon matSuffix color="primary">scatter_plot</mat-icon>
+                        <mat-hint>ENTER QTY</mat-hint>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div [formGroupName]="i" class="col-2">
+                    <p>
+                      <mat-label>PART REQUIREMENT</mat-label>
+                      <mat-slide-toggle formControlName="fcPartRequirement" class="partreq" color="primary">Required</mat-slide-toggle>
+                      <!-- <mat-form-field class="full-width" appearance="outline">
+                                        <mat-label>PART REQUIREMENT</mat-label>
+                                        <mat-icon matSuffix color="primary">not_listed_location</mat-icon>
+                                        <mat-select [(value)]="selected" formControlName="fcPartRequirement" name="fcPartRequirement">
+                                            <mat-option class="form-control" *ngFor="let i of partRequirement" color="primary" [value]="i.label">
+                                                {{ i.label }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field> -->
+                      <!-- <mat-label>PART REQUIREMENT</mat-label>
+                                    <mat-radio-group formControlName="fcPartRequirement" id="fcPartRequirement{{i}}" name="fcPartRequirement" aria-label="PART REQUIREMENT">
+                                        <mat-radio-button value="AS REQUIRED">AS REQUIRED</mat-radio-button>&nbsp;
+                                        <mat-radio-button value="REQUIRED">REQUIRED</mat-radio-button>
+                                    </mat-radio-group> -->
+                    </p>
+                  </div>
+                  <div [formGroupName]="i" class="col-3">
+                    <p>
+                      <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>COMMENT</mat-label>
+                        <textarea matInput type="text" formControlName="fcComment" name="fcComment" class="form-control" rows="10"></textarea>
+                        <mat-icon matSuffix color="primary">notes</mat-icon>
+                        <mat-hint>ENTER COMMENT</mat-hint>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                  <div class="col-1">
+                    <p>
+                      <button type="button" mat-mini-fab color="primary" class="addremovebutton" (click)="removeBomDetail(i)" aria-label="icon button to remove a row of controls">
+                        <mat-icon>remove</mat-icon>
+                      </button>
+                    </p>
+                    <p>
+                      <button type="button" mat-mini-fab color="primary" class="addremovebutton" (click)="addBomDetail()" aria-label="icon button to add a row of controls">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <button type="button" mat-stroked-button matStepperPrevious class="stroked-button">BACK</button>
+                    &nbsp;
+                    <button type="button" mat-stroked-button matStepperNext class="stroked-button">NEXT</button>
+                  </div>
+                </div>
+                <ng-template matStepperIcon="edit">
+                  <mat-icon color="primary">edit</mat-icon>
+                </ng-template>
+              </mat-step>
+              <mat-step label="DONE">
+                <div class="row">
+                  <div>&nbsp;</div>
+                </div>
+                <div class="row">
+                  <div class="col-12 center-text">
+                    <button type="button" mat-stroked-button matStepperPrevious class="stroked-button" (click)="hideTable=true;downloadEoInventoryReport=[]; hideSaveBtn=false; hideInventoryRptBtn=true; hideDownloadBtn=true">BACK</button>
+                    &nbsp;
+                    <span [hidden]="hideSaveBtn">
+                      <button type="submit" mat-stroked-button class="stroked-button">SAVE</button>
+                    </span>
+                    <span [hidden]="hideInventoryRptBtn">
+                      &nbsp;<button type="button" mat-stroked-button  class="stroked-button" (click)="generateReport(dynaForm)">INVENTORY REPORT</button>
+                      <span class="loadingSpinner">
+                        <mat-spinner diameter="30" [hidden]="hideSpinner"></mat-spinner>
+                      </span>
+                    </span>
+                    <span [hidden]="hideDownloadBtn">
+                      &nbsp;<button type="button" mat-stroked-button class="stroked-button" (click)="exportReport()">DOWNLOAD</button>
+                      <span class="loadingSpinner">
+                        <mat-spinner diameter="30" [hidden]="hideSpinner"></mat-spinner>
+                      </span>
+                    </span>
+                    <span>
+                      &nbsp;<button type="button" mat-stroked-button class="stroked-button" (click)="stepperCreate.reset(); hideTable=true; downloadEoInventoryReport=null; reactiveDynamicForm();hideSaveBtn=false; hideDownloadBtn=true;">CREATE ANOTHER EO</button>
+                    </span>
+                  </div>
+                </div>
+                <!-- <app-save-snackbar (saveSnackbar)="sendSaveEvent($event)"></app-save-snackbar> -->
+                <ng-template matStepperIcon="edit">
+                  <mat-icon color="primary">edit</mat-icon>
+                </ng-template>
+                <div class="row">
+                  <div class="col-12">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="tableFixedHead">
+                  <table id="tblInvRepResult" class="table table-striped" [hidden]="hideTable">
+                    <thead class="thead-light">
+                      <tr>
+                        <th class="nowrap">EO NUMBER</th>
+                        <th class="nowrap">EO DESC</th>
+                        <th class="nowrap">NEW EO COMMENTS</th>
+                        <th class="nowrap">ME PART NUMBER</th>
+                        <th class="nowrap">PRIME MPN</th>
+                        <th>QTY</th>
+                        <th class="nowrap">PART REQUIREMENT</th>
+                        <th class="nowrap">ME COMMENT</th>
+                        <th class="nowrap">AIRCRAFT COUNT</th>
+                        <th class="nowrap">ME PART NUMBER</th>
+                        <th class="nowrap">PRIME MPN</th>
+                        <th>UI</th>
+                        <th class="nowrap">SHLF LIFE</th>
+                        <th class="nowrap">CTLG LT</th>
+                        <th class="nowrap">CTLG PRICE</th>
+                        <th>MT</th>
+                        <th>ESS</th>
+                        <th class="nowrap">CHEMCL IND</th>
+                        <th class="nowrap">TTL OH</th>
+                        <th class="nowrap">TTL PO</th>
+                        <th class="nowrap">TTL RO</th>
+                        <th class="nowrap">TTL ITS</th>
+                        <th class="nowrap">TTL REQ EO</th>
+                        <th class="nowrap">BALANCE W OH</th>
+                        <th class="nowrap">BALANCE W OH PO</th>
+                        <th class="nowrap">CLT OH</th>
+                        <th class="nowrap">D00 OH</th>
+                        <th class="nowrap">DWH OH</th>
+                        <th class="nowrap">PHX OH</th>
+                        <th class="nowrap">PIT OH</th>
+                        <th class="nowrap">TUL OH</th>
+                        <th class="nowrap">T08 OH</th>
+                        <th class="nowrap">JFK OH</th>
+                        <th class="nowrap">LAX OH</th>
+                        <th class="nowrap">MIA OH</th>
+                        <th class="nowrap">ORD OH</th>
+                        <th class="nowrap">PHL OH</th>
+                        <th class="nowrap">ALT OH</th>
+                        <th class="nowrap">AUS OH</th>
+                        <th class="nowrap">BOS OH</th>
+                        <th class="nowrap">CDG OH</th>
+                        <th class="nowrap">CUN OH</th>
+                        <th class="nowrap">DCA OH</th>
+                        <th class="nowrap">DEN OH</th>
+                        <th class="nowrap">EWR OH</th>
+                        <th class="nowrap">FRA OH</th>
+                        <th class="nowrap">GRU OH</th>
+                        <th class="nowrap">IAH OH</th>
+                        <th class="nowrap">LAS OH</th>
+                        <th class="nowrap">LGA OH</th>
+                        <th class="nowrap">LHR OH</th>
+                        <th class="nowrap">MCO OH</th>
+                        <th class="nowrap">MEX OH</th>
+                        <th class="nowrap">NRT OH</th>
+                        <th class="nowrap">RDU OH</th>
+                        <th class="nowrap">SAN OH</th>
+                        <th class="nowrap">SAT OH</th>
+                        <th class="nowrap">SCL OH</th>
+                        <th class="nowrap">SEA OH</th>
+                        <th class="nowrap">SFO OH</th>
+                        <th class="nowrap">STL OH</th>
+                        <th class="nowrap">TPA OH</th>
+                        <th class="nowrap">UPDATED DATETIME</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let x of downloadEoInventoryReport">
+                        <td>{{ x.EO_NUMBER }}</td>
+                        <td>{{ x.EO_DESC }}</td>
+                        <td>{{ x.NEW_EO_COMMENTS }}</td>
+                        <td>{{ x.ME_PART_NUMBER }}</td>
+                        <td>{{ x.A_PRIME_MPN }}</td>
+                        <td>{{ x.QTY }}</td>
+                        <td>{{ x.PART_REQUIREMENT }}</td>
+                        <td>{{ x.ME_COMMENT }}</td>
+                        <td>{{ x.AIRCRAFT_COUNT }}</td>
+                        <td>{{ x.B_ME_PART_NUMBER }}</td>
+                        <td>{{ x.B_PRIME_MPN }}</td>
+                        <td>{{ x.UI }}</td>
+                        <td>{{ x.SHLF_LIFE }}</td>
+                        <td>{{ x.CTLG_LT }}</td>
+                        <td>{{ x.CTLG_PRICE }}</td>
+                        <td>{{ x.MT }}</td>
+                        <td>{{ x.ESS }}</td>
+                        <td>{{ x.CHEMCL_IND }}</td>
+                        <td>{{ x.TTL_OH }}</td>
+                        <td>{{ x.TTL_PO }}</td>
+                        <td>{{ x.TTL_RO }}</td>
+                        <td>{{ x.TTL_ITS }}</td>
+                        <td>{{ x.TTL_REQ_EO }}</td>
+                        <td>{{ x.BALANCE_W_OH }}</td>
+                        <td>{{ x.BALANCE_W_OH_PO }}</td>
+                        <td>{{ x.CLT_OH }}</td>
+                        <td>{{ x.D00_OH }}</td>
+                        <td>{{ x.DWH_OH }}</td>
+                        <td>{{ x.PHX_OH }}</td>
+                        <td>{{ x.PIT_OH }}</td>
+                        <td>{{ x.TUL_OH }}</td>
+                        <td>{{ x.T08_OH }}</td>
+                        <td>{{ x.JFK_OH }}</td>
+                        <td>{{ x.LAX_OH }}</td>
+                        <td>{{ x.MIA_OH }}</td>
+                        <td>{{ x.ORD_OH }}</td>
+                        <td>{{ x.PHL_OH }}</td>
+                        <td>{{ x.ALT_OH }}</td>
+                        <td>{{ x.AUS_OH }}</td>
+                        <td>{{ x.BOS_OH }}</td>
+                        <td>{{ x.CDG_OH }}</td>
+                        <td>{{ x.CUN_OH }}</td>
+                        <td>{{ x.DCA_OH }}</td>
+                        <td>{{ x.DEN_OH }}</td>
+                        <td>{{ x.EWR_OH }}</td>
+                        <td>{{ x.FRA_OH }}</td>
+                        <td>{{ x.GRU_OH }}</td>
+                        <td>{{ x.IAH_OH }}</td>
+                        <td>{{ x.LAS_OH }}</td>
+                        <td>{{ x.LGA_OH }}</td>
+                        <td>{{ x.LHR_OH }}</td>
+                        <td>{{ x.MCO_OH }}</td>
+                        <td>{{ x.MEX_OH }}</td>
+                        <td>{{ x.NRT_OH }}</td>
+                        <td>{{ x.RDU_OH }}</td>
+                        <td>{{ x.SAN_OH }}</td>
+                        <td>{{ x.SAT_OH }}</td>
+                        <td>{{ x.SCL_OH }}</td>
+                        <td>{{ x.SEA_OH }}</td>
+                        <td>{{ x.SFO_OH }}</td>
+                        <td>{{ x.STL_OH }}</td>
+                        <td>{{ x.TPA_OH }}</td>
+                        <td>{{ x.UPDATED_DATETIME | date:'yyyy-MM-dd' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </mat-step>
+            </mat-horizontal-stepper>
+          </form>
+        </mat-tab>
+        <mat-tab label="Edit existing EO">
+          <form [formGroup]="deForm" (ngSubmit)="submitDynamicEditForm(dynaEditForm)" #dynaEditForm="ngForm">
+            <mat-horizontal-stepper linear #stepperEdit>
+              <mat-step label="SEARCH EXISTING EO">
+                <div class="row">
+                  <div class="col-3">
+                    <p>
+                      <mat-form-field floatLabel="auto" class="full-width" appearance="outline">
+                        <mat-label>SEARCH EO NUMBER</mat-label>
+                        <input matInput type="text" #fcSearchEoNumberEdit formControlName="fcSearchEoNumberEdit" name="fcSearchEoNumberEdit" class="form-control" placeholder="Enter EO Number" (input)="autoSearch($event, 'eo')" required>
+                        <mat-icon matSuffix color="primary">flight_takeoff</mat-icon>
+                        <mat-hint>ENTER EXISTING EO NUMBER</mat-hint>
+                        <mat-error *ngIf="def.fcSearchEoNumberEdit.hasError('minLength(2)')">
+                          EO NUMBER MINIMUM LENGTH IS 2
+                        </mat-error>
+                        <mat-error *ngIf="def.fcSearchEoNumberEdit.hasError('required')">
+                          EO NUMBER IS <strong>REQUIRED</strong>
+                        </mat-error>
+                        <ul *ngIf="filteredEo$ && hideEoNumber" class="search-result">
+                          <li *ngFor="let en of filteredEo$ | async" (click)="fcSearchEoNumberEdit.value = en.EO_NUMBER;hideEoNumber= false;" value="en.EO_NUMBER">
+                              {{ en.EO_NUMBER }}                    
+                          </li>
+                        </ul>
+                      </mat-form-field>
+                    </p>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <button type="button" mat-stroked-button matStepperNext class="stroked-button" [disabled]="hideEoNumber && fcSearchEoNumberEdit.value.length > 2 " (click)="getManageEoNoDash8FormData(fcSearchEoNumberEdit.value);">NEXT</button>&nbsp;
+                  </div>
+                </div>
+              </mat-step>
+              <mat-step label="EDIT EXISTING EO" (click)="hideInventoryEditRptBtn=false; hideDownloadEditBtn=true; hideSaveEditBtn=false; hideInventoryRptEditBtn=true;">
+                <div>
+                  <!--*ngIf="stepContent?.controls"-->
+                  <div class="row">
+                    <div class="col-3">
+                      <p>
+                        <mat-form-field floatLabel="auto" class="full-width" appearance="outline">
+                          <mat-label>EO NUMBER</mat-label>
+                          <input matInput type="text" #fcEoNumberEdit formControlName="fcEoNumberEdit" name="fcEoNumberEdit" [value]="fcSearchEoNumberEdit.value" class="form-control" placeholder="Enter EO Number" readonly>
+                          <mat-icon matSuffix color="primary">flight_takeoff</mat-icon>
+                        </mat-form-field>
+                      </p>
+                    </div>
+                    <div class="col-3">
+                      <p>
+                        <mat-form-field floatLabel="auto" class="full-width" appearance="outline">
+                          <mat-label>EO DESCRIPTION</mat-label>
+                          <textarea matInput type="text" #fcEoDescEdit formControlName="fcEoDescEdit" name="fcEoDescEdit" class="form-control" rows="10" [value]="stepContent?.value[0]?.fcEoDescEdit"></textarea>
+                          <mat-icon matSuffix color="primary">description</mat-icon>
+                          <mat-hint>EDIT EO DESCRIPTION</mat-hint>
+                        </mat-form-field>
+                      </p>
+                    </div>
+                    <div class="col-3">
+                      <p>
+                        <mat-form-field class="full-width" appearance="outline">
+                          <mat-label>EDIT EO COMMENTS</mat-label>
+                          <textarea matInput type="text" formControlName="fcEoCommentEdit" name="fcEoCommentEdit" class="form-control" rows="10" [value]="stepContent?.value[0]?.fcEoCommentEdit"></textarea>
+                          <mat-icon matSuffix color="primary">comment</mat-icon>
+                          <mat-hint>EDIT EO COMMENTS</mat-hint>
+                        </mat-form-field>
+                      </p>
+                    </div>
+                    <div class="col-2">
+                      <p>
+                        <mat-form-field class="full-width" appearance="outline">
+                          <mat-label>AIRCRAFT COUNT</mat-label>
+                          <input matInput type="number" formControlName="fcAircraftCountEdit" name="fcAircraftCountEdit" class="form-control" placeholder="EDIT QTY" [value]="+stepContent?.value[0]?.fcAircraftCountEdit">
+                          <mat-icon matSuffix color="primary">flight</mat-icon>
+                          <mat-hint>EDIT AIRCRAFT COUNT</mat-hint>
+                        </mat-form-field>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-4">
+                    <button type="button" mat-stroked-button class="stroked-button" matStepperPrevious>BACK</button>
+                    &nbsp;
+                    <button type="button" mat-stroked-button class="stroked-button" matStepperNext>NEXT</button>&nbsp;
+                    &nbsp;
+                    <button type="button" mat-stroked-button class="stroked-button" (click)="deleteEoNumber(fcSearchEoNumberEdit.value);hideInventoryRptEditBtn=true; hideDownloadEditBtn=true; hideSaveEditBtn=false; stepperEdit.reset();">DELETE EO</button>
+                  </div>
+                </div>
+                <ng-template matStepperIcon="edit">
+                  <mat-icon color="primary">edit</mat-icon>
+                </ng-template>
+              </mat-step>
+              <mat-step label="EDIT BOM DETAIL" (click)="hideInventoryRptEditBtn=true; hideDownloadEditBtn=true; hideSaveEditBtn=false;">
+                <div formArrayName="fcBomDetailsEdit" class="row">
+                  <ng-container *ngFor="let xx of _fcBomDetailsEdit.controls; let idx = index;" [formGroupName]="idx">
+                    <div class="col-2">
+                      <p>
+                        <mat-form-field floatLabel="auto" appearance="outline" hidden="true">
+                          <mat-label>ID</mat-label>
+                          <input matInput type="text" formControlName="ID" name="ID" class="form-control" placeholder="ID" [value]="xx.value.ID" readonly>
+                          <mat-icon matSuffix color="primary">info</mat-icon>
+                        </mat-form-field>
+                        <mat-form-field floatLabel="auto" appearance="outline">
+                          <mat-label>ME PART NUMBER</mat-label>
+                          <input matInput type="text" formControlName="fcMePartNumberEdit" name="fcMePartNumberEdit" class="form-control" placeholder="EDIT ME PART NUMBER" [value]="xx.value.fcMePartNumberEdit">
+                          <mat-icon matSuffix color="primary">build</mat-icon>
+                          <mat-hint>EDIT ME PART NUMBER</mat-hint>
+                        </mat-form-field>
+                      </p>
+                    </div>
+                    <div class="col-2">
+                      <p>
+                        <mat-form-field floatLabel="auto" appearance="outline">
+                          <mat-label>PRIME MPN</mat-label>
+                          <input matInput type="text" formControlName="fcPrimeMpnEdit" name="fcPrimeMpnEdit" class="form-control" placeholder="EDIT PRIME MPN" [value]="xx.value.fcPrimeMpnEdit">
+                          <mat-icon matSuffix color="primary">card_travel</mat-icon>
+                          <mat-hint>EDIT PRIME MPN</mat-hint>
+                        </mat-form-field>
+                      </p>
+                    </div>
+                    <div class="col-2">
+                      <p>
+                        <mat-form-field class="full-width" appearance="outline">
+                          <mat-label>QTY</mat-label>
+                          <input matInput type="number" formControlName="fcQtyEdit" name="fcQtyEdit" class="form-control" placeholder="EDIT QTY" [value]="xx.value.fcQtyEdit">
+                          <mat-icon matSuffix color="primary">scatter_plot</mat-icon>
+                          <mat-hint>EDIT QTY</mat-hint>
+                        </mat-form-field>
+                      </p>
+                    </div>
+                    <div class="col-2">
+                      <p>
+                        <mat-label>PART REQUIREMENT</mat-label>
+                        <mat-slide-toggle formControlName="fcPartRequirementEdit" color="primary" [checked]="xx.value.fcPartRequirementEdit">Required</mat-slide-toggle>
+                      </p>
+                    </div>
+                    <div class="col-3">
+                      <p>
+                        <mat-form-field class="full-width" appearance="outline">
+                          <mat-label>COMMENT</mat-label>
+                          <textarea matInput type="text" formControlName="fcCommentEdit" name="fcCommentEdit" class="form-control" rows="10" [value]="xx.value.fcCommentEdit"></textarea>
+                          <mat-icon matSuffix color="primary">notes</mat-icon>
+                          <mat-hint>EDIT COMMENT</mat-hint>
+                        </mat-form-field>
+                      </p>
+                    </div>
+                    <div class="col-1">
+                      <p>
+                        <button type="button" mat-mini-fab color="primary" class="addremovebutton" (click)="removeEditBomDetail(idx, xx.value.ID)" aria-label="icon button to remove a row of controls">
+                          <mat-icon>remove</mat-icon>
+                        </button>
+                      </p>
+                      <p>
+                        <button type="button" mat-mini-fab color="primary" class="addremovebutton" (click)="addBomDetailEdit()" aria-label="icon button to add a row of controls">
+                          <mat-icon>add</mat-icon>
+                        </button>
+                      </p>
+                    </div>
+                  </ng-container>
+                  <!-- {{deForm.value | json}} -->
+                </div>
+                <div class="row">
+                  <div class="col-3">
+                    <button type="button" mat-stroked-button class="stroked-button" matStepperPrevious>BACK</button>
+                    &nbsp;
+                    <button type="button" mat-stroked-button class="stroked-button" matStepperNext>NEXT</button>
+                  </div>
+                </div>
+                <ng-template matStepperIcon="edit">
+                  <mat-icon color="primary">edit</mat-icon>
+                </ng-template>
+              </mat-step>
+              <mat-step label="DONE">
+                <div class="row">
+                  <div>&nbsp;</div>
+                </div>
+                <div class="row">
+                  <div class="col-12 center-text">
+                    <button type="button" mat-stroked-button class="stroked-button" matStepperPrevious (click)="hideTable=true;downloadEoInventoryReport=[]; hideSaveBtnEdit=false; hideInventoryRptBtnEdit=true; hideDownloadBtnEdit=true">BACK</button>
+                    &nbsp;
+                    <span [hidden]="hideSaveBtnEdit">
+                      <button type="submit" mat-stroked-button class="stroked-button">SAVE</button>
+                    </span>
+                    <span [hidden]="hideInventoryRptBtnEdit">
+                      &nbsp;<button type="button" mat-stroked-button class="stroked-button" (click)="generateReportEdit(dynaEditForm)">INVENTORY REPORT</button>
+                      <span class="loadingSpinner">
+                        <mat-spinner diameter="30" [hidden]="hideSpinnerEdit"></mat-spinner>
+                      </span>
+                    </span>
+                    <span [hidden]="hideDownloadBtnEdit">
+                      &nbsp;<button type="button" mat-stroked-button class="stroked-button" (click)="exportReport()">DOWNLOAD</button>
+                      <span class="loadingSpinner">
+                        <mat-spinner diameter="30" [hidden]="hideSpinnerEdit"></mat-spinner>
+                      </span>
+                    </span>
+                    <span>
+                      &nbsp;<button type="button" mat-stroked-button class="stroked-button" (click)="hideTable=true; downloadEoInventoryReport=null; deForm.reset(); stepperEdit.reset(); reactiveDynamicEditForm(); hideEoNumber= true; hideSaveBtnEdit=false; hideInventoryRptBtnEdit=true; hideDownloadBtnEdit=true">EDIT ANOTHER EO</button>
+                    </span>
+                  </div>
+                </div>
+                <!-- <app-save-snackbar (saveSnackbar)="sendSaveEvent($event)"></app-save-snackbar> -->
+                <ng-template matStepperIcon="edit">
+                  <mat-icon color="primary">edit</mat-icon>
+                </ng-template>
+                <div class="row">
+                  <div class="col-12">
+                    &nbsp;
+                  </div>
+                </div>
+                <div class="tableFixedHead">
+                  <table id="tblInvRepResult" class="table table-striped" [hidden]="hideTable">
+                    <!-- <thead class="thead-light">
+                      <tr>
+                        <th>EO NUMBER</th>
+                        <th>EO DESC</th>
+                        <th>NEW EO COMMENTS</th>
+                        <th class="nowrap">ME PART NUMBER</th>
+                        <th class="nowrap">PRIME MPN</th>
+                        <th>QTY</th>
+                        <th>PART REQUIREMENT</th>
+                        <th>ME COMMENT</th>
+                        <th>AIRCRAFT COUNT</th>
+                        <th class="nowrap">ME PART NUMBER</th>
+                        <th class="nowrap">PRIME MPN</th>
+                        <th>UI</th>
+                        <th>SHLF LIFE</th>
+                        <th>CTLG LT</th>
+                        <th>CTLG PRICE</th>
+                        <th>MT</th>
+                        <th>ESS</th>
+                        <th>CHEMCL IND</th>
+                        <th>TTL OH</th>
+                        <th>TTL PO</th>
+                        <th>TTL RO</th>
+                        <th>TTL ITS</th>
+                        <th>CLT OH</th>
+                        <th>PHX OH</th>
+                        <th>PIT OH</th>
+                        <th>TUL OH</th>
+                        <th>D00 OH</th>
+                        <th>DWH OH</th>
+                        <th>UPDATED_DATETIME</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let x of downloadEoInventoryReport">
+                        <td>{{ x.EO_NUMBER }}</td>
+                        <td>{{ x.EO_DESC }}</td>
+                        <td>{{ x.NEW_EO_COMMENTS }}</td>
+                        <td class="nowrap">{{ x.ME_PART_NUMBER }}</td>
+                        <td class="nowrap">{{ x.A_PRIME_MPN }}</td>
+                        <td>{{ x.QTY }}</td>
+                        <td>{{ x.PART_REQUIREMENT }}</td>
+                        <td>{{ x.ME_COMMENT }}</td>
+                        <td>{{ x.AIRCRAFT_COUNT }}</td>
+                        <td class="nowrap">{{ x.B_ME_PART_NUMBER }}</td>
+                        <td class="nowrap">{{ x.B_PRIME_MPN }}</td>
+                        <td>{{ x.UI }}</td>
+                        <td>{{ x.SHLF_LIFE }}</td>
+                        <td>{{ x.CTLG_LT }}</td>
+                        <td>{{ x.CTLG_PRICE }}</td>
+                        <td>{{ x.MT }}</td>
+                        <td>{{ x.ESS }}</td>
+                        <td>{{ x.CHEMCL_IND }}</td>
+                        <td>{{ x.TTL_OH }}</td>
+                        <td>{{ x.TTL_ITS }}</td>
+                        <td>{{ x.TTL_PO }}</td>
+                        <td>{{ x.TTL_RO }}</td>
+                        <td>{{ x.CLT_OH }}</td>
+                        <td>{{ x.PHX_OH }}</td>
+                        <td>{{ x.PIT_OH }}</td>
+                        <td>{{ x.TUL_OH }}</td>
+                        <td>{{ x.D00_OH }}</td>
+                        <td>{{ x.DWH_OH }}</td>
+                        <td>{{ x.UPDATED_DATETIME }}</td>
+                      </tr> -->
+
+                      <thead class="thead-light">
+                        <tr>
+                          <th class="nowrap">EO NUMBER</th>
+                          <th class="nowrap">EO DESC</th>
+                          <th class="nowrap">NEW EO COMMENTS</th>
+                          <th class="nowrap">ME PART NUMBER</th>
+                          <th class="nowrap">PRIME MPN</th>
+                          <th>QTY</th>
+                          <th class="nowrap">PART REQUIREMENT</th>
+                          <th class="nowrap">ME COMMENT</th>
+                          <th class="nowrap">AIRCRAFT COUNT</th>
+                          <th class="nowrap">ME PART NUMBER</th>
+                          <th class="nowrap">PRIME MPN</th>
+                          <th>UI</th>
+                          <th class="nowrap">SHLF LIFE</th>
+                          <th class="nowrap">CTLG LT</th>
+                          <th class="nowrap">CTLG PRICE</th>
+                          <th>MT</th>
+                          <th>ESS</th>
+                          <th class="nowrap">CHEMCL IND</th>
+                          <th class="nowrap">TTL OH</th>
+                          <th class="nowrap">TTL PO</th>
+                          <th class="nowrap">TTL RO</th>
+                          <th class="nowrap">TTL ITS</th>
+                          <th class="nowrap">TTL REQ EO</th>
+                          <th class="nowrap">BALANCE W OH</th>
+                          <th class="nowrap">BALANCE W OH PO</th>
+                          <th class="nowrap">CLT OH</th>
+                          <th class="nowrap">D00 OH</th>
+                          <th class="nowrap">DWH OH</th>
+                          <th class="nowrap">PHX OH</th>
+                          <th class="nowrap">PIT OH</th>
+                          <th class="nowrap">TUL OH</th>
+                          <th class="nowrap">T08 OH</th>
+                          <th class="nowrap">JFK OH</th>
+                          <th class="nowrap">LAX OH</th>
+                          <th class="nowrap">MIA OH</th>
+                          <th class="nowrap">ORD OH</th>
+                          <th class="nowrap">PHL OH</th>
+                          <th class="nowrap">ALT OH</th>
+                          <th class="nowrap">AUS OH</th>
+                          <th class="nowrap">BOS OH</th>
+                          <th class="nowrap">CDG OH</th>
+                          <th class="nowrap">CUN OH</th>
+                          <th class="nowrap">DCA OH</th>
+                          <th class="nowrap">DEN OH</th>
+                          <th class="nowrap">EWR OH</th>
+                          <th class="nowrap">FRA OH</th>
+                          <th class="nowrap">GRU OH</th>
+                          <th class="nowrap">IAH OH</th>
+                          <th class="nowrap">LAS OH</th>
+                          <th class="nowrap">LGA OH</th>
+                          <th class="nowrap">LHR OH</th>
+                          <th class="nowrap">MCO OH</th>
+                          <th class="nowrap">MEX OH</th>
+                          <th class="nowrap">NRT OH</th>
+                          <th class="nowrap">RDU OH</th>
+                          <th class="nowrap">SAN OH</th>
+                          <th class="nowrap">SAT OH</th>
+                          <th class="nowrap">SCL OH</th>
+                          <th class="nowrap">SEA OH</th>
+                          <th class="nowrap">SFO OH</th>
+                          <th class="nowrap">STL OH</th>
+                          <th class="nowrap">TPA OH</th>
+                          <th class="nowrap">UPDATED DATETIME</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let x of downloadEoInventoryReport">
+                          <td>{{ x.EO_NUMBER }}</td>
+                          <td>{{ x.EO_DESC }}</td>
+                          <td>{{ x.NEW_EO_COMMENTS }}</td>
+                          <td class="nowrap">{{ x.ME_PART_NUMBER }}</td>
+                          <td>{{ x.A_PRIME_MPN }}</td>
+                          <td>{{ x.QTY }}</td>
+                          <td>{{ x.PART_REQUIREMENT }}</td>
+                          <td>{{ x.ME_COMMENT }}</td>
+                          <td>{{ x.AIRCRAFT_COUNT }}</td>
+                          <td class="nowrap">{{ x.B_ME_PART_NUMBER }}</td>
+                          <td class="nowrap">{{ x.B_PRIME_MPN }}</td>
+                          <td>{{ x.UI }}</td>
+                          <td>{{ x.SHLF_LIFE }}</td>
+                          <td>{{ x.CTLG_LT }}</td>
+                          <td>{{ x.CTLG_PRICE }}</td>
+                          <td>{{ x.MT }}</td>
+                          <td>{{ x.ESS }}</td>
+                          <td>{{ x.CHEMCL_IND }}</td>
+                          <td>{{ x.TTL_OH }}</td>
+                          <td>{{ x.TTL_PO }}</td>
+                          <td>{{ x.TTL_RO }}</td>
+                          <td>{{ x.TTL_ITS }}</td>
+                          <td>{{ x.TTL_REQ_EO }}</td>
+                          <td>{{ x.BALANCE_W_OH }}</td>
+                          <td>{{ x.BALANCE_W_OH_PO }}</td>
+                          <td>{{ x.CLT_OH }}</td>
+                          <td>{{ x.D00_OH }}</td>
+                          <td>{{ x.DWH_OH }}</td>
+                          <td>{{ x.PHX_OH }}</td>
+                          <td>{{ x.PIT_OH }}</td>
+                          <td>{{ x.TUL_OH }}</td>
+                          <td>{{ x.T08_OH }}</td>
+                          <td>{{ x.JFK_OH }}</td>
+                          <td>{{ x.LAX_OH }}</td>
+                          <td>{{ x.MIA_OH }}</td>
+                          <td>{{ x.ORD_OH }}</td>
+                          <td>{{ x.PHL_OH }}</td>
+                          <td>{{ x.ALT_OH }}</td>
+                          <td>{{ x.AUS_OH }}</td>
+                          <td>{{ x.BOS_OH }}</td>
+                          <td>{{ x.CDG_OH }}</td>
+                          <td>{{ x.CUN_OH }}</td>
+                          <td>{{ x.DCA_OH }}</td>
+                          <td>{{ x.DEN_OH }}</td>
+                          <td>{{ x.EWR_OH }}</td>
+                          <td>{{ x.FRA_OH }}</td>
+                          <td>{{ x.GRU_OH }}</td>
+                          <td>{{ x.IAH_OH }}</td>
+                          <td>{{ x.LAS_OH }}</td>
+                          <td>{{ x.LGA_OH }}</td>
+                          <td>{{ x.LHR_OH }}</td>
+                          <td>{{ x.MCO_OH }}</td>
+                          <td>{{ x.MEX_OH }}</td>
+                          <td>{{ x.NRT_OH }}</td>
+                          <td>{{ x.RDU_OH }}</td>
+                          <td>{{ x.SAN_OH }}</td>
+                          <td>{{ x.SAT_OH }}</td>
+                          <td>{{ x.SCL_OH }}</td>
+                          <td>{{ x.SEA_OH }}</td>
+                          <td>{{ x.SFO_OH }}</td>
+                          <td>{{ x.STL_OH }}</td>
+                          <td>{{ x.TPA_OH }}</td>
+                          <td class="nowrap">{{ x.UPDATED_DATETIME | date:'yyyy-MM-dd' }}</td>
+                        </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </mat-step>
+            </mat-horizontal-stepper>
+            <!-- <button type="button" mat-stroked-button class="stroked-button" (click)="eoSearch()">SEARCH EO</button>&nbsp; -->
+          </form>
+        </mat-tab>
+      </mat-tab-group>
+        <app-maint-snackbar></app-maint-snackbar>
+    </div>
+
+
+

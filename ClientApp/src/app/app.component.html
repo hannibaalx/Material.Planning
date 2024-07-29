@@ -1,0 +1,158 @@
+<head>
+  <title>{{tabTitle}}</title>
+</head>
+<body>
+  <!-- <app-nav-menu></app-nav-menu> -->
+<div class="main-container">
+  <mat-sidenav-container fullscreen autosize>
+    <mat-sidenav #sidenav mode="over">
+      <div class="row">
+        <div class="col-12">
+          <span class="im3sidenavheader">IM3</span>&nbsp;<span class="sidenavheader">Inventory Manager</span>
+          <!-- <span class="im3sidenav">&nbsp;IM3</span> -->
+          <button mat-button class="sidenavclose" tabindex="-1" (click)="sidenav.toggle()">X</button>
+        </div>
+      </div>
+      <hr />
+      <div class="sidemenu">
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
+          <!-- This is the tree node template for leaf nodes -->
+          <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+            <!-- use a disabled button to provide padding for tree leaf -->
+            <!-- <button mat-icon-button>
+              {{node.name}}
+            </button>             -->
+            <a mat-button routerLink="{{node.url}}" (click)="sidenav.toggle()">{{ node.name }}</a>
+          </mat-tree-node>
+          <!-- This is the tree node template for expandable nodes -->
+          <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+            <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name" tabindex="-1" class="treebtn">
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                {{node.name != 'Reports' ? treeControl.expand(node): ''}}
+                <!-- {{node.name != 'Reports' ? treeControl.expand(node) treeControl.toggle(): ''}} -->
+              </mat-icon>
+            </button>
+            {{node.name}}
+          </mat-tree-node>
+        </mat-tree>
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="row">
+        <div class="col-6 mainheader">
+          <button class="hamburger_btn" tabindex="-1" (click)="sidenav.toggle()"><i class="fa fa-bars hamburger_bars"></i></button>
+          &nbsp;
+          <span class="im3title">
+            <h5><b><span class="inventory_mngr_header">IM3</span>&nbsp;<span class="inventory_mngr">Inventory Manager</span></b></h5>
+          </span>
+        </div>
+        <div class="col-6 util-buttons">
+          <button mat-button class="util_btn" tabindex="-1" [matMenuTriggerFor]="appmenu"><span class="material-icons app_menu_icon">apps</span></button>
+            <mat-menu #appmenu="matMenu">
+              <a mat-menu-item target="_blank" href="https://spteam.aa.com/sites/TechOpsApps/TechOpsHome ">Tech Ops Home</a>
+              <a mat-menu-item target="_blank"  href="https://app.powerbi.com/links/xJFAQVwh60?ctid=49793faf-eb3f-4d99-a0cf-aef7cce79dc1&pbi_source=linkShare">Fleet Reference</a>
+              <!-- <a mat-menu-item target="_blank" href="https://tableau.aa.com/views/DOLDashboard/AALActualsMatrix?:showAppBanner=false&:origin=viz_share_link&:display_count=n&:showVizHome=n">DOL</a> -->
+              <a mat-menu-item target="_self" download="Fleet List.xlsx" href="assets/Fleet List.xlsx">Fleet List</a>
+              <a mat-menu-item target="_blank" href="https://asom.apps.aa.com/#/">ASOM</a>
+              <a mat-menu-item target="_blank" href="https://techopshub.me.aa.com/1.1/#/aircraft">SAFE Line MOC</a>
+              <a mat-menu-item target="_blank" href="https://techopsk2.aa.com/Runtime/Runtime/Form/TEQApp.Home.Form">K2 Application Home</a>
+              <a mat-menu-item target="_blank" href="https://spteam.aa.com/sites/maint/MaintPlan/Base/Planning/DockPlan/SitePages/Home.aspx">Dock Plan</a>
+              <a mat-menu-item target="_blank" href="https://app.powerbi.com/links/85olVMtJv1?ctid=49793faf-eb3f-4d99-a0cf-aef7cce79dc1&pbi_source=linkShare">Replenishment Matrix</a>
+              <a mat-menu-item target="_self" href="./iotool">IO Tool</a>
+            </mat-menu>
+          <button mat-button [matMenuTriggerFor]="helpmenu" tabindex="-1" class="util_btn "><span class="material-icons app_menu_icon">question_mark</span></button>
+            <mat-menu #helpmenu="matMenu">
+              <div mat-menu-item class="background_help">
+                <span class="helptitle">SAFE HELP</span><br />
+                <mat-icon style="color: #ffffff;">call</mat-icon><span class="helptext">(888) 697-5836</span><br />
+                <mat-icon style="color: #ffffff;">email</mat-icon><span class="helptext">safe.support@aa.com</span><br />
+                <mat-icon style="color: #ffffff;">web_asset</mat-icon><a target="_blank" href="https://wiki.aa.com/bin/view/Material%20Planning%20Strategy%20and%20Analysis/Inventory%20Manager/">Application Guide</a>
+              </div>
+            </mat-menu>
+          <button mat-button [matMenuTriggerFor]="userinfomenu" class="util_btn" style="position:relative; top:-6px" tabindex="-1" ><span>{{userInitials}}</span></button>
+            <mat-menu #userinfomenu="matMenu">
+            <div mat-menu-item class="background_help2">
+              <div class="row">
+                <div class="col-12 userinfotitle">{{jwtUser?.first_name?.toUpperCase()}}&nbsp;{{jwtUser?.last_name?.toUpperCase()}}&nbsp;({{jwtUser?.employeenumber}})</div>
+              </div>
+              <div class="row">
+                <div class="col-12" class="userinfotime"> {{currentUTC.utc().format('HH:mm')}} GMT<br /><span class="userinfolocaltime">{{currentUTC.local().format('HH:mm')}} CDT</span></div>
+              </div>
+
+              
+              <div class="row">
+                <div class="col-12">
+                  <!--<button mat-button class="signoutbtn" (click)="signOut()">Sign Out</button>-->
+                  <div *ngIf="adminlink"><a href="/userrole" target="_blank" class="adminurl">Admin</a></div>
+                  <!-- <div *ngIf="!adminlink">&nbsp;</div> -->
+
+                  <div *ngIf="adminlink">
+                    <a class="accountItemLink signout" [href]="logOutUrl$ | async" (click)="signOut()">Sign Out</a>
+                  </div>
+                  <div *ngIf="!adminlink">
+                    <a class="accountItemLink signout2" [href]="logOutUrl$ | async" (click)="signOut()">Sign Out</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </mat-menu>
+        </div>
+        <div class="col-12">
+          <hr>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-12">
+          <mat-list>
+            <mat-list-item><a mat-button target="_blank" href="https://tableau.aa.com/#/views/DOLReport/DOLDashboard?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link&:iid=1">DOL</a></mat-list-item>
+            <mat-list-item><a mat-button target="_self" download="Fleet Reference.xlsx" href="assets/Fleet Reference.xlsx">Fleet Reference</a></mat-list-item>
+            <mat-list-item><a mat-button target="_self" download="Fleet List.xlsx" href="assets/Fleet List.xlsx">Fleet List</a></mat-list-item>
+            <mat-list-item><a mat-button target="_blank" href="https://asom.apps.aa.com/#/">ASOM</a></mat-list-item>
+            <mat-list-item><a mat-button target="_blank" href="https://techopshub.me.aa.com/1.1/#/aircraft">SAFE</a></mat-list-item>
+            <mat-list-item><a mat-button target="_blank" href="https://techopsk2.aa.com/Runtime/Runtime/Form/TEQApp.Home.Form">K2 Application Home</a></mat-list-item>
+            <mat-list-item><a mat-button target="_blank" href="ata/replenishment-matrix">Replenishment Matrix</a></mat-list-item>
+            <mat-list-item><a mat-button target="_blank" href="https://spteam.aa.com/sites/maint/MaintPlan/Base/Planning/DockPlan/SitePages/Home.aspx">Dock Plan</a></mat-list-item>
+            <mat-list-item><a mat-button target="_blank" href="https://spteam.aa.com/sites/TechOps/Workbench/SitePages/InventoryOptimizationTool.aspx">IO Dashboard</a></mat-list-item>
+          </mat-list>
+        </div>
+      </div> -->
+          
+          <!-- <nav class="navbar navbar-expand-lg navbar-light headerlinks"> -->
+            <!-- <ul class="nav nav-tabs justify-content-center">
+              <li class="nav-item">
+                <a class="nav-link" target="_blank" href="https://tableau.aa.com/#/views/DOLReport/DOLDashboard?:showAppBanner=false&:display_count=n&:showVizHome=n&:origin=viz_share_link&:iid=1">DOL</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" target="_self" download="Fleet Reference.xlsx" href="assets/Fleet Reference.xlsx">Fleet Reference</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" target="_self" download="Fleet List.xlsx" href="assets/Fleet List.xlsx">Fleet List</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" target="_blank" href="https://asom.apps.aa.com/#/">ASOM</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" target="_blank" href="https://techopshub.me.aa.com/1.1/#/aircraft">SAFE</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" target="_blank" href="https://techopsk2.aa.com/Runtime/Runtime/Form/TEQApp.Home.Form">K2 Application Home</a>
+              </li>
+              <li class="nav-item">
+                <a href="ata/replenishment-matrix" class="nav-link" target="_blank">Replenishment Matrix</a>
+              </li>  
+              <li class="nav-item">
+                <a class="nav-link" target="_blank" href="https://spteam.aa.com/sites/maint/MaintPlan/Base/Planning/DockPlan/SitePages/Home.aspx">Dock Plan</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" target="_blank" href="https://app.powerbi.com/groups/me/reports/86690721-7123-44f0-bfe2-c2f31f8a80ed?ctid=49793faf-eb3f-4d99-a0cf-aef7cce79dc1">IO Dashboard</a>
+              </li>
+            </ul> -->
+          <!-- </nav> -->
+      <div class="container-fluid">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>  
+</div>
+</body>

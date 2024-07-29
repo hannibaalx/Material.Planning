@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>{{ data.dash8 }}</h2>
+<mat-dialog-content>
+    <div class="row">
+        <div class="col-12">
+           <mat-table matTableExporter [dataSource]="datasource" class="mat-elevation-z8">
+             <!--matSort (matSortChange)="sortItsDetail($event)" -->
+             <ng-container matColumnDef="SCHDLD_DATE">
+               <mat-header-cell *matHeaderCellDef><b>SCHEDULED DATE</b></mat-header-cell> <!-- mat-sort-header -->
+               <mat-cell *matCellDef="let x"> {{ x.SCHDLD_DATE | date:'yyyy-MM-dd' }} </mat-cell>
+             </ng-container>
+
+             <ng-container matColumnDef="AC">
+               <mat-header-cell *matHeaderCellDef><b>AC</b></mat-header-cell> <!-- mat-sort-header -->
+               <mat-cell *matCellDef="let x"> {{ x.AC }}
+               </mat-cell>
+             </ng-container>
+
+             <ng-container matColumnDef="STATION">
+               <mat-header-cell *matHeaderCellDef><b>STATION</b></mat-header-cell> <!-- mat-sort-header -->
+               <mat-cell *matCellDef="let x"> {{ x.STATION }} </mat-cell>
+             </ng-container>
+
+             <mat-header-row *matHeaderRowDef="msd_displayedColumns; sticky: true;"></mat-header-row>
+             <mat-row *matRowDef="let row; columns: msd_displayedColumns;"></mat-row>
+           </mat-table>
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close mat-dialog-close="false" class="stroked-button" type="button" #closebtn (click)="closeDialog()">Close</button>
+</mat-dialog-actions>

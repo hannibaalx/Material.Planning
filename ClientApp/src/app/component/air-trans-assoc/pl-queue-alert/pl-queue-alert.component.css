@@ -1,0 +1,126 @@
+.pqacontainer{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 98%;
+    left: 20px;
+    position: relative;
+    /* padding-top: 10px; */
+    min-width: 1650px;
+}
+
+.color-yellow{
+    color: yellow;
+}
+.color-orange{
+    color: orange;
+}
+.textright-nopadding{
+    text-align: right;
+    padding-right: 0px;
+}
+.header-borders{
+    border-top: 1px solid #dee2e6;
+}
+.queue-border-left{
+    border-left: 1px solid #dee2e6;
+}
+.queue-border-right{
+    border-right: 1px solid #dee2e6;
+}
+.queue-border-bottom{
+    border-bottom: 1px solid #dee2e6;
+}
+.badge{
+    font-size: 90%;
+}
+.datacenter{
+    text-align: center;
+}
+.dropped{
+    background-color:#17a2b8;
+    color:#ffffff
+}
+.newcomment{
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 100%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    width: 175px;
+    height: 22px;
+    margin-top: 3px;
+}
+.newcomment2{
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 100%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    width: 175px;
+    height: 22px;
+    margin-top: 3px;
+}
+.queuebutton{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    width: 175px;
+    height: 22px;
+    margin-top: 3px;
+}
+.opencommentmodel{
+    position: relative;
+    left: 70px;
+}
+.btn-size{
+    height: 40px!important;
+    width: 40px!important;
+    min-width: unset!important;
+}
+
+.footerbuttons{
+    border: 1px #000000;
+    position: relative;
+    left: 800px;
+}
+.mat-tab-body-content{
+    overflow: hidden!important;
+}
+.mat-tab-body{
+    overflow: hidden!important;
+}
+/* .commentsection{
+    width: 850px;
+} */
+.mat-flat-button {
+  font-size: 95%;  
+}
+.mat-tab-label-active {
+    border-bottom-style:solid !important;
+    opacity: 1 !important;
+}
+.pl-comment-btns{
+    position: relative;
+    text-align: right;
+    padding: 22px;
+    float: right;
+    left: -170px;
+}

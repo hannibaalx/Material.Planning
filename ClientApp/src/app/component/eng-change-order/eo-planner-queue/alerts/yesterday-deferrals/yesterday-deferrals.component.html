@@ -1,0 +1,144 @@
+<div class="ydcontainer">
+  <div class="row">
+    <div class="col-12 dataleft">
+      <span class="header-title"><b>{{ ruleType }}</b></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 dataright">
+      <div>
+        &nbsp;<button mat-stroked-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName:'Yesterday Deferrals'})">DOWNLOAD</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 mattablecontainer">
+      <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+      <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortYesterdayDeferrals($event)" class="mat-elevation-z8">
+        <ng-container matColumnDef="STATION">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>STATION</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.STATION }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="NOSE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>NOSE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.NOSE }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="SUBFLEET">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>AD IND</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.SUBFLEET }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="DASH_8">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>DASH 8</b></mat-header-cell>
+          <mat-cell *matCellDef="let x" style="white-space: nowrap;overflow: initial;">
+            <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(x.DASH_8)">{{ x.DASH_8 }}</a>
+            <a mat-button color="primary" [routerLink]="['/eo/dash8', x.DASH_8.trim()]" target="_blank" [title]="'Search DASH 8 : ' + x.DASH_8">
+              <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+            </a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="EO_NUMBER">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>EO NUMBER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.EO_NUMBER }}
+            <a mat-button color="primary" [routerLink]="['/eo/eonumber', x.EO_NUMBER]" target="_blank" [title]="'Search DASH 8 : ' + x.DASH_8">
+              <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+            </a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TASK_DESC">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TASK DESC</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TASK_DESC }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="CARRIER">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>CARRIER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.CARRIER }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="REASON">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>REASON</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.REASON }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="YesterdayDeferrals_displayedColumns; sticky: true;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: YesterdayDeferrals_displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>
+<!-- <div class="ydcontainer">
+  <div class="row">
+    <div class="col-12 datacenter">
+      <h6>{{ ruleType }}</h6>
+    </div>
+  </div>
+  <div class="row" *ngIf="bomDetails$ | async as yesterdaydeferrals">
+    <div class="col-12">
+      <div class="tableFixedHead">
+        <table id="yesterdaydeferrals" class="table table-striped">
+          <thead class="thead-light">
+            <tr>
+              <th>STATION</th>
+              <th>NOSE</th>
+              <th>SUBFLEET</th>
+              <th>DASH 8</th>
+              <th>EO NUMBER</th>
+              <th>TASK DESC</th>
+              <th>CARRIER</th>
+              <th>REASON</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let yd of yesterdaydeferrals">
+              <td>
+                {{ yd.STATION }}
+              </td>
+              <td>
+                {{ yd.NOSE }}
+              </td>
+              <td>
+                {{ yd.SUBFLEET}}
+                comment <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(yd.LOGPAGE, yd.TAIL)">{{ yd.LOGPAGE }}</a>
+                &nbsp;
+                <a [routerLink]="['/eo/dash8', yd.LOGPAGE]" class="" role="button" target="_blank" [title]="'Search DASH 8 : ' + yd.LOGPAGE">
+                  <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                 </a> comment end
+              </td>
+              <td class="nowrap">
+                <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(yd.DASH_8)">{{ yd.DASH_8 }}</a>
+                &nbsp;
+                <a [routerLink]="['/eo/dash8', yd.DASH_8]" class="" role="button" target="_blank" [title]="'Search DASH 8 : ' + yd.DASH_8.trim()">
+                    <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                </a>
+              </td>
+              <td class="nowrap">
+                {{ yd.EO_NUMBER }}
+                &nbsp;
+                <a class="badge badge-pill badge-info" role="button" [routerLink]="['/eo/eonumber', yd.EO_NUMBER]" target="_blank">
+                  <i class="fa fa-external-link fa-lg"></i>
+                </a>
+              </td>
+              <td>
+                {{ yd.TASK_DESC }}
+              </td>
+              <td>
+                {{ yd.CARRIER }}
+              </td>
+              <td>
+                {{ yd.REASON }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div> -->
+

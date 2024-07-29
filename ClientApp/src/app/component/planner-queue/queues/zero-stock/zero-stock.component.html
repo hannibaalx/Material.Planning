@@ -1,0 +1,171 @@
+<div class="zerocontainer">
+  <div class="datacontainer">
+    <div class="row">
+      <div class="col-12 header-color">
+        <b class="queue-header">ZERO STOCK</b>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 dataright">
+        <button mat-stroked-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName:'Zero Stock summary'})" color="primary">DOWNLOAD SUMMARY</button>
+        &nbsp;<button mat-stroked-button class="exportbtn stroked-button" (click)="exporter2.exportTable('xlsx', {fileName:'Zero Stock detail'})" color="primary">DOWNLOAD DETAILS</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 mattablecontainer">
+        <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+        <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="summarydatasource" (matSortChange)="sortZeroStock($event)" class="mat-elevation-z8">
+          <ng-container matColumnDef="ME_PART_NUMBER">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>M&E</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">
+              <a mat-raised-button class="mebtn" href="javascript:void(0);" (click)="sendMeDetails(x.ME_PART_NUMBER)">{{ x.ME_PART_NUMBER }}</a>
+              &nbsp;
+              <a mat-button color="primary" [routerLink]="['../ata/', x.ME_PART_NUMBER.trim()]" class="atalaunch" target="_blank">
+                  <mat-icon>launch</mat-icon>
+              </a>
+            </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="KEYWORD">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>KEYWORD</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.KEYWORD }} </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="ZERO_STOCK_COUNT">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>ZS STA CNT</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.ZERO_STOCK_COUNT }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="MainStaBalancingCount">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>MAIN STA BALANCING CNT</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.MainStaBalancingCount }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="OutStaBalancingCount">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>OUT STA BALANCING CNT</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.OutStaBalancingCount }} </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="DAYSINQUEUE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>DAYS IN QUEUE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.DAYSINQUEUE }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="COMMENTS">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMMENTS</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="LAST_UPDATES">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>LAST UPDATES</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }} </mat-cell>
+          </ng-container>
+       
+          <mat-header-row *matHeaderRowDef="zero_stock_displayedColumns; sticky: true;"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: zero_stock_displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-table matTableExporter #exporter2="matTableExporter" [dataSource]="detaildatasource" class="mat-elevation-z8 detaildata">
+          
+          <ng-container matColumnDef="ME_PART_NUMBER">
+            <mat-header-cell *matHeaderCellDef><b>ME PART NUMBER</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.ME_PART_NUMBER }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="KEYWORD">
+            <mat-header-cell *matHeaderCellDef><b>KEYWORD</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.KEYWORD }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ZERO_STOCK_COUNT">
+            <mat-header-cell *matHeaderCellDef><b>ZERO STOCK COUNT</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.ZERO_STOCK_COUNT }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="DaysInQueue">
+            <mat-header-cell *matHeaderCellDef><b>Days In Queue</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.DaysInQueue }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ZERO_STOCK_STATION">
+            <mat-header-cell *matHeaderCellDef><b>ZERO STOCK STATION</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.ZERO_STOCK_STATION }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="DASH8_DUE_IN">
+            <mat-header-cell *matHeaderCellDef><b>DASH8 DUE IN</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.DASH8_DUE_IN }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="DC">
+            <mat-header-cell *matHeaderCellDef><b>DC</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.DC }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ALLOCATION">
+            <mat-header-cell *matHeaderCellDef><b>ALLOCATION</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.ALLOCATION }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="AvailableStockInDC">
+            <mat-header-cell *matHeaderCellDef><b>Available Stock In DC</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.AvailableStockInDC }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="NonAllocation_Station">
+            <mat-header-cell *matHeaderCellDef><b>NonAllocation Station</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.NonAllocation_Station }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Overstock_Station">
+            <mat-header-cell *matHeaderCellDef><b>Overstock Station</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.Overstock_Station }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Overdue_PO">
+            <mat-header-cell *matHeaderCellDef><b>Overdue PO</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.Overdue_PO }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="WithinTimeFrame_Po">
+            <mat-header-cell *matHeaderCellDef><b>WithinTimeFrame Po</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.WithinTimeFrame_Po }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Overdue_RO">
+            <mat-header-cell *matHeaderCellDef><b>Overdue RO</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.Overdue_RO }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="WithinTimeFrame_RO">
+            <mat-header-cell *matHeaderCellDef><b>WithinTimeFrame RO</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.WithinTimeFrame_RO }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="PendingReview_SO">
+            <mat-header-cell *matHeaderCellDef><b>WithinTimeFrame RO</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.WithinTimeFrame_RO }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="LAST_UPDATES">
+            <mat-header-cell *matHeaderCellDef><b>LAST UPDATES</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }} </mat-cell>
+          </ng-container>
+          
+          <ng-container matColumnDef="COMMENTS">
+            <mat-header-cell *matHeaderCellDef><b>COMMENTS</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+          </ng-container>
+          
+          <mat-header-row *matHeaderRowDef="zero_stock_detail_displayedColumns; sticky: true;"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: zero_stock_detail_displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+</div>
+
+

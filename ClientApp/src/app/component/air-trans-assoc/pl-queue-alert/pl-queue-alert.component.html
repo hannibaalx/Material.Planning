@@ -1,0 +1,175 @@
+<div class="pqacontainer" *ngIf="revReasonQueues && revReasonAlerts" [hidden]="hideReviewNotification">
+  <div class="row">
+    <div class="col-3">
+      <div class="row">
+        <div class="col-10 header-borders queue-border-left queue-border-right">
+          <!-- <h6>Queues</h6> -->
+        </div>
+        <!-- <div class="col-5 header-borders queue-border-left queue-border-right">
+          <h6>Alerts</h6>
+        </div> -->
+      </div>
+      <div class="row">
+        <div class="col-5">
+          <div *ngIf="revReasonQueues as revRQ;">
+            <div *ngFor="let rq of revRQ">
+              <a *ngIf="rq.REVIEW_REASON === 'Zero Stock' && rq.Drop_off != 'Y'" routerLink="/ata/zscomment/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Zero Stock' && rq.Drop_off == 'Y'" routerLink="/ata/zscomment/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+              <!-- <a *ngIf="rq.REVIEW_REASON === 'Baseline Station Shortage' && rq.Drop_off != 'Y'" routerLink="/ata/bsscomment/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Baseline Station Shortage' && rq.Drop_off == 'Y'" routerLink="/ata/bsscomment/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a> -->
+              <a *ngIf="rq.REVIEW_REASON === 'SM Baseline Station Shortage' && rq.Drop_off != 'Y'" routerLink="/ata/bsscomment/{{meNumber}}" target='_blank' class="badge badge-danger">Baseline Station Shortage</a>
+              <a *ngIf="rq.REVIEW_REASON === 'SM Baseline Station Shortage' && rq.Drop_off == 'Y'" routerLink="/ata/bsscomment/{{meNumber}}" target='_blank' class="badge dropped">Baseline Station Shortage</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Open Discrepancy' && rq.Drop_off != 'Y'" routerLink="/ata/opdiscalert/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Open Discrepancy' && rq.Drop_off == 'Y'" routerLink="/ata/opdiscalert/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="false && rq.REVIEW_REASON === 'MEL'" routerLink="/ata/melcomment/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'TES Critical' && rq.Drop_off != 'Y'" routerLink="/ata/tescomment/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'TES Critical' && rq.Drop_off == 'Y'" routerLink="/ata/tescomment/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Parts Shortage for Kit' && rq.Drop_off != 'Y'" routerLink="/ata/pskcomment/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Parts Shortage for Kit' && rq.Drop_off == 'Y'" routerLink="/ata/pskcomment/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Kit Shortage by Parts' && rq.Drop_off != 'Y'" routerLink="/ata/kspcomment/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Kit Shortage by Parts' && rq.Drop_off == 'Y'" routerLink="/ata/kspcomment/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Repairable OH to AQ Review' && rq.Drop_off != 'Y'" routerLink="/ata/repohaqcomment/{{meNumber}}" target='_blank' class="badge badge-danger">ROT REP Below 50% Allocation</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Repairable OH to AQ Review' && rq.Drop_off == 'Y'" routerLink="/ata/repohaqcomment/{{meNumber}}" target='_blank' class="badge dropped">ROT REP Below 50% Allocation</a>
+              <a style="display:none" *ngIf="rq.REVIEW_REASON === 'Negative Ownership Change'" routerLink="/ata/negcomment/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'SO Pending Review' && rq.Drop_off != 'Y'" routerLink="/ata/sopendcomment/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'SO Pending Review' && rq.Drop_off == 'Y'" routerLink="/ata/sopendcomment/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Scheduled ROT REP Shortage' && rq.Drop_off != 'Y'" routerLink="/ata/schedrrcomment/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Scheduled ROT REP Shortage' && rq.Drop_off == 'Y'" routerLink="/ata/schedrrcomment/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'System Low Stock' && rq.Drop_off !='Y'" routerLink="/ata/slsalert/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'System Low Stock' && rq.Drop_off =='Y'" routerLink="/ata/slsalert/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON.trim() === 'Ownership No Allocation' && rq.Drop_off !='Y'" routerLink="/ata/obnaalert/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON.trim() === 'Ownership No Allocation' && rq.Drop_off =='Y'" routerLink="/ata/obnaalert/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Usage and No Allocation' && rq.Drop_off !='Y'" routerLink="/ata/unaalert/{{meNumber}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Usage and No Allocation' && rq.Drop_off =='Y'" routerLink="/ata/unaalert/{{meNumber}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Associated ME No Stock' && rq.Drop_off !='Y'" routerLink="/ata/amns/{{meNumber}}" target='_blank' class="badge badge-danger">Associated M&E</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Associated ME No Stock' && rq.Drop_off =='Y'" routerLink="/ata/amns/{{meNumber}}" target='_blank' class="badge dropped">Associated M&E</a>
+              <a *ngIf="rq.REVIEW_REASON === 'New ME Setup or Changes' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/nmsc/{{meNumber}}" target='_blank' class="badge badge-danger">New M&E Setup or Changes</a>
+              <a *ngIf="rq.REVIEW_REASON === 'New ME Setup or Changes' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/nmsc/{{meNumber}}" target='_blank' class="badge dropped">New M&E Setup or Changes</a>
+              <!-- <a *ngIf="rq.REVIEW_REASON === 'Scraps' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/scraps/{{meNumber}}" target='_blank' class="badge badge-danger">Scraps</a>
+              <a *ngIf="rq.REVIEW_REASON === 'Scraps' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/scraps/{{meNumber}}" target='_blank' class="badge dropped">Scraps</a> -->
+            </div>
+            <div *ngIf="revRQ.length === undefined && revAQ.length === undefined">
+              <p class="badge badge-light badgefontsize">No Queue Data Found</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-5">
+          <div *ngIf="revReasonAlerts as revAQ;">
+            <div *ngFor="let ra of revAQ">
+              <a *ngIf="ra.REVIEW_REASON === 'Overdue PO or RO' && ra.Drop_off !='Y'" routerLink="/ata/overdalert/{{meNumber}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'Overdue PO or RO' && ra.Drop_off =='Y'" routerLink="/ata/overdalert/{{meNumber}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'AOS Review' && ra.Drop_off !='Y'" routerLink="/ata/aosalert/{{meNumber}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'AOS Review' && ra.Drop_off =='Y'" routerLink="/ata/aosalert/{{meNumber}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="false && ra.REVIEW_REASON === 'NEF'" routerLink="/ata/nefalert/{{meNumber}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'Catalog Expiration' && ra.Drop_off !='Y'" routerLink="/ata/catexpalert/{{meNumber}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'Catalog Expiration' && ra.Drop_off =='Y'" routerLink="/ata/catexpalert/{{meNumber}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'Vendor WO Assignment' && ra.Drop_off !='Y'" routerLink="/ata/vwaalert/{{meNumber}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'Vendor WO Assignment' && ra.Drop_off =='Y'" routerLink="/ata/vwaalert/{{meNumber}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'Main Station Balancing' && ra.Drop_off !='Y'" routerLink="/ata/msbalert/{{meNumber}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'Main Station Balancing' && ra.Drop_off =='Y'" routerLink="/ata/msbalert/{{meNumber}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'OutStation Balancing' && ra.Drop_off !='Y'" routerLink="/ata/outstaalert/{{meNumber}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+              <a *ngIf="ra.REVIEW_REASON === 'OutStation Balancing' && ra.Drop_off =='Y'" routerLink="/ata/outstaalert/{{meNumber}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+            </div>
+            <!-- <div *ngIf="revAQ.length == 0">
+              <p class="badge badge-light">No Alert Data Found</p>
+            </div> -->
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-5">
+          &nbsp;
+        </div>
+        <div class="col-5">
+          &nbsp;
+        </div>
+      </div>
+    </div>
+    <div class="col-9">
+      <mat-tab-group #tabRef dynamicHeight="true" [selectedIndex]="0" #commentTabs>
+        <mat-tab label="M&E" isActive="true" aria-selected="true">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="commentsection">
+                            <span *ngIf="latestMeComment else meBlankComment">
+                                <div *ngFor="let x of latestMeComment">
+                                <b>{{x.PLANNER_NAME}}</b>&nbsp;{{x.UPDATE_TIME | date :'yyyy-MM-dd'}}&nbsp;&nbsp;&nbsp;
+                                <br />
+                                <label>{{x.COMMENTS}}</label>
+                                </div>
+                                <ng-template #meBlankComment matTabContent>
+                                <label>No comments</label>
+                                </ng-template>
+                            </span>                            
+                        </td>
+                        <td class="pl-comment-btns">
+                          <div>
+                              <button mat-stroked-button class="newcomment" (click)="insertHistory(meNumber, 'OO')">Optimal Ownership</button>
+                          </div>
+                          <div>
+                              <button mat-stroked-button class="newcomment" (click)="openHistory(meNumber, 'ME')">Comments History</button>
+                          </div>
+                          <div>
+                              <button mat-stroked-button class="newcomment2" (click)="insertHistory(meNumber, 'ME')">Enter New Comment</button>
+                          </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+        <mat-tab label="EO">
+            <table>
+                <tbody>
+                    <tr>
+                        <td class="commentsection">
+                            <span *ngIf="latestEcoComment else ecoBlankComment">
+                            <div *ngFor="let z of latestEcoComment">
+                                <b>{{z.PLANNER_NAME}}</b>&nbsp;{{z.UPDATE_TIME | date :'yyyy-MM-dd'}}&nbsp;&nbsp;&nbsp;
+                                <br />
+                                <label>{{z.COMMENTS}}</label>
+                            </div>
+                            <ng-template #ecoBlankComment matTabContent>
+                                <div>
+                                <label>No comments</label>
+                                </div>
+                            </ng-template>
+                            </span>
+                        </td>
+                        <td class="pl-comment-btns">
+                            <div>
+                                <button mat-stroked-button class="newcomment" (click)="openHistory(meNumber, 'ECO')">Comments History</button>
+                            </div>
+                            <div>
+                                <button mat-stroked-button class="newcomment2" (click)="insertHistory(meNumber, 'ECO')">Enter New Comment</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-tab>
+      </mat-tab-group>
+      <!-- {{tabRef.selectedIndex}} -->
+    </div>
+    <!--  <div class="col-6">
+            ----------------------
+            This area reserved for ATA Comments
+            ----------------------
+            <br/><br />
+            <textarea autofocus rows="5" cols="75"></textarea>queues -->
+    <!-- ----------------------
+            Queue debug info
+            <div class="row" *ngFor="let q of revReasonQueues$ | async">
+                <div class="col">{{q.REVIEW_REASON}} - {{q.CATEGORY}}</div>
+            </div>
+            ----------------------
+            ----------------------
+            Alert debug info
+            <div class="row" *ngFor="let a of revReasonAlerts$ | async">
+                <div class="col">{{a.REVIEW_REASON}} - {{a.CATEGORY}}</div>
+            </div>
+            ---------------------- -->
+
+    <!--</div>  reserved for comments -->
+  </div>
+</div>

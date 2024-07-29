@@ -1,0 +1,368 @@
+<div class="modal fade" id="deferralhistory" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="deferralhistory" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">{{ deferral_history_reason_title }}</h4>
+        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <mat-table matSort [dataSource]="datasource" (matSortChange)="sortDeferral($event)" class="mat-elevation-z8">
+          <ng-container matColumnDef="SCHEDULED_DATE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>SCHEDULED DATE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.SCHEDULED_DATE | date: 'yyyy-MM-dd' }} </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="STATION">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>STATION</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.STATION }} </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="NOSE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>NOSE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.NOSE }} </mat-cell>
+          </ng-container>
+        
+          <ng-container matColumnDef="INBASE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>INBASE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.INBASE }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="PRIORITY">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>PRIORITY</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.PRIORITY }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="DATA_SOURCE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>DATA SOURCE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.DATA_SOURCE }} </mat-cell>
+          </ng-container>
+        
+          <mat-header-row *matHeaderRowDef="deferral_history_reason_detail_displayedColumns; sticky: true;"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: deferral_history_reason_detail_displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="eotitle"><h5><b>Supervisor View</b></h5></div>
+<div class="svcontainer">
+  <div class="row">
+    <div class="col-12">
+      <mat-form-field>
+        <mat-label>Select the Supervisor</mat-label>
+        <mat-select (selectionChange)="getRuleCountsForSupervisor($event)"> 
+          <mat-option *ngFor="let x of supervisor$ | async" [value]="x.SUPERVISOR">{{ x.SUPERVISOR }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <mat-icon matSuffix class="chart-ph" color="primary">insert_chart_outlined</mat-icon>
+    </div>  
+    <div class="col-4">
+      <mat-icon matSuffix class="chart-ph" color="primary">show_chart</mat-icon>            
+    </div>
+    <div class="col-4">
+      <mat-icon matSuffix class="chart-ph" color="primary">pie_chart</mat-icon>
+    </div>
+  </div>
+  <div class="row" *ngIf="supervisoroverviewtotals$ | async">
+    <div class="col-12">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th colspan="5" style="border-top: none;">
+              <h5>Today EO Planner Overview</h5>
+            </th>
+          </tr>
+          <tr>
+            <th>{{ currentDate }}</th>
+            <th class="text-center">ACTIVE EO</th>
+            <th class="text-center">MATL GOOD EO</th>
+            <th class="text-center">MATL REVIEW/NEED EO</th>
+            <th class="text-center">MATL TOOL EO</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let y of supervisoroverviewtotals$ | async">  
+            <td><b>Planner</b></td>
+            <td class="text-center">{{ y.ACTIVE_EO }}</td>
+            <td class="text-center">{{ y.MATL_GOOD }}</td>
+            <td class="text-center">{{ y.MATL_REVIEW_NEED }}</td>
+            <td class="text-center">{{ y.MATL_TOOL }}</td>
+          </tr>
+          <tr *ngFor="let x of supervisoroverview$ | async">
+            <td class="text-center">{{ x.PLANNER }}</td>
+            <td class="text-center">{{ x.ACTIVE_EO }}</td>
+            <td class="text-center">{{ x.MATL_GOOD }}</td>
+            <td class="text-center">{{ x.MATL_REVIEW_NEED }}</td>
+            <td class="text-center">{{ x.MATL_TOOL }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <table class="table table-striped" *ngIf="supervisorqueuesummary$ | async">
+        <thead>
+          <th class="border-top-none">Planner</th>
+          <th class="border-top-none text-center">AD System Shortage</th>
+          <th class="border-top-none text-center">30 Days System Shortage</th>
+          <th class="border-top-none text-center">60-90 Days System Shortage</th>
+          <th class="border-top-none text-center">120-180 Days System Shortage</th>
+          <th class="border-top-none text-center">180+ Days System Shortage</th>
+          <th class="border-top-none text-center">New Dash 8 With No BOM</th>
+          <th class="border-top-none text-center">New Station Changes</th>
+          <th class="border-top-none text-center">Capable Station Shortage</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let z of supervisorqueuesummary$ | async">
+            <td class="text-center">{{ z.PLANNER }}</td>
+            <td class="text-center">{{ z.AD_PARTS_SHORTAGE }}</td>
+            <td class="text-center">{{ z.DAYS_30_PARTS_SHORTAGE }}</td>
+            <td class="text-center">{{ z.DAYS_60_PARTS_SHORTAGE }}</td>
+            <td class="text-center">{{ z.DAYS_120_PARTS_SHORTAGE }}</td>
+            <td class="text-center">{{ z.PLUS_DAYS_180_PARTS_SHORTAGE }}</td>  
+            <td class="text-center">{{ z.NEW_DASH_8_WITH_NO_BO }}</td>                
+            <td class="text-center">{{ z.NEW_STATION_CHANGES }}</td>
+            <td class="text-center">{{ z.CAPABLE_STATION_SHORTAGE }}</td>                
+          </tr>
+        </tbody>
+      </table>
+      <div>
+        <div class="row">
+          <div class="col-12 text-center">
+            <h5>Supervisor Alerts</h5>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-center">
+            <h6>{{ detailheader ? detailheader : '&nbsp;' }}</h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 text-right">
+            <button mat-raised-button *ngIf="detailheader != 'Yesterday Deferrals' && detailheader != 'Last 12 Months Deferrals History' && detailheader != null" class="exportbtn stroked-button" (click)="exportexcel('tblShortage')">DOWNLOAD</button>
+            <button mat-raised-button *ngIf="detailheader == 'Yesterday Deferrals'" class="exportbtn stroked-button" (click)="exportexcel('tblYesDef')" >DOWNLOAD</button>
+            <button mat-raised-button *ngIf="detailheader == 'Last 12 Months Deferrals History'" class="exportbtn stroked-button" (click)="exportexcel('tblDefHist')">DOWNLOAD</button>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-2">
+            <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('AD Parts Shortage')" color="primary">
+                AD SYSTEM SHORTAGE OVER 10 DAYS <span class="badge badge-light btn-rule"
+                  *ngFor="let x of ad_parts_shortage$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('30 Days Parts Shortage')" color="primary">
+                30 DAYS SYSTEM SHORTAGE OVER 10 DAYS <span class="badge badge-light btn-rule"
+                  *ngFor="let x of parts_shortage_30$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('60 Or 90 Days Parts Shortage')" color="primary">
+                60-90 DAYS SYSTEM SHORTAGE OVER 10 DAYS <span class="badge badge-light btn-rule"
+                  *ngFor="let x of parts_shortage_60$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div>
+            <!-- <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('90 Days Parts Shortage')" color="primary">
+                90 DAYS PART SHORTAGE OVER 10 DAYS <span class="badge badge-light btn-rule"
+                  *ngFor="let x of parts_shortage_90$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div> -->
+            <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('120 Or 180 Days Parts Shortage')" color="primary">
+                120-180 DAYS SYSTEM SHORTAGE OVER 10 DAYS <span class="badge badge-light btn-rule"
+                  *ngFor="let x of parts_shortage_120$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('180 Plus Days Parts Shortage')" color="primary">
+                180 DAYS SYSTEM SHORTAGE OVER 10 DAYS <span class="badge badge-light btn-rule"
+                  *ngFor="let x of parts_shortage_180plus$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div>
+            <!-- <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('180 Plus Days Parts Shortage')" color="primary">
+                180+ DAYS SYSTEM SHORTAGE OVER 10 DAYS <span class="badge badge-light btn-rule"
+                  *ngFor="let x of parts_shortage_180plus$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div> -->
+            <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('New Dash 8 With No BOM')" color="primary">
+                NEW DASH 8 WITH NO BOM OVER 10 DAYS <span class="badge badge-light btn-rule"
+                  *ngFor="let x of new_dash8_no_bom$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('New Stations Changes')" color="primary">
+                NEW STATION CHANGES <span class="badge badge-light btn-rule" *ngFor="let x of new_station_changes$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('Capable Station Shortage')" color="primary">
+                CAPABLE STATION SHORTAGE <span class="badge badge-light btn-rule" *ngFor="let x of capable_station_shortage$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('Yesterday Deferrals')" color="primary">
+                YESTERDAY DEFERRAL <span class="badge badge-light btn-rule"
+                  *ngFor="let x of yesterday_deferral$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div>
+            <div>
+              <button mat-raised-button class="queuebutton" (click)="setRule('Last 12 Months Deferrals History')" color="primary">
+                LAST 12 MONTHS DEFERRALS HISTORY <span class="badge badge-light btn-rule"
+                  *ngFor="let x of last_year_deferral_history$ | async">{{ x.COUNT }}</span>
+              </button>
+            </div>
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          
+          <div class="col-10">
+            <table class="table table-striped" id="tblShortage" *ngIf="detailheader != 'Yesterday Deferrals' && detailheader != 'Last 12 Months Deferrals History' && detailheader != null">
+              <thead>
+                <tr>
+                  <th>PLANNER</th>
+                  <th class="text-center">EO NUMBER</th>
+                  <th class="text-center">ME TYPE</th>
+                  <th class="text-center">AD IND</th>
+                  <th class="text-center">DASH 8</th>
+                  <th class="text-center">EO DESC</th>
+                  <th class="text-center">DAYS IN QUEUE</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="detailheader != 'Yesterday Deferrals' && detailheader != 'Last 12 Months Deferrals History' && detailheader != null">
+                <tr *ngFor="let u of supervisorqueuedetail$ | async">
+                  <td>{{ u.PLANNER }}</td>
+                  <td class="text-center">'{{ u.EO_NUMBER }}</td>
+                  <td class="text-center">{{ u.ME_TYPE }}</td>
+                  <td class="text-center">{{ u.AD_IND }}</td>
+                  <td class="text-center">{{ u.DASH_8 }}</td>
+                  <td class="text-center">{{ u.EO_DESC }}</td>
+                  <td class="text-center">{{ u.DAYSINQUEUE }}</td>
+                </tr>
+              </tbody>
+            </table>
+            <table class="table table-striped" id="tblYesDef" *ngIf="detailheader == 'Yesterday Deferrals'">
+              <thead>
+                <tr>
+                  <th>STATION</th>
+                  <th>NOSE</th>
+                  <th>SUBFLEET</th>
+                  <th>DASH 8</th>
+                  <th class="nowrap">EO NUMBER</th>
+                  <th>TASK DESCRIPTION</th>
+                  <th class="text-center">CARRIER</th>
+                  <th>REASON</th>
+                  <th>PLANNER</th>
+                  <th>DATA SOURCE</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="detailheader == 'Yesterday Deferrals'">
+                  <tr *ngFor="let v of supervisorqueuedetail$ | async">
+                    <td>{{ v.STATION }}</td>
+                    <td>{{ v.NOSE }}</td>
+                    <td>{{ v.SUBFLEET }}</td>
+                    <td class="nowrap">{{ v.DASH_8 }}</td>
+                    <td>{{ v.EO_NBR }}</td>
+                    <td>{{ v.TASK_DESC }}</td>
+                    <td class="text-center">{{ v.CARRIER }}</td>
+                    <td>{{ v.REASON }}</td>
+                    <td class="nowrap">{{ v.PLANNER }}</td>
+                    <td>{{ v.DATA_SOURCE }}</td>
+                  </tr>
+              </tbody>
+            </table>
+            <table class="table table-striped" id="tblDefHist" *ngIf="detailheader == 'Last 12 Months Deferrals History'">
+              <thead>
+                <tr>
+                  <th>DASH 8</th>
+                  <th class="nowrap">EO NUMBER</th>
+                  <th>TASK DESCRIPTION</th>
+                  <th class="text-center">SUBFLEET</th>
+                  <th class="text-center">CARRIER</th>
+                  <th class="text-center">INSUFFICIENT MANPOWER</th>
+                  <th class="text-center">PARTS NIS ALLOCATED</th>
+                  <th class="text-center">ALLOCATED TOOLING NIS USV</th>
+                  <th class="text-center">TOTAL DEFERRALS</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="detailheader == 'Last 12 Months Deferrals History'">
+                <tr *ngFor="let w of supervisorqueuedetail$ | async">
+                  <td>{{ w.DASH_8 }}</td>
+                  <td>{{ w.EO_NBR }}</td>
+                  <td>{{ w.TASK_DESC }}</td>
+                  <td class="text-center">{{ w.SUBFLEET }}</td>
+                  <td class="text-center">{{ w.CARRIER }}</td>
+                  <td class="text-center">
+                    <!-- {{ w.INSUFFICIENT_MANPOWER }} -->
+                    <h6>
+                      <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="Insufficient Manpower" (click)="setDeferralHistoryModal(w.DASH_8, 'IM', w.SUBFLEET)" data-target="#deferralhistory">{{ w.INSUFFICIENT_MANPOWER }}</a>
+                    </h6>
+                  </td>
+                  <td class="text-center">
+                    <!-- {{ w.PARTS_NIS_ALLOCATED }} -->
+                    <h6>
+                      <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="Parts NIS Allocated" (click)="setDeferralHistoryModal(w.DASH_8, 'PA', w.SUBFLEET)" data-target="#deferralhistory">{{ w.PARTS_NIS_ALLOCATED }}</a>
+                    </h6>
+                  </td>
+                  <td class="text-center">
+                    <!-- {{ w.ALLOCATED_TOOLING_NIS_USV }} -->
+                    <h6>
+                      <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="Allocated Tooling NIS USV" (click)="setDeferralHistoryModal(w.DASH_8, 'TA', w.SUBFLEET)" data-target="#deferralhistory">{{ w.ALLOCATED_TOOLING_NIS_USV }}</a>
+                    </h6>
+                  </td>
+                  <td class="text-center">
+                    <!-- {{ w.TOTAL_DEFERRALS }} -->
+                    <h6>
+                      <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="Allocated Tooling NIS USV" (click)="setDeferralHistoryModal(w.DASH_8, 'TOTAL', w.SUBFLEET)" data-target="#deferralhistory">{{ w.TOTAL_DEFERRALS }}</a>
+                    </h6>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-maint-snackbar></app-maint-snackbar>

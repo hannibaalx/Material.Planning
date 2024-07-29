@@ -1,0 +1,146 @@
+.sacontainer{
+    font-size: 16px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 100%;
+}
+
+tbody{
+    background-color: white;
+}
+.aalogo{
+    position: relative;
+}
+.headertop {
+    text-align: left;
+    font-size: 32px;
+    font-weight: 400;
+    color: #00467f;
+    width: 60%;
+}
+.leftheader{
+    background-color: #36495a;
+    color: #fff;
+}
+
+.tblconfig{
+    width: 325px;
+}
+
+/* table, th, td{
+    border: 1px solid black;
+} */
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+td{
+    width: 165px;
+}
+.flex-container{
+    display: flex;
+    flex-wrap: nowrap;
+}
+.minifab-button1{
+    background-color: #3f51b5;
+    width: 125px!important;
+    height: 125px!important;
+    min-width: unset!important;
+}
+.minifab-button2{
+    background-color: #054a91;
+    width: 125px!important;
+    height: 125px!important;
+    min-width: unset!important;
+}
+.minifab-button3{
+    background-color: #93b3d8;
+    width: 125px!important;
+    height: 125px!important;
+    min-width: unset!important;
+}
+.minifabContainer{
+    text-align: center;
+    width: 300px;
+}
+.metricstable{
+    width: 100%;
+}
+.metricsheader{
+    border-bottom: 2px solid black;
+}
+.text-center{
+    text-align: center;
+}
+.opendisctable{
+    width: 100%;
+}
+.opendischeader{
+    border-bottom: 2px solid black;
+}
+.recommendtable{
+    background-color: white;
+    width: 100%
+}
+.recommendheader{
+   border-bottom: 2px solid black; 
+}
+.commentssection{
+    width: 100%
+}
+#txtComment{
+    width: 100%;
+}
+.mat-icon{
+    font-size: 15px;
+    position: relative;
+    top: 4px;
+}
+.rightheader{
+    background-color: #36495a;
+    color: #fff;
+    line-height: 1.5;
+    font-size: 16px;
+}
+.rightheader-align {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+
+@media print {
+    #txtComment, #btnCommentHistory, #btnSave, #btnPrint, #btnPdf, #lblComment, #inventoryTurns{
+    display: none;
+    }
+    .metricstable{
+        position: relative;
+        left:80px;
+    }
+    .opendisctable{
+        position: relative;
+        left:80px;
+    }
+    .recommendtable{
+        position: relative;
+        left:80px;    
+    }
+    .minifabContainer{
+        position: relative;
+        left:50px;     
+    }
+    .headerprint{
+        position: relative;
+        left:100px;
+    }
+
+}

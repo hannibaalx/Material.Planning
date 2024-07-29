@@ -1,0 +1,11 @@
+mat-card-title{
+    font-size: 14px;
+    font-weight: bolder;
+}
+mat-form-field{
+    width: 100%;
+}
+
+.mat-tab-body-content{
+    overflow: none!important;
+}

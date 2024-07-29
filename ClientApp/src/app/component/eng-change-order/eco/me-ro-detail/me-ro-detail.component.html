@@ -1,0 +1,69 @@
+      <!-- <div class="eotitle"><h5><b>M&E RO Detail</b></h5></div> -->
+      <div class="merodetailcontainer">
+        <span *ngIf="meRoDetail$ | async; else loading">
+            <div class="row">
+                <div class="col-12 header">
+                    <h5><label class="badge badge-info">M & E - {{ menumberid }}</label></h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="tableFixedHead">
+                        <table class="table table-striped" >
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>RO NUMBER</th>
+                                    <th>ORDER STATUS</th>
+                                    <th>ME PART NUMBER</th>
+                                    <th>ME SERIAL NUMBER</th>
+                                    <th>SHIP STATION</th>
+                                    <th>RO RECEIVING STATION</th>
+                                    <th>RO REQUEST DATE</th>
+                                    <th>RO RECEIVED QTY</th>
+                                    <th>TAT</th>
+                                    <th>DATE REMOVED</th>
+                                    <th>REMOVED AIRCRAFT NUMBER</th>
+                                    <th>REMOVED ALPHA STATION</th>
+                                    <th>DAYLATE</th>
+                                    <th>RO OPEN QTY</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let m of meRoDetail$ | async">
+                                    <td>{{ m.RO_NUMBER }}</td>
+                                    <td>{{ m.ORDER_STATUS }}</td>
+                                    <td>{{ m.ME_PART_NUMBER }}</td>
+                                    <td>{{ m.ME_SERIAL_NUMBER }}</td>
+                                    <td>{{ m.SHIP_STATION }}</td>
+                                    <td>{{ m.RO_RECEIVING_ALPHA_STATION }}</td>
+                                    <td>{{ m.RO_REQUEST_DATE | date: 'yyyy-MM-dd' }}</td>
+                                    <td>{{ m.RO_RECEIVED_QTY }}</td>
+                                    <td>{{ m.TAT }}</td>
+                                    <td>{{ m.DATE_REMOVED | date: 'yyyy-MM-dd' }}</td>
+                                    <td>{{ m.REMOVED_AIRCRAFT_NUMBER }}</td>
+                                    <td>{{ m.REMOVED_ALPHA_STATION }}</td>
+                                    <td>{{ m.DAYLATE }}</td>
+                                    <td>{{ m.RO_OPEN_QTY }}</td>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </span>
+    </div>
+    <ng-template #loading>
+        <div class="spinner-container">
+            <div class="text-center">
+                <div class="spinner-grow text-primary" style="position: relative; float:left;width: 3rem; height: 3rem;" role="status" >
+                 <span class="sr-only">Loading...</span>
+               </div>
+               <div class="spinner-border text-secondary" style="position: relative; float:left;width: 3rem; height: 3rem;" role="status">
+                 <span class="sr-only"></span>
+               </div>
+               <div class="spinner-grow text-danger" style="position: relative; float:left;width: 3rem; height: 3rem;" role="status">
+                 <span class="sr-only"></span>
+               </div>       
+             </div>
+        </div>
+    </ng-template>
+

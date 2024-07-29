@@ -1,0 +1,159 @@
+.eotitle{
+    position: relative;
+    left: 8px;
+    /* top: 8px; */
+}
+
+.svcontainer{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 99%;
+    position: relative;
+    top: 30px;
+}
+
+.chart-ph{
+    font-size: 200px;
+    position: relative;
+    left: 60px;
+}
+.text-center{
+    text-align: center;
+}
+.text-right{
+    text-align: right;
+}
+.border-top-none{
+    border-top: none;
+}
+.queuebutton{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: baseline;
+    width: 225px;
+    height: 22px;
+    margin-top: 3px;
+    background-color: #d0dae0;
+    color: #000000;
+}
+.col-max{
+    width: 100%;
+}
+.btn-rule{
+    position: relative;
+    float:right;
+    font-size: 9px;
+ }
+ .tabletop{
+    position: absolute;
+    top: 420px;
+    width: 100%;
+ }
+ .tabletop2 {
+    position: relative;
+    top: -72px;
+    width: 100%;
+}
+ .text-center{
+    text-align: center;
+}
+.nowrap{
+    white-space: nowrap  
+}
+.tableFixedHeadModal {
+    height: 475px;
+    overflow-y: auto;
+    width: 100%;
+}
+.tableFixedHeadModal th{
+    position: sticky;
+    top: 0;
+}
+
+table {
+    width: 100%;
+}
+
+.dataright{
+    text-align: right;
+    position: relative;
+    top: -25px;
+    font-size: 10px;
+}
+.exportbtn{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    position: relative;
+    top: -21px;
+}
+.mat-drawer-content {
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 100%;
+    overflow: unset;
+}
+table thead th{
+    background-color: #36495a;
+    color: #ffffff;
+    font-family: AmericanSans;
+    font-size: 16px;
+    white-space: nowrap;
+}
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0 !important;
+    width: 100vw;
+    height: 100vh;
+    background-color: #000;
+}
+.modal {
+    z-index: 9999;
+    background-color:transparent!important;
+}
+.mat-header-cell {
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    background-color: #36495a!important;
+    font-size: 16px;
+}
+.modal-header{
+    flex-direction: column;
+    justify-content: center;
+    color: #fff;
+    background-color: #36495a!important;
+    font-size: 20px;
+}
+.modal-title{
+    position: relative;
+    top: 17px;
+}
+.close{
+    color: #ffffff;
+    position: relative;
+    top: -10px;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+}

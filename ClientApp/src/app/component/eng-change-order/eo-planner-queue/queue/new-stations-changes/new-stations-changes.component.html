@@ -1,0 +1,92 @@
+<div class="nsccontainer">
+  <div class="row">
+    <div class="col-12 dataleft">
+      <span class="header-title"><b>{{ ruleType }}</b></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 dataright">
+      <div>
+        &nbsp;<button mat-stroked-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName:'New Stations Changes'})">DOWNLOAD</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 mattablecontainer">
+      <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+      <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortNewStationsChanges($event)" class="mat-elevation-z8">
+        <ng-container matColumnDef="EO_NUMBER">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>EO NUMBER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.EO_NUMBER.trim() }}
+            <a mat-button color="primary" [routerLink]="['/eo/eonumber/', x.EO_NUMBER.trim()]" target="_blank">
+              <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+            </a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="AD_IND">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>AD IND</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.AD_IND.trim() }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="DASH_8">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>DASH 8</b></mat-header-cell>
+          <mat-cell *matCellDef="let x" style="white-space: nowrap;overflow: initial;">
+            <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(x.DASH_8, x.EO_NUMBER)">{{ x.DASH_8 }}</a>
+            <a mat-button color="primary" [routerLink]="['/eo/dash8', x.DASH_8.trim()]" target="_blank" [title]="'Search DASH 8 : ' + x.DASH_8">
+              <!-- <mat-icon>launch</mat-icon> -->
+              <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+            </a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="EO_DESC">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>DESCRIPTION</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.EO_DESC }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="SCHEDULING_STATUS">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>SCHEDULING STATUS</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.SCHEDULING_STATUS }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="PREVIOUS_STATION_REQUIREMENT">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>PREVIOUS STATION REQUIREMENT</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.PREVIOUS_STATION_REQUIREMENT}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="CURRENT_STATION_REQUIREMENT">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>CURRENT STATION REQUIREMENT</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.CURRENT_STATION_REQUIREMENT }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="STATION_DELETED">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>STATION DELETED</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.STATION_DELETED }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="STATION_ADDED">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>STATION ADDED</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.STATION_ADDED }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="REVISION_DATE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>REVISION DATE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.REVISION_DATE | date :'yyyy/MM/dd' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="DAYSINQUEUE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>DAYS IN QUEUE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.DAYSINQUEUE }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="newStationsChanges_displayedColumns; sticky: true;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: newStationsChanges_displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>
+
+
+

@@ -1,0 +1,37 @@
+<div class="tmargin sacontainer" [hidden]="hideSA">
+  <div class="row" *ngFor="let sa of sparesanalysis$ | async">
+    <!--*ngIf="(sparesanalysis$ | async) as sa"  *ngFor="let sa of sparesanalysis$ | async"-->
+    <div class="col-12 title">
+      <h6>Rotable Spare Analysis</h6>
+    </div>
+    <div class="col-12 noborder">
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-2 txtcenter border">
+          <b>Avg TAT</b>
+        </div>
+        <div class="col-2 txtcenter border">
+          <b>Service Level 87</b>
+        </div>
+        <div class="col-2 txtcenter border">
+          <b>Service Level 96</b>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3"></div>
+        <div class="col-2 txtcenter border">
+          {{sa.Avg_TAT}}
+        </div>
+        <div class="col-2 txtcenter border">
+          {{sa.OSL_87 ? sa.OSL_87 : ''}}
+        </div>
+        <div class="col-2 txtcenter border">
+          {{sa.OSL_87 ? sa.OSL_87 : ''}}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row tmargin">
+    <div class="col-12"></div>
+  </div>
+</div>

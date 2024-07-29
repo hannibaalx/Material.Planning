@@ -1,0 +1,138 @@
+<div class="row">
+  <div class="col-12">
+    {{newSmObj.DASH_8}}
+  </div>
+</div>
+<mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+<form [formGroup]="form" *ngIf="newSmObj.DASH_8">
+  <div class="row">
+    <div class="col-12 mattablecontainer">
+      <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortCommentSection($event)" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="DASH_8">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>DASH 8</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.DASH_8 }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="DASH8_KEYWORD">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>KEYWORD</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.DASH8_KEYWORD }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="WCNUM">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>WCNUM</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.WCNUM }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="WCTITLE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>WCTITLE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.WCTITLE }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="QUANTITY_REQUIRED">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>QTY REQ</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.QUANTITY_REQUIRED }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="REQUIRED_IND">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>REQ IND</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.REQUIRED_IND }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="UNIT_OF_ISSUE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>UNIT OF ISSUE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.UNIT_OF_ISSUE }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="DELETED_IND_DESC">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>DELETED IND</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.DELETED_IND_DESC }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="MATERIAL_TYPE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>MATERIAL TYPE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.MATERIAL_TYPE }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="FLEET">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>FLEET CODE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.FLEET }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="EXCLUDE_ME">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>EXCLUDE ME</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.EXCLUDE_ME }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="CORRECT_ME">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>CORRECT ME</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.CORRECT_ME }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="MPN_FOR_CARD">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>MPN FOR CARD</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.MPN_FOR_CARD }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="CHEKEY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMMENTS</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            <!-- {{ x.CHEKEY }}  -->
+            <span *ngIf="x.CHKKEY == null">
+              <button type="button" class="modal-button" mat-flat-button matBadge disabled (click)="openHistory(x.CHKKEY);">
+                <mat-icon aria-hidden="false" aria-label="comment icon" style="color: #545b62;">comment</mat-icon>
+              </button>
+            </span>
+            <span *ngIf="x.CHKKEY != null">
+              <button type="button" class="modal-button" mat-flat-button matBadge (click)="openHistory(x.CHKKEY);">
+                <mat-icon aria-hidden="false" aria-label="comment icon" style="color: #3f51b5;">comment</mat-icon>
+              </button>
+            </span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="CHKKEY">
+          <mat-header-cell *matHeaderCellDef><b>SELECT <button type="button" mat-raised-button color="primary" class="selectalltbtn" (click)="selectAllChkkey();">ALL</button></b></mat-header-cell>
+          <mat-cell *matCellDef="let x; let i = index">
+            <mat-slide-toggle [color]="color" [id]="i" (change)="updateSelected(x.CHEKEY, $event)">
+            </mat-slide-toggle>
+            <!-- {{selectedMePartNumberUsed[i].value}} [id]="selectedMePartNumberUsed[i]"-->
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="comment_detail_displayedColumns; sticky: true;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: comment_detail_displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+    <div class="row">
+      <div class="col-11">
+        <span class="commentsection">
+          <mat-form-field appearance="outline" style="width: 1200px;">
+            <mat-label name="cardLabel">
+              <b>ENTER NEW COMMENTS</b>
+            </mat-label>
+            <textarea matInput formControlName="taComment" id="taComment" name="taComment" rows="5" cols="70"></textarea>
+          </mat-form-field>
+        </span>
+        <div class="col-1 btnsavedrop">
+          <button mat-stroked-button type="button" class="stroked-button" [id]="btnOk" (click)="saveComment();"><b>SAVE</b></button>
+          <br /><br />
+          <button mat-stroked-button type="button" class="stroked-button" [id]="btnDrop" [disabled]="dropBtnStatus" (click)="dropSelectedMenused(newSmObj.DASH_8);"><b>DROP</b></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="row">
+    <div class="col-12">
+      <mat-form-field class="dropNextReview">
+        <mat-label class="nextReviewDateLabel">Next Review Date</mat-label>
+        <input matInput formControlName="nextReviewDate" [matDatepicker]="nextdp" [min]="minDate" [max]="maxDate" [id]="nextReviewDate"
+          [formControl]="nextReviewDate" [disabled]="dropOffStatus">
+        <mat-datepicker-toggle matSuffix [for]="nextdp"></mat-datepicker-toggle>
+        <mat-datepicker #nextdp></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div> -->
+</form>

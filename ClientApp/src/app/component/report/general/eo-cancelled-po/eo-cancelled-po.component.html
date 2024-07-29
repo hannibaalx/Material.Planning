@@ -1,0 +1,141 @@
+<div class="cpocontainer">
+    <div class="row">
+      <div class="col-3">
+        <div class="center-text"><label class="mat-subheading-1 label-top-20">Cancelled Date Range</label></div>
+        <div class="sectioncontainer center-text">
+          <mat-form-field>
+            <mat-label>Start Date</mat-label>
+            <input matInput [matDatepicker]="cpostartdp" [min]="minDate" [max]="maxDate" id="cpostartdate"
+              [formControl]="cpostartdate">
+            <mat-datepicker-toggle matSuffix [for]="cpostartdp"></mat-datepicker-toggle>
+            <mat-datepicker #cpostartdp></mat-datepicker>
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <mat-label>End Date</mat-label>
+            <input matInput [matDatepicker]="cpoenddp" [min]="minDate" [max]="maxDate" id="cpoenddate"
+              [formControl]="cpoenddate">
+            <mat-datepicker-toggle matSuffix [for]="cpoenddp"></mat-datepicker-toggle>
+            <mat-datepicker #cpoenddp></mat-datepicker>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-3">
+        <div class="center-text"><label class="mat-subheading-1 label-top-20">Initial Creator</label></div>
+        <div class="sectioncontainer">
+          <mat-selection-list #allCreatorSelected dense class="selectlistcontainer">
+            <mat-list-option class="mat-body-1 listitem" *ngFor="let cpo of cproCreator" color="primary">
+              {{ cpo.creator }}
+            </mat-list-option>
+          </mat-selection-list>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="autoinput">
+          <label class="mat-subheading-1 label-top-20" dense>M & E</label><br />
+          <input type="text" #cpoSearchMEN class="input200" id="cpoSearchMEN" name="cpoSearchMEN" (input)="autoSearch($event, 'men')" />
+          <ul *ngIf="filteredCpoMEN$ && hideCpoMEN" class="search-result">
+            <li *ngFor="let m of filteredCpoMEN$ | async" (click)="cpoSearchMEN.value=m.MEN; hideCpoMEN= false" value="m.MEN">
+              {{m.MEN}}
+            </li>
+          </ul>
+        </div>
+        <div class="autoinput">
+          <label class="mat-subheading-1 label-top-20" dense>Purchase Order Number</label><br />
+          <input type="text" #cpoSearchPON class="input200" id="cpoSearchPON" name="cpoSearchPON" (input)="autoSearch($event, 'pon')" />
+          <ul *ngIf="filteredCpon$ && hideCpon" class="search-result">
+            <li *ngFor="let x of filteredCpon$ | async" (click)="cpoSearchPON.value=x.PO_NUMBER; hideCpon=false" value="x.PO_NUMBER">
+              {{ x.PO_NUMBER }}
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="col-2">
+        <div class="autoinput">
+            <label class="mat-subheading-1 label-top-20" dense>MPN</label><br />
+            <input type="text" #cpoSearchMPN class="input200" id="cpoSearchMPN" name="cpoSearchMPN" (input)="autoSearch($event, 'mpn')" />
+            <ul *ngIf="filteredCpoMPN$ && hideCpoMPN" class="search-result">
+              <li *ngFor="let m of filteredCpoMPN$ | async" (click)="cpoSearchMPN.value=m.MPN; hideCpoMPN=false" value="m.MPN">
+                {{m.MPN}}
+              </li>
+            </ul>
+          </div>
+      </div>
+    </div>
+    <div class="row spacer50">
+      <div class="col-12">&nbsp;</div>
+    </div>
+    <div class="row">
+      <div class="col-3">&nbsp;</div>
+      <div class="col-3 center-text">
+        <button mat-stroked-button (click)="selectAll('creator')" class="stroked-button">Select All</button>&nbsp;
+        <button mat-stroked-button (click)="deselectAll('creator')" class="stroked-button">Deselect All</button>
+      </div>
+      <div class="col-2 center-text">
+        <!-- <button mat-stroked-button (click)="selectAll('postatus')" class="stroked-button">Select All</button>&nbsp;
+        <button mat-stroked-button (click)="deselectAll('postatus')" class="stroked-button">Deselect All</button> -->
+      </div>
+      <div class="col-2 center-text">
+        <span [hidden]="hideCpoBtn">
+          <button mat-stroked-button (click)="generateReport()" class="stroked-button">SUBMIT</button>
+          <span class="loadingCpoSpinner">
+            <mat-spinner diameter="30" [hidden]="hideCpoSpinner"></mat-spinner>
+          </span>
+        </span>
+        <!-- <span [hidden]="hidePoSpinner">
+                  <mat-spinner ></mat-spinner>
+              </span> -->
+        <span [hidden]="!hideCpoBtn">
+          <button mat-stroked-button (click)="exportReport()" class="stroked-button">DOWNLOAD</button>
+          <span class="loadingCpoSpinner">
+            <mat-spinner diameter="30" [hidden]="hideCpoSpinner"></mat-spinner>
+          </span>
+        </span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">&nbsp;</div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="tableFixedHead">
+          <table id="tblCpoResult" class="table table-striped">
+            <thead class="thead-light">
+              <tr>
+                <th>PO NUMBER</th>
+                <th>INITIAL CREATOR</th>
+                <th>ME PART NUMBER</th>
+                <th>MFG PART NUMBER</th>
+                <th>KEYWORD DESCRIPTION</th>
+                <th>CANCELLATION REASON</th>
+                <th>CANCELLED BY</th>
+                <th>CANCELLED DATE</th>
+                <th>EMPLOYEE NUMBER</th>
+                <th>EMPLOYEE LAST NAME</th>
+                <th>EMPLOYEE FIRST NAME</th>
+                <th>COMMENTS</th>
+                <th>REPORT DATE</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let x of resp">
+                <td>{{ x.PO_NUMBER }}</td>
+                <td>{{ x.INITIAL_CREATOR }}</td>
+                <td>{{ x.ME_PART_NUMBER }}</td>
+                <td>{{ x.MFG_PART_NUMBER }}</td>
+                <td>{{ x.KEYWORD_DESCRIPTION }}</td>
+                <td>{{ x.CANCELLATION_REASON }}</td>
+                <td>{{ x.CANCELLED_BY }}</td>
+                <td>{{ x.CANCELLED_DATE }}</td>
+                <td>{{ x.EMPLOYEE_NUMBER }}</td>
+                <td>{{ x.EMPLOYEE_LAST_NAME }}</td>
+                <td>{{ x.EMPLOYEE_FIRST_NAME }}</td>
+                <td>{{ x.COMMENTS }}</td>
+                <td>{{ x.REPORT_DATE }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

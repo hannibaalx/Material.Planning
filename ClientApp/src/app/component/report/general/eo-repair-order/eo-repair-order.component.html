@@ -1,0 +1,327 @@
+<div class="rocontainer">
+  <div class="row">
+    <div class="col-3">
+      <!-- <mat-form-field>
+                <mat-label>Start Date</mat-label>
+                <input matInput [matDatepicker]="dpstartdate" [min]="minDate" [max]="maxDate" [formControl]="date">
+                <mat-datepicker-toggle matSuffix [for]="dpstartdate"></mat-datepicker-toggle>
+                <mat-datepicker #dpstartdate></mat-datepicker>
+            </mat-form-field>
+              <br />
+              <mat-form-field>
+                <mat-label>End Date</mat-label>
+                <input matInput [matDatepicker]="dpenddate" [min]="minDate" [max]="maxDate" [formControl]="date">
+                <mat-datepicker-toggle matSuffix [for]="dpenddate"></mat-datepicker-toggle>
+                <mat-datepicker #dpenddate></mat-datepicker>
+            </mat-form-field> -->
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">RO Request Date Range</label></div>
+      <div class="sectioncontainer center-text">
+        <mat-form-field>
+          <mat-label>Start Date</mat-label>
+          <input title="Start Date" matInput [matDatepicker]="startdp" [max]="maxDate" id="startdate"
+            [formControl]="startdate">
+          <mat-datepicker-toggle matSuffix [for]="startdp"></mat-datepicker-toggle>
+          <mat-datepicker #startdp></mat-datepicker>
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <mat-label>End Date</mat-label>
+          <input title="End Date" matInput [matDatepicker]="enddp" id="enddate" [max]="maxDate" [formControl]="enddate">
+          <mat-datepicker-toggle matSuffix [for]="enddp"></mat-datepicker-toggle>
+          <mat-datepicker #enddp></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">RO Status</label></div>
+      <div class="sectioncontainer">
+        <mat-selection-list #allRoSelected dense>
+          <mat-list-option class="mat-body-1 listitem" *ngFor="let ros of rostatus$ | async" color="primary">
+            {{ ros.RO_STATUS_IND_DESC }}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">Ship Station</label></div>
+      <div class="sectioncontainer">
+        <mat-selection-list #allStationSelected dense class="selectlistcontainer">
+          <mat-list-option class="mat-body-1 listitem" *ngFor="let sta of stations$ | async" color="primary">
+            {{sta.SHIP_STATION}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>M & E</label><br />
+        <input type="text" #roSearchMEN class="input200" id="roSearchMEN" name="roSearchMEN"
+          (input)="autoSearch($event, 'men')" />
+        <ul *ngIf="filteredMEN$ && hideMEN" class="search-result">
+          <li *ngFor="let m of filteredMEN$ | async" (click)="roSearchMEN.value=m.ME_PART_NUMBER; hideMEN= false"
+            value="m.ME_PART_NUMBER">
+            {{m.ME_PART_NUMBER}}
+          </li>
+        </ul>
+      </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>MPN</label><br />
+        <input type="text" #roSearchMPN class="input200" id="roSearchMPN" name="roSearchMPN"
+          (input)="autoSearch($event, 'mpn')" />
+        <ul *ngIf="filteredMPN$ && hideMPN" class="search-result">
+          <li *ngFor="let m of filteredMPN$ | async" (click)="roSearchMPN.value=m.MPN; hideMPN=false" value="m.MPN">
+            {{m.MPN}}
+          </li>
+        </ul>
+      </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>Repaired Order Number</label><br />
+        <input type="text" #roSearchRON class="input200" id="roSearchRON" name="roSearchRON"
+          (input)="autoSearch($event, 'ron')" />
+        <ul *ngIf="filteredRON$ && hideRON" class="search-result">
+          <li *ngFor="let ron of filteredRON$ | async" (click)="roSearchRON.value=ron.RO_NUMBER; hideRON=false"
+            value="ron.RO_NUMBER">
+            {{ron.RO_NUMBER}}
+          </li>
+        </ul>
+      </div>
+      <!-- <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>ATA</label>
+                <input type="text" #roSearchATA class="input200" id="roSearchATA" name="roSearchATA" (input)="autoSearch($event, 'ata')" />
+                <ul *ngIf="filteredATA$ && hideATA" class="search-result">
+                    <li *ngFor="let a of filteredATA$ | async" (click)="roSearchATA.value=a.ATA; hideATA=false" value="a.ATA">
+                        {{a.ATA}}
+                    </li>
+                </ul>
+            </div> -->
+    </div>
+  </div>
+  <div class="row spacer50">
+    <div class="col-12">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col-3">&nbsp;</div>
+    <div class="col-3 center-text">
+      <button mat-raised-button (click)="selectAll('rostatus')" class="stroked-button">Select All</button>&nbsp;
+      <button mat-raised-button (click)="deselectAll('rostatus')" class="stroked-button">Deselect All</button>
+    </div>
+    <div class="col-2 center-text">
+      <button mat-raised-button (click)="selectAll('shipstation')" class="stroked-button">Select All</button>&nbsp;
+      <button mat-raised-button (click)="deselectAll('shipstation')" class="stroked-button">Deselect All</button>
+    </div>
+    <div class="col-2 center-text">
+      <!-- <span [hidden]="false">
+                <mat-spinner diameter="50"></mat-spinner>
+            </span> -->
+      <span [hidden]="hideRoBtn">
+        <button mat-raised-button (click)="generateReport()" class="stroked-button">SUBMIT</button>
+        <span class="loadingRoSpinner">
+          <mat-spinner diameter="30" [hidden]="hideRoSpinner"></mat-spinner>
+        </span>
+      </span>
+      <span [hidden]="!hideRoBtn">
+        <button mat-raised-button (click)="exportReport()" class="stroked-button">DOWNLOAD</button>
+        <span class="loadingRoSpinner">
+          <mat-spinner diameter="30" [hidden]="hideRoSpinner"></mat-spinner>
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="tableFixedHead">
+        <table id="tblRoResult" class="table table-striped">
+          <thead class="thead-light">
+            <tr>
+              <th>RO NUMBER</th>
+              <th>RO STATUS IND</th>
+              <th>RO STATUS IND DESC</th>
+              <th>ADMIN NUMBER</th>
+              <th>RECOV ITEM ID TYPE</th>
+              <th>RECOV ITEM ID TYPE DESC</th>
+              <th>ME PART NUMBER</th>
+              <th>KEYWORD DESC</th>
+              <th>ME SERIAL NUMBER</th>
+              <th>SHIPMENT RESTRICTION IND</th>
+              <th>SHIPMENT RESTRICTION IND DESC</th>
+              <th>MFG PART NUMBER</th>
+              <th>MFG SERIAL NUMBER</th>
+              <th>DISPOSITION ON RECEIPT IND</th>
+              <th>DISPOSITION ON RECEIPT DESC</th>
+              <th>CONTAINER RETURN IND</th>
+              <th>CONTAINER RETURN IND DESC</th>
+              <th>DISCREPANCY REMARK IND</th>
+              <th>DISCREPANCY REMARK IND DESC</th>
+              <th>PACKING SLIP IND</th>
+              <th>PACKING SLIP IND DESC</th>
+              <th>RO REQUEST DATE</th>
+              <th>SHIP STATION</th>
+              <th>RO ORIGINATOR EMP LAST NAME</th>
+              <th>RO ORIGINATOR EMP FIRST NAME</th>
+              <th>WORK REQUESTED</th>
+              <th>WORK REQUESTED DESC</th>
+              <th>ESTIMATED COST</th>
+              <th>RO QTY</th>
+              <th>RO REVIEW DATE</th>
+              <th>RO REQUIRED DATE</th>
+              <th>RO ACCOUNT NUMBER</th>
+              <th>RO COST CENTER</th>
+              <th>RO PRINT DATE</th>
+              <th>SPECIAL HANDLING REMARK</th>
+              <th>RO DEBIT AMT</th>
+              <th>RO SCRAPPED AMT</th>
+              <th>RO APPROVED AMT</th>
+              <th>RO APPROVED DATE</th>
+              <th>RO PAY CODE</th>
+              <th>RO PAY CODE DESC</th>
+              <th>VENDOR NAME</th>
+              <th>SHIP TO VENDOR NUMBER</th>
+              <th>RO TERMS</th>
+              <th>WARRANTY CLAIM ACCEPTANCE IND</th>
+              <th>WARRANTY CLAIM ACCEPTANCE DESC</th>
+              <th>WARRANTY CLAIM APPROVED AMT</th>
+              <th>WARRANTY CLAIM DENIED AMT</th>
+              <th>DENIAL REASON</th>
+              <th>DENIAL REASON DESC</th>
+              <th>TOTAL ESTIMATED COST</th>
+              <th>SHIPMENT IND DESC</th>
+              <th>COUNTRY OF ORIGIN</th>
+              <th>RO SHIPPED DATE</th>
+              <th>IRM DATE</th>
+              <th>RECEIPT NUMBER</th>
+              <th>OPEN EO IND</th>
+              <th>OPEN EO IND DESC</th>
+              <th>OLAS REOPEN IND</th>
+              <th>OLAS REOPEN IND DESC</th>
+              <th>RO RECEIPT DATE</th>
+              <th>RO RECEIPT EMPLOYEE NUMBER</th>
+              <th>RO RECEIPT EMPLOYEE LAST NAME</th>
+              <th>RO RECEIPT EMPLOYEE FIRST NAME</th>
+              <th>RO RECEIVED QTY</th>
+              <th>TAT</th>
+              <th>DAYS LATE</th>
+              <th>WAYBILL NUMBER</th>
+              <th>DATE INSTALLED</th>
+              <th>DATE REMOVED</th>
+              <th>REASON CODE</th>
+              <th>REASON CODE DESC</th>
+              <th>REMOVAL REASON</th>
+              <th>REMOVED AIRCRAFT NUMBER</th>
+              <th>REMOVED ALPHA STATION</th>
+              <th>POSITION</th>
+              <th>CITY</th>
+              <th>STATE</th>
+              <th>COUNTRY</th>
+              <th>PAID DATE</th>
+              <th>TYPE OF SERVICE CODE</th>
+              <th>TYPE OF SERVICE CODE DESC</th>
+              <th>SHOP FINDINGS IND</th>
+              <th>SHOP FINDINGS IND DESC</th>
+              <th>DATE OF SERVICE</th>
+              <th>AVERAGE COST</th>
+              <th>INVOICE AMT</th>
+              <th>LOAD FILE DATE</th>
+              <th>ARCHIVED DATE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let x of resp">
+              <td>{{ x.RO_NUMBER }}</td>
+              <td>{{ x.RO_STATUS_IND }}</td>
+              <td>{{ x.RO_STATUS_IND_DESC }}</td>
+              <td>{{ x.ADMIN_NUMBER }}</td>
+              <td>{{ x.RECOV_ITEM_ID_TYPE }}</td>
+              <td>{{ x.RECOV_ITEM_ID_TYPE_DESC }}</td>
+              <td>{{ x.ME_PART_NUMBER }}</td>
+              <td>{{ x.KEYWORD_DESC }}</td>
+              <td>{{ x.ME_SERIAL_NUMBER }}</td>
+              <td>{{ x.SHIPMENT_RESTRICTION_IND }}</td>
+              <td>{{ x.SHIPMENT_RESTRICTION_IND_DESC }}</td>
+              <td>{{ x.MFG_PART_NUMBER }}</td>
+              <td>{{ x.MFG_SERIAL_NUMBER }}</td>
+              <td>{{ x.DISPOSITION_ON_RECEIPT_IND }}</td>
+              <td>{{ x.DISPOSITION_ON_RECEIPT_DESC }}</td>
+              <td>{{ x.CONTAINER_RETURN_IND }}</td>
+              <td>{{ x.CONTAINER_RETURN_IND_DESC }}</td>
+              <td>{{ x.DISCREPANCY_REMARK_IND }}</td>
+              <td>{{ x.DISCREPANCY_REMARK_IND_DESC }}</td>
+              <td>{{ x.PACKING_SLIP_IND }}</td>
+              <td>{{ x.PACKING_SLIP_IND_DESC }}</td>
+              <td>{{ x.RO_REQUEST_DATE }}</td>
+              <td>{{ x.SHIP_STATION }}</td>
+              <td>{{ x.RO_ORIGINATOR_EMP_LAST_NAME }}</td>
+              <td>{{ x.RO_ORIGINATOR_EMP_FIRST_NAME }}</td>
+              <td>{{ x.WORK_REQUESTED }}</td>
+              <td>{{ x.WORK_REQUESTED_DESC }}</td>
+              <td>{{ x.ESTIMATED_COST }}</td>
+              <td>{{ x.RO_QTY }}</td>
+              <td>{{ x.RO_REVIEW_DATE }}</td>
+              <td>{{ x.RO_REQUIRED_DATE }}</td>
+              <td>{{ x.RO_ACCOUNT_NUMBER }}</td>
+              <td>{{ x.RO_COST_CENTER }}</td>
+              <td>{{ x.RO_PRINT_DATE }}</td>
+              <td>{{ x.SPECIAL_HANDLING_REMARK }}</td>
+              <td>{{ x.RO_DEBIT_AMT }}</td>
+              <td>{{ x.RO_SCRAPPED_AMT }}</td>
+              <td>{{ x.RO_APPROVED_AMT }}</td>
+              <td>{{ x.RO_APPROVED_DATE }}</td>
+              <td>{{ x.RO_PAY_CODE }}</td>
+              <td>{{ x.RO_PAY_CODE_DESC }}</td>
+              <td>{{ x.VENDOR_NAME }}</td>
+              <td>{{ x.SHIP_TO_VENDOR_NUMBER }}</td>
+              <td>{{ x.RO_TERMS }}</td>
+              <td>{{ x.WARRANTY_CLAIM_ACCEPTANCE_IND }}</td>
+              <td>{{ x.WARRANTY_CLAIM_ACCEPTANCE_DESC }}</td>
+              <td>{{ x.WARRANTY_CLAIM_APPROVED_AMT }}</td>
+              <td>{{ x.WARRANTY_CLAIM_DENIED_AMT }}</td>
+              <td>{{ x.DENIAL_REASON }}</td>
+              <td>{{ x.DENIAL_REASON_DESC }}</td>
+              <td>{{ x.TOTAL_ESTIMATED_COST }}</td>
+              <td>{{ x.SHIPMENT_IND_DESC }}</td>
+              <td>{{ x.COUNTRY_OF_ORIGIN }}</td>
+              <td>{{ x.RO_SHIPPED_DATE }}</td>
+              <td>{{ x.IRM_DATE }}</td>
+              <td>{{ x.RECEIPT_NUMBER }}</td>
+              <td>{{ x.OPEN_EO_IND }}</td>
+              <td>{{ x.OPEN_EO_IND_DESC }}</td>
+              <td>{{ x.OLAS_REOPEN_IND }}</td>
+              <td>{{ x.OLAS_REOPEN_IND_DESC }}</td>
+              <td>{{ x.RO_RECEIPT_DATE }}</td>
+              <td>{{ x.RO_RECEIPT_EMPLOYEE_NUMBER }}</td>
+              <td>{{ x.RO_RECEIPT_EMPLOYEE_LAST_NAME }}</td>
+              <td>{{ x.RO_RECEIPT_EMPLOYEE_FIRST_NAME }}</td>
+              <td>{{ x.RO_RECEIVED_QTY }}</td>
+              <td>{{ x.TAT }}</td>
+              <td>{{ x.DAYS_LATE }}</td>
+              <td>{{ x.WAYBILL_NUMBER }}</td>
+              <td>{{ x.DATE_INSTALLED }}</td>
+              <td>{{ x.DATE_REMOVED }}</td>
+              <td>{{ x.REASON_CODE }}</td>
+              <td>{{ x.REASON_CODE_DESC }}</td>
+              <td>{{ x.REMOVAL_REASON }}</td>
+              <td>{{ x.REMOVED_AIRCRAFT_NUMBER }}</td>
+              <td>{{ x.REMOVED_ALPHA_STATION }}</td>
+              <td>{{ x.POSITION }}</td>
+              <td>{{ x.CITY }}</td>
+              <td>{{ x.STATE }}</td>
+              <td>{{ x.COUNTRY }}</td>
+              <td>{{ x.PAID_DATE }}</td>
+              <td>{{ x.TYPE_OF_SERVICE_CODE }}</td>
+              <td>{{ x.TYPE_OF_SERVICE_CODE_DESC }}</td>
+              <td>{{ x.SHOP_FINDINGS_IND }}</td>
+              <td>{{ x.SHOP_FINDINGS_IND_DESC }}</td>
+              <td>{{ x.DATE_OF_SERVICE }}</td>
+              <td>{{ x.AVERAGE_COST }}</td>
+              <td>{{ x.INVOICE_AMT }}</td>
+              <td>{{ x.LOAD_FILE_DATE }}</td>
+              <td>{{ x.ARCHIVED_DATE }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

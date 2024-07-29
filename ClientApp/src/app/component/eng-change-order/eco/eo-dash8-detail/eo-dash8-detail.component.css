@@ -1,0 +1,83 @@
+.eoDash8Container{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 98%;
+}
+.header{
+    text-align: center;
+}
+table{
+    font-size: 12px; 
+}
+.tableFixedHead {
+    height: 290px;
+    overflow-y: auto;
+    width: 100%;
+}
+.tableFixedHead th{
+    position: sticky;
+    top: 0;
+}
+/* .table-fixed thead,
+.table-fixed tbody,
+.table-fixed tr,
+.table-fixed td,
+.table-fixed th {
+    display: block;
+} */
+
+/* .table-fixed tbody td,
+.table-fixed tbody th,
+.table-fixed thead > tr > th {
+    float: left;
+    position: relative;
+
+    &::after {
+        content: '';
+        clear: both;
+        display: block;
+    }
+} */
+th, td{
+    border: 1px solid black;
+    text-align: center;
+}
+
+.needtext{
+    color: red;
+    text-align: center;
+}
+.goodtext{
+    color: green;
+    text-align: center;
+}
+.reviewtext{
+    color: orange;
+    text-align: center;
+}
+.tooltext{
+    color: lightseagreen;
+    text-align: center;
+}
+.nowrap{
+    white-space: nowrap;
+}
+.centertext{
+    text-align: center;
+}
+.timelabel{
+    text-align: right;
+}
+.eotitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+table thead th{
+    background-color: #36495a;
+    color: #ffffff;
+    font-family: AmericanSans;
+    font-size: 16px;
+    white-space: nowrap;
+}

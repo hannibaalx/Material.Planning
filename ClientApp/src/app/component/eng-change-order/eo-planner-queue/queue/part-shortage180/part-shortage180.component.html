@@ -1,0 +1,56 @@
+<div class="ps180container">
+    <div class="row">
+        <div class="col-12 datacenter">
+            <h6>{{ ruleType }}</h6>
+        </div>
+    </div>
+    <div class="row" *ngIf="partShort180$ | async as partShort180">
+        <div class="col-12">
+            <div class="tableFixedHead">
+                <table id="partShortage180" class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>EO NUMBER</th>
+                            <th>ME TYPE</th>
+                            <th>AD IND</th>
+                            <th>DASH 8</th>
+                            <th>DESCRIPTION</th>
+                            <th>DAYS IN QUEUE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let ps180 of partShort180">
+                            <td>
+                                {{ ps180.EO_NUMBER }}
+                                &nbsp;
+                                <a class="badge badge-pill badge-info" role="button" [routerLink]="['/eo/eonumber', ps180.EO_NUMBER]" target="_blank">
+                                    <i class="fa fa-external-link fa-lg"></i>
+                                </a>
+                            </td>
+                            <td>
+                                {{ ps180.ME_TYPE }}
+                            </td>
+                            <td>
+                                {{ ps180.AD_IND }}
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(ps180.DASH_8, ps180.EO_NUMBER)">{{ ps180.DASH_8 }}</a>
+                                &nbsp;
+                                <a [routerLink]="['/eo/dash8', ps180.DASH_8]" class="" role="button" target="_blank" [title]="'Search DASH 8 : ' + ps180.DASH_8.trim()">
+                                    <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td>
+                                {{ ps180.EO_DESC }}
+                            </td>
+                            <td>
+                                {{ ps180.DAYSINQUEUE }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+

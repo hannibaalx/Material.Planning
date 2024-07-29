@@ -1,0 +1,18 @@
+.eoreportcontainer{
+    font-size: 12px;
+    font-family: 'AmericanSans' !important;
+    margin: auto;
+    min-width: 80%;
+}
+.center-text{
+    text-align: center !important;
+}
+.mat-tab-body-content {
+    height: 100%;
+    overflow: unset!important;
+}
+.eotitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}

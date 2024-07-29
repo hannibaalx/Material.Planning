@@ -1,0 +1,86 @@
+    <div class="form-container">
+      <!-- <div class="row">
+        <div class="col-12">
+          {{newSmObj | json}}
+          <br />
+          <br />
+        </div>
+      </div> -->
+      <div class="row">
+        <div class="col-4">
+          <mat-spinner class="plannerspinner" diameter="20" [hidden]="isLoadingComplete"></mat-spinner>
+          <form>
+            <mat-form-field>
+              <input type="text" matInput id="fleetCode" [formControl]="fleetCode" [matAutocomplete]="auto" (change)="clearCount();" placeholder="Enter Fleet Code" aria-label="fleetCode">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let x of filteredFleets$ | async" (click)="getRuleCountsForPlanner(x.FLEET_CODE)" [value]="x.FLEET_CODE">
+                  {{ x.FLEET_CODE }}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+          </form>
+          <!-- <form>
+            <mat-form-field class="fleet-chip-list">
+              <mat-chip-list #fleetChipList aria-label="fleet selection">
+                <mat-chip *ngFor="let fleet of chiplistFleets" [selectable]="selectable" [removable]="removable" (removed)="remove(fleet, 'fleet')">
+                  {{ fleet }}
+                  <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                </mat-chip>
+                <input placeholder="Enter Fleet" #fleetInput [formControl]="fleetCtrl" id="fleetCtrl" name="fleetCtrl" [matAutocomplete]="autoFleet" [matChipInputFor]="fleetChipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur" (matChipInputTokenEnd)="add($event, 'fleet')">
+              </mat-chip-list>
+              <mat-autocomplete #autoFleet="matAutocomplete" (optionSelected)="selected($event, 'fleet')">
+                <mat-option *ngFor="let fleet of filteredFleets | async" [value]="fleet">
+                  {{ fleet.FLEET_CODE }}
+                </mat-option>
+              </mat-autocomplete>
+           </mat-form-field>            
+          </form> -->
+          
+          <!-- {{ chiplistFleets | json}} -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <button mat-stroked-button class="queuebutton" (click)="setRule('PART NO LONGER USED');">
+            <!-- PART NO LONGER USED<span class="badge badge-light btn-rule-right" *ngFor="let x of parts_no_longer_used$ | async">{{x.count}}</span> -->
+            <span >PART NO LONGER USED</span><span *ngIf="pnluCount || pnluCount == 0" class="badge badge-light btn-rule-right">{{ pnluCount }}</span>
+          </button>  
+          <br />
+          <!--<button mat-stroked-button class="queuebutton" (click)="setRule('TSX COMPARE')">
+            <span >TSX COMPARE</span><span *ngIf="tsxCount || tsxCount == 0" class="badge badge-light btn-rule-right">{{ tsxCount }}</span>
+          </button>
+          <br />-->
+          <button mat-stroked-button class="queuebutton" (click)="setRule('DEFERRAL REVIEW')">
+            <!-- <span >DEFERRAL REVIEW</span><span class="badge badge-light btn-rule-right" *ngFor="let x of deferral_review$ | async">{{x.count}}</span> -->
+            <span >DEFERRAL REVIEW</span><span *ngIf="drCount || drCount == 0" class="badge badge-light btn-rule-right">{{ drCount }}</span>
+          </button>
+          <br />
+          <button mat-stroked-button class="queuebutton" (click)="setRule('SCHEDULED ROTABLE BOM')">
+            <!-- <span >SCHEDULED ROTABLE BOM</span><span class="badge badge-light btn-rule-right" *ngFor="let x of scheduled_rotable_bom$ | async">{{x.count}}</span> -->
+            <span >SCHEDULED ROTABLE BOM</span><span *ngIf="srbCount || srbCount == 0" class="badge badge-light btn-rule-right">{{ srbCount }}</span>
+          </button>
+          <br />
+          <button mat-stroked-button class="queuebutton" (click)="setRule('NEW STATIONS CHANGES')">
+            <!-- NEW STATIONS CHANGES<span class="badge badge-light btn-rule-right" *ngFor="let x of new_station_changes$ | async">{{x.count}}</span> -->
+            <span >NEW STATIONS CHANGES</span><span *ngIf="nscCount || nscCount == 0" class="badge badge-light btn-rule-right">{{ nscCount }}</span>
+          </button>
+        </div>
+        <div class="col-9">
+          <app-sm-part-no-longer-used (setRule)="receiveSmRule($event)" *ngIf="selectedRule == 'PART NO LONGER USED'"></app-sm-part-no-longer-used>
+          <app-sm-tsx-compare *ngIf="selectedRule == 'TSX COMPARE'"></app-sm-tsx-compare>
+          <app-sm-deferral-review (setMeRule)="receiveSmRule($event)" *ngIf="selectedRule == 'DEFERRAL REVIEW'"></app-sm-deferral-review>
+          <app-sm-scheduled-rotable-bom *ngIf="selectedRule == 'SCHEDULED ROTABLE BOM'"></app-sm-scheduled-rotable-bom>
+          <app-sm-new-stations-changes (setMeRule)="receiveSmRule($event)" *ngIf="selectedRule == 'NEW STATIONS CHANGES'"></app-sm-new-stations-changes>
+        </div>
+      </div>
+      <div class="row" *ngIf="blnShowQueueDetails">
+        <div class="col-12 comment_section">
+          <app-sm-part-longer-used-comments *ngIf="selectedRule == 'PART NO LONGER USED'"></app-sm-part-longer-used-comments>
+          <app-sm-deferral-review-comments *ngIf="selectedRule == 'DEFERRAL REVIEW'"></app-sm-deferral-review-comments>
+          <app-sm-new-stations-changes-comments *ngIf="selectedRule == 'NEW STATIONS CHANGES'"></app-sm-new-stations-changes-comments>
+          <app-sm-scheduled-rotable-bom-comments *ngIf="selectedRule == 'SCHEDULED ROTABLE BOM'"></app-sm-scheduled-rotable-bom-comments>
+        </div> 
+      </div>
+    </div>
+    <app-maint-snackbar></app-maint-snackbar>
+

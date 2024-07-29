@@ -1,0 +1,68 @@
+mat-sidenav-container{
+    font-family: Helvetica, Sans-serif;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+    /* overflow: hidden; */
+}
+
+mat-sidenav, mat-sidenav-content{
+    padding: 16px;
+    height: 100%;
+    background-color: white;
+}
+
+mat-sidenav{
+    background-color: white;
+    width: 250px;
+}
+
+.eotitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+
+.search-result li {
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    border-top: 1px solid gray;
+    width: 213px;
+    height: 25px;
+    padding: 5px;
+    background-color: white;
+    cursor: pointer;
+    list-style-type: none;
+    left: -40px;
+    position: relative;
+    z-index: 100;
+}
+    
+.search-result li:hover {
+    background-color: #607D8B;
+  }
+  
+.search-result li a {
+    color: #888;
+    display: block;
+    text-decoration: none;
+  }
+  
+.search-result li a:hover {
+    color: white;
+  }
+.search-result li a:active {
+    color: white;
+  }
+
+.addremovebutton{
+position: relative;
+    top: 40px;
+}
+
+.addalternativebutton{
+    position: relative;
+    position: relative;
+    left: -110px;
+}

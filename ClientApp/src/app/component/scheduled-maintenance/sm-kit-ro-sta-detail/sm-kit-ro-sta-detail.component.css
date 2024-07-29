@@ -1,0 +1,94 @@
+mat-sidenav-container{
+    font-family: Helvetica, Sans-serif;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+}
+
+mat-sidenav{
+    padding: 16px;
+    height: 100%;
+    background-color: white;
+    overflow: hidden;
+}
+
+mat-sidenav-content{
+    padding: 10px;
+    height: 100%;
+    background-color: white;
+    overflow-y: auto; 
+}
+
+mat-sidenav{
+    background-color: white;
+    width: 250px;
+}
+
+.smtitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+
+.header{
+    text-align: center;
+}
+
+mat-table.dash8, mat-table.kitdetails{
+    width: 4000px;
+}
+
+mat-table.kitpartstationdetails{
+    width: 1400px;
+}
+
+mat-header-row{
+    position: sticky !important;
+    z-index: 100 !important;
+    min-height: 45px;
+}
+.mat-header-cell {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: unset;
+    word-wrap: break-word;
+    min-height: inherit;
+    color: #fff;
+    background-color: #36495a!important;
+    border: 1px, solid, black;
+    font-size: 14px;
+    font-family: 'AmericanSans';
+    /* border: 1px solid #ffffff; */
+}
+
+.mat-row:nth-of-type(even){
+    background-color: #f2f2f2;
+}
+
+.mat-cell{
+    vertical-align: middle;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    border-top: 1px solid rgba(0, 0, 0, 0.12);
+    border-left: 1px solid rgba(0, 0, 0, 0.12);
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    margin-top: -1px;
+    font-size: 12px;
+    align-items: center;
+    justify-content: center;
+    overflow: auto;
+    align-self: stretch;
+}
+
+.mat-elevation-z8{
+    box-shadow: none;
+}
+.mat-row:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+
+mat-table.rodetails{
+    width: 2500px;
+}

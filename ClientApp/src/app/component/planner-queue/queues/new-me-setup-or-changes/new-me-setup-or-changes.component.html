@@ -1,0 +1,172 @@
+<div class="amnscontainer">
+    <div class="datacontainer">
+        <div class="row">
+            <div class="col-12 header-color">
+                <b class="queue-header">New M&E Setup or Changes</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 dataright">
+                <button mat-stroked-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName:'New ME Setup or Changes summary'})">DOWNLOAD SUMMARY</button>
+                &nbsp;<button mat-stroked-button class="exportbtn stroked-button" (click)="exporter2.exportTable('xlsx', {fileName:'New ME Setup or Changes detail'})">DOWNLOAD DETAIL</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mattablecontainer">
+              <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+                <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortNewMeSetupOrChanges($event)" class="mat-elevation-z8">
+                    
+                    <ng-container matColumnDef="TO_ME">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header>
+                          <b>TO M&E</b>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let x"> 
+                        <a mat-raised-button class="mebtn" href="javascript:void(0);" (click)="sendMeDetails(x.TO_ME)">{{ x.TO_ME }}</a>
+                        &nbsp;
+                        <a mat-button color="primary" [routerLink]="['../ata/', x.TO_ME.trim()]" class="atalaunch" target="_blank">
+                          <mat-icon>launch</mat-icon>
+                        </a>                 
+                      </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="KEYWORD_DESCRIPTION">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>KEYWORD</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.KEYWORD_DESCRIPTION }} </mat-cell>
+                      </ng-container>
+                    
+                    <ng-container matColumnDef="MFG_PART_NUMBER">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>MFG PART NUMBER</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.MFG_PART_NUMBER }} </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="SYSTEM_ALLOCATION">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>SYSTEM ALLOCATION</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.SYSTEM_ALLOCATION }} </mat-cell>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="SYSTEM_ON_HAND">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>SYSTEM ON HAND</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.SYSTEM_ON_HAND }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="COUNT_OF_TRNSMT">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>CNT OF TRNSMT</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.COUNT_OF_TRNSMT }} </mat-cell>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="DAYSINQUEUE">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>DAYS IN QUEUE</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.DAYSINQUEUE }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LAST_UPDATES">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>LAST UPDATES</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }} </mat-cell>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="COMMENTS">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMMENTS</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+                    </ng-container>
+                 
+                    <mat-header-row *matHeaderRowDef="newmesetuporchanges_displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: newmesetuporchanges_displayedColumns;"></mat-row>
+                </mat-table>   
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mattablecontainer">
+                <mat-table matTableExporter #exporter2="matTableExporter" [dataSource]="datasourcedetail" class="mat-elevation-z8">
+                   
+                    <ng-container matColumnDef="TO_ME">
+                      <mat-header-cell *matHeaderCellDef>
+                          <b>TO M&E</b>
+                      </mat-header-cell>
+                      <mat-cell *matCellDef="let x"> 
+                        <a mat-raised-button class="mebtn" href="javascript:void(0);" (click)="sendMeDetails(x.TO_ME)">{{ x.TO_ME }}</a>
+                        &nbsp;
+                        <a mat-button color="primary" [routerLink]="['../ata/', x.TO_ME.trim()]" class="atalaunch" target="_blank">
+                          <mat-icon>launch</mat-icon>
+                        </a>                 
+                      </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="KEYWORD_DESCRIPTION">
+                        <mat-header-cell *matHeaderCellDef><b>KEYWORD</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.KEYWORD_DESCRIPTION }} </mat-cell>
+                      </ng-container>
+                    
+                    <ng-container matColumnDef="MFG_PART_NUMBER">
+                      <mat-header-cell *matHeaderCellDef><b>MFG PART NUMBER</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.MFG_PART_NUMBER }} </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="SYSTEM_ALLOCATION">
+                      <mat-header-cell *matHeaderCellDef><b>SYSTEM ALLOCATION</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.SYSTEM_ALLOCATION }} </mat-cell>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="SYSTEM_ON_HAND">
+                      <mat-header-cell *matHeaderCellDef><b>SYSTEM ON HAND</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.SYSTEM_ON_HAND }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="COUNT_OF_TRNSMT">
+                      <mat-header-cell *matHeaderCellDef><b>COUNT OF TRNSMT</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.COUNT_OF_TRNSMT }} </mat-cell>
+                    </ng-container>
+   
+                    <ng-container matColumnDef="DAYSINQUEUE">
+                        <mat-header-cell *matHeaderCellDef><b>DAYS IN QUEUE</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.DAYSINQUEUE }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LAST_UPDATES">
+                        <mat-header-cell *matHeaderCellDef><b>LAST UPDATES</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }} </mat-cell>
+                    </ng-container>
+                    
+                    <ng-container matColumnDef="COMMENTS">
+                        <mat-header-cell *matHeaderCellDef><b>COMMENTS</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="FROM_ME">
+                        <mat-header-cell *matHeaderCellDef><b>FROM M&E</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.FROM_ME }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="TRNSMT_ID">
+                        <mat-header-cell *matHeaderCellDef><b>TRNSMT ID</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.TRNSMT_ID }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="TRNSMT_STATUS_NM">
+                        <mat-header-cell *matHeaderCellDef><b>TRNSMT STATUS NM</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.TRNSMT_STATUS_NM }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="TRNSMT_CREATE_TMS">
+                        <mat-header-cell *matHeaderCellDef><b>TRNSMT CREATE TMS</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.TRNSMT_CREATE_TMS }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="TRNSMT_STEP_NM">
+                        <mat-header-cell *matHeaderCellDef><b>TRNSMT STEP NM</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.TRNSMT_STEP_NM }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="K2_URL">
+                        <mat-header-cell *matHeaderCellDef><b>K2 URL</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.K2_URL }} </mat-cell>
+                    </ng-container>
+                 
+                    <mat-header-row *matHeaderRowDef="newmesetuporchangesdetail_displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: newmesetuporchangesdetail_displayedColumns;"></mat-row>
+                </mat-table>   
+            </div>
+        </div>
+    </div>
+</div>
+
+

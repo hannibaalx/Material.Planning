@@ -1,0 +1,140 @@
+<div class="odekcontainer">
+  <div class="row">
+    <div class="col-12 dataleft">
+      <span class="header-title"><b>{{ ruleType }}</b></span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 dataright">
+      <div>
+        &nbsp;<button mat-stroked-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName:'Overdue EO Kit Work Order'})">DOWNLOAD</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 mattablecontainer">
+      <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+      <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortOverdueEOKitWorkOrder($event)" class="mat-elevation-z8">
+        <ng-container matColumnDef="PO_NUMBER">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>ORDER NUMBER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.PO_NUMBER }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ORDER_STATUS_IND_DESC">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>ORDER STATUS</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+             {{ x.ORDER_STATUS_IND_DESC }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ME_PART_NUMBER">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>ME PART NUMBER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> 
+            <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(x.ME_PART_NUMBER, x.PO_NUMBER)">{{ x.ME_PART_NUMBER }}</a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="MFG_PART_NUMBER">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>MPN</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.MFG_PART_NUMBER }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ORDER_DATE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>ORDER DATE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.ORDER_DATE | date:'yyyy-MM-dd' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="REQUIRED_DATE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>REQUIRED DATE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.REQUIRED_DATE | date:'yyyy-MM-dd' }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="OPEN_QTY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>OPEN QTY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.OPEN_QTY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="MATL_STS_ALL">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>MATL STATUS</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> 
+            <span *ngIf="x.MATL_STS_ALL == 'GOOD'" class="goodtext"><b>{{ x.MATL_STS_ALL }}</b></span>
+            <span *ngIf="x.MATL_STS_ALL == 'NEED'" class="needtext"><b>{{ x.MATL_STS_ALL }}</b></span>
+            <span *ngIf="x.MATL_STS_ALL == 'REVIEW'" class="reviewtext"><b>{{ x.MATL_STS_ALL }}</b></span>
+            <span *ngIf="x.MATL_STS_ALL == 'TOOL'" class="tooltext"><b>{{ x.MATL_STS_ALL }}</b></span>
+            <span *ngIf="x.MATL_STS_ALL == null" class=""><b>UNKNOWN</b></span>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="overdueEOKitWorkOrder_displayedColumns; sticky: true;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: overdueEOKitWorkOrder_displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>
+<!-- <div class="odekcontainer">
+    <div class="row">
+        <div class="col-12 datacenter">
+            <h6>{{ ruleType }}</h6>
+        </div>
+    </div>
+    <div class="row" *ngIf="overDueKit$ | async as overDueKit">
+        <div class="col-12">
+            <div class="tableFixedHead">
+                <table id="overDueKit" class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ORDER NBR</th>
+                            <th>ORDER STATUS</th>
+                            <th>ME PART NUMBER</th>
+                            <th>MPN</th>
+                            <th>ORDER DATE</th>
+                            <th>REQUIRED DATE</th>
+                            <th>OPEN QTY</th>
+                            <th>MATL STATUS</th>                           
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let odek of overDueKit">
+                            <td>
+                                {{ odek.PO_NUMBER }}
+                                &nbsp;
+                            comment    <a class="badge badge-pill badge-info" role="button" [routerLink]="['/eo/eonumber', odek.EO_NUMBER]" target="_blank">
+                                    <i class="fa fa-external-link fa-lg"></i>
+                                </a> comment end
+                            </td>
+                            <td>
+                                {{ odek.ORDER_STATUS_IND_DESC }}
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(odek.ME_PART_NUMBER, odek.PO_NUMBER)">{{ odek.ME_PART_NUMBER }}</a>
+                            </td>
+                            <td>
+                                {{ odek.MFG_PART_NUMBER }}
+                            comment  <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(odek.DASH_8, odek.EO_NUMBER)">{{ odek.DASH_8 }}</a>
+                                &nbsp;
+                                <a [routerLink]="['/eo/dash8', odek.DASH_8]" class="" role="button" target="_blank" [title]="'Search DASH 8 : ' + odek.DASH_8">
+                                    <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                                </a> comment end
+                            </td>
+                            <td>
+                                {{ odek.ORDER_DATE | date:'MM-dd-yyyy' }}
+                            </td>
+                            <td>
+                                {{ odek.REQUIRED_DATE | date:'MM-dd-yyyy' }}
+                            </td>
+                            <td>
+                                {{ odek.OPEN_QTY}}
+                            </td>
+                            <td>
+                                {{ odek.MATL_STS_ALL }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+ -->

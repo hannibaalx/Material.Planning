@@ -1,0 +1,123 @@
+@import "~@ng-select/ng-select/themes/ant.design.theme.css";
+
+.fullschdulecontainer{
+    font-size: 12px;
+    font-family: 'AmericanSans' !important;
+    margin: auto;
+    min-width: 80%;
+    max-width: 100%; 
+}
+.center-text{
+    text-align: center;
+}
+.input200{
+    width: 200px;
+}
+.label-top-20{
+  position: relative;
+  top: 10px;
+}
+.label-top-7{
+    position: relative;
+    top: 7px;
+}
+.chkadind{
+    position: relative;
+    top: 35px;
+}
+.listitem{
+    font-size: 12px;
+}
+.selectlistcontainer {
+    border: grey 1px solid;
+    height: 326px;
+    overflow-y: auto;
+    width: 100%;
+  }
+  .selectlistcontainer2{
+    border: grey 1px solid;
+    overflow-y: auto;
+    width: 100%
+  }
+  .search-result li {
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    border-top: 1px solid gray;
+    width: 200px;
+    height: 25px;
+    padding: 5px;
+    background-color: white;
+    cursor: pointer;
+    list-style-type: none;
+    left: -40px;
+    position: relative;
+    z-index: 100;
+  }
+    
+  .search-result li:hover {
+    background-color: #607D8B;
+  }
+  
+  .search-result li a {
+    color: #888;
+    display: block;
+    text-decoration: none;
+  }
+  
+  .search-result li a:hover {
+    color: white;
+  }
+  .search-result li a:active {
+    color: white;
+  }
+  .autoinput{
+    position: relative;
+}
+table{
+  font-size: 11px; 
+}
+th, td{
+  border: 1px solid black;
+  text-align: center;
+}
+.tableFixedHead {
+height: 500px;
+overflow-y: auto;
+width: 100%;
+display: none;
+}
+.tableFixedHead th{
+position: sticky;
+top: 0;
+}
+.tableFixedHeadModal {
+height: 475px;
+overflow-y: auto;
+width: 100%;
+}
+.tableFixedHeadModal th{
+position: sticky;
+top: 0;
+}
+.loadingFsSpinner{
+  position: relative;
+  top: -27px;
+  left: 210px;
+}
+.stroked-button {
+  background-color: #fff;
+  border: 2px solid #0078d2!important;
+  color: #4db4fa;
+  min-width: 105px;
+  font-size: 16px;
+  margin: 0 2px 0 5px!important;
+  line-height: 22px!important;
+  top: 2px;
+}
+.mat-h4, .mat-subheading-1, .mat-typography h4 {
+  font: 400 15px / 24px Roboto, "Helvetica Neue", sans-serif;
+  letter-spacing: normal;
+  margin: 0 0 16px;
+  font-family: AmericanSans;
+}

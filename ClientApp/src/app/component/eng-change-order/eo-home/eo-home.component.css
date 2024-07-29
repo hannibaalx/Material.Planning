@@ -1,0 +1,44 @@
+mat-sidenav-container{
+    font-family: Helvetica, Sans-serif;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+    /* overflow: hidden; */
+}
+
+mat-sidenav, mat-sidenav-content{
+    padding: 16px;
+    height: 100%;
+    background-color: white;
+}
+
+mat-sidenav{
+    background-color: white;
+    width: 250px;
+}
+
+.eotitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+.iframe-container {
+    /* overflow: hidden; */
+    padding-top: 24.25%;
+    position: relative;
+  }
+   
+.iframe-container iframe {
+    border: 0;
+    /* height: 100%; */
+    left: 0;
+    position: absolute;
+    top: 0;
+    /* width: 95%; */
+    /* width:1475px;
+    height:680px; */
+    width:1600px;
+    height: 2000px;
+    /* overflow: hidden; */
+    pointer-events:none;
+  }

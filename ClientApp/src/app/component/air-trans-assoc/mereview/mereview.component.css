@@ -1,0 +1,224 @@
+.datacontainer{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 98%;
+    position: relative;
+    top: -75px;
+}
+.datacenter{
+    text-align: center;
+}
+.dataright{
+    text-align: right;
+    position: relative;
+    top: -25px;
+    font-size: 10px;
+}
+.aprrow:nth-of-type(even){
+    background-color: #f2f2f2;
+  }
+.hoverable:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.mattablecontainer{
+    height: 200px;
+    width: 100% !important;
+    /* overflow: auto;     */
+}
+.mat-header-cell{
+    flex-direction: column;
+    justify-content: center;
+}
+mat-footer-row, mat-row {
+    min-height: 35px;
+}
+/* .mat-cell{
+    font-size: 10px;
+    text-align: center;
+    justify-content: center;
+} */
+.exportbtn{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+.mebtn{
+    /* display: inline-block; */
+    padding: .25em .4em;
+    font-size: 86%;
+    font-weight: 700;
+    line-height: 2;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    width: 100px !important;
+    min-width: unset !important;
+}
+.mat-button-wrapper{
+    position: relative;
+    left: 10px;
+}
+.modal-button{
+    line-height: 30px;
+    background: white;
+}
+
+modal-button mat-flat-button mat-button-base{
+    line-height: 30px;
+    min-width: 54px;
+    background: white;
+    color: white !important;
+    
+}
+
+.btnsavedrop{
+    position: relative;
+    left: 1301px;
+    top: -110px;
+}
+
+.commentsection{
+    position: relative;
+    left: 10px;
+    top: 10px;
+}
+
+.commentinput{
+    border:black 1px;
+}
+
+.dropNextReview{
+    position: relative;
+    float: right;
+    line-height: 1.5;
+    top: -100px;
+    left: -203px;
+}
+.mat-header-cell{
+    flex-direction: column;
+    justify-content: center;
+    color: #ffffff;
+    border: 1px solid#dee2e6;
+    background-color: #36495a!important;
+    font-size: 16px;
+}
+.mat-cell{
+    font-size: 14px;
+    font-family: "AmericanSans";
+    text-align: left;
+    justify-content: left;
+    padding-left: 5px !important;
+    border: 1px solid#dee2e6;
+}
+.mat-row:nth-of-type(even){
+    background-color: #f2f2f2;
+}
+.mat-row:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+mat-cell:first-of-type, mat-footer-cell:first-of-type, mat-header-cell:first-of-type {
+    padding-left: 0px;
+}
+mat-cell:last-of-type, mat-footer-cell:last-of-type, mat-header-cell:last-of-type {
+    padding-right: 0px;
+}
+.stroked-button {
+    background-color: #4db4fa;
+    border: 2px solid #0078d2!important;
+    color: #fff;
+    min-width: 115px;
+    font-size: 16px;
+    font-family: "AmericanSans";
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+
+.stroked-button2 {
+    background-color: #f2f2f2!important;
+    border: 2px solid #0078d2!important;
+    color: #000;
+    min-width: 115px;
+    font-size: 16px;
+    font-family: "AmericanSans";
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+.me-title{
+    font-family: "AmericanSans";
+    font-size: 12px;
+    font-weight: 700;
+    color: #36495a!important;
+}
+
+.header-height{
+    height: 30px!important;
+    margin-top: 6px;
+}
+.header-color{
+    background-color: #f2f2f2!important;
+    color: #000000;
+    font-size: 14px;
+    height: 22px;
+}
+
+.input-length{
+    width: 810px;
+    min-width: 810px;
+    max-width: 810px;
+}
+
+.mat-dialog-title {
+    /* margin: 0 0 20px; */
+    display: block;
+}
+
+/* textarea{ 
+    width: 385px;
+    min-width: 385px;
+    max-width: 385px;
+    height: 125px;
+    min-height: 125px;
+    max-height: 125px;
+    border: 2px solid #0078d2 !important;
+  } */
+
+  input{
+    width: 366px;
+    min-width: 366px;
+    max-width: 366px;
+    border: 2px solid #0078d2 !important;
+  }
+
+  /* .app-modal-window .modal-dialog {
+    width: 500px;
+  } */
+  .mat-cell{
+    font-size: 14px;
+    font-family: "AmericanSans";
+    text-align: left;
+    justify-content: left;
+    padding-left: 5px !important;
+    border: 1px solid#dee2e6;
+}
+
+.mat-column-menumber
+{
+    width: 30% !important;
+    flex: none !important;
+}
+
+.mat-column-comments
+{
+    width: 70% !important;
+    flex: none !important;
+}

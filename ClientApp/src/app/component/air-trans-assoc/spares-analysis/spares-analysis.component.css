@@ -1,0 +1,45 @@
+.sacontainer {
+    background-color: #f2f2f2;
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 98%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+.noborder
+{
+    border: none;
+}
+.border{
+    border-width: 5px;
+    /* border-color: #6c757d; */
+    border-color: #000000;
+}
+td, th, .title{
+    text-align: center;
+}
+.tmargin{
+    margin-top: 1em;
+}
+
+.txtcenter{
+    text-align: center;
+}
+.txtleft{
+    text-align: left;
+    position: relative;
+    float:left;
+}
+.txtright{
+    text-align: right;
+    position: relative;
+    float:right;
+}
+.vertical-center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }

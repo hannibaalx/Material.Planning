@@ -1,0 +1,1126 @@
+<div class="modal fade" id="dash8history" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="dash8historyLabel" aria-hidden="true">
+  <form (ngSubmit)="onSubmit(frm, 'dash8', currentChkkey)" #frm="ngForm">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">COMMENT HISTORY</h4>
+          <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <ul class="nav nav-tabs">
+                <li class="active">
+                  <a data-toggle="tab" href="#viewdash8comment" (click)="hideSave()" class="nav-link active">View</a>
+                </li>
+                <li class="">
+                  <a data-toggle="tab" href="#enterdash8comment" (click)="showSave()" class="nav-link">Enter
+                    Comments</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tab-content col-12">
+            <div id="viewdash8comment" class="tab-pane fade in active collapse show">
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="dash8history">{{ eoDash8History }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="enterdash8comment" class="tab-pane fade">
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-12">
+                      <textarea autofocus id="Dash8Comment" name="Dash8Comment" class="form-control" rows="3" cols="50" ngModel></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" *ngIf="showSaveval" class="btn btn-outline-dark">Save</button>&nbsp;
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="eoplContainer">
+  <div class="row">
+    <div class="col-12">
+      <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+      <div *ngIf="bomDetails$ | async">
+        <div *ngIf="ruleHeader.includes('AD Parts Shortage')">
+          <div class="row">
+            <div class="col-12">&nbsp;</div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h6>AD SYSTEM SHORTAGE BOM Details - {{ NewEoDash8Obj.DASH_8 }}</h6>&nbsp;
+              <div class="tableFixedHead">
+                <table class="table table-striped">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>ME PART NUMBER USED</th>
+                      <th>KEYWORD DESCRIPTION</th>
+                      <th>AIRCRAFT COUNT</th>
+                      <th>QTY REQ</th>
+                      <th>REQD IND</th>
+                      <th>KIT IND</th>
+                      <th>TTL OH</th>
+                      <th>TTL PO</th>
+                      <th>TTL RO</th>
+                      <th>TTL REQ EO</th>
+                      <th>MATL STS ALL</th>
+                      <th>TTL REQ 30 DAY</th>
+                      <th>MATL STS 30 DAY</th>
+                      <th>TTL REQ 60 DAY</th>
+                      <th>MATL STS 60 DAY</th>
+                      <th>TTL REQ 90 DAYS</th>
+                      <th>MATL STS 90 DAY</th>
+                      <th>TTL REQ 120 DAYS</th>
+                      <th>MATL STS 120 DAY</th>
+                      <th>TTL REQ 180 DAYS</th>
+                      <th>MATL STS 180 DAY</th>
+                      <th>STATION SHORTAGE</th>
+                      <th>COMMENTS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let b of bomDetails$ | async">
+                      <td>{{ b.ME_PART_NUMBER_USED }}</td>
+                      <td>{{ b.KEYWORD_DESCRIPTION }}</td>
+                      <td>{{ b.AIRCRAFT_COUNT }}</td>
+                      <td>{{ b.QTY_REQ }}</td>
+                      <td>{{ b.REQD_IND }}</td>
+                      <td>
+                        <span *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage'">
+                          <span *ngIf="b.KIT_IND != 'Y'; else kitadpartsshortagedetaillink">{{b.KIT_IND}}</span>
+                          <ng-template #kitadpartsshortagedetaillink>
+                            <a href="javascript:void(0);" class="badge badge-info" (click)='getYesterdayDeferralsKitDetailById(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                              {{b.KIT_IND}}
+                            </a>
+                          </ng-template>
+                        </span>
+                      </td>
+                      <td>{{ b.TTL_OH }}</td>
+                      <td>{{ b.TTL_PO }}</td>
+                      <td>{{ b.TTL_RO }}</td>
+                      <td>{{ b.TTL_REQ_EO }}</td>
+                      <td *ngIf="b.MATL_STS_ALL == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="b.MATL_STS_ALL == 'NEED'" class="needtext"><b>{{b.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="b.MATL_STS_ALL == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="b.MATL_STS_ALL == null" class="">UNKNOWN</td>
+                      <td>{{ b.TTL_REQ_30_DAY }}</td>
+                      <td *ngIf="b.MATL_STS_30_DAY == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_30_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_30_DAY == 'NEED'" class="needtext"><b>{{b.MATL_STS_30_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_30_DAY == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_30_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_30_DAY == null" class="">UNKNOWN</td>
+                      <td>{{ b.TTL_REQ_60_DAY }}</td>
+                      <td *ngIf="b.MATL_STS_60_DAY == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_60_DAY == 'NEED'" class="needtext"><b>{{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_60_DAY == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_60_DAY == null" class="">UNKNOWN</td>
+                      <td>{{ b.TTL_REQ_90_DAYS }}</td>
+                      <td *ngIf="b.MATL_STS_90_DAY == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_90_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_90_DAY == 'NEED'" class="needtext"><b>{{b.MATL_STS_90_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_90_DAY == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_90_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_90_DAY == null" class="">UNKNOWN</td>
+                      <td>{{ b.TTL_REQ_120_DAYS }}</td>
+                      <td *ngIf="b.MATL_STS_120_DAY == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_120_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_120_DAY == 'NEED'" class="needtext"><b>{{b.MATL_STS_120_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_120_DAY == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_120_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_120_DAY == null" class="">UNKNOWN</td>
+                      <td>{{ b.TTL_REQ_180_DAYS }}</td>
+                      <td *ngIf="b.MATL_STS_180_DAY == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_180_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_180_DAY == 'NEED'" class="needtext"><b>{{b.MATL_STS_180_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_180_DAY == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_180_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_180_DAY == null" class="">UNKNOWN</td>
+                      <td>
+                        <div *ngIf="b.STATION_SHORTAGE.trim() == '' || b.STATION_SHORTAGE.trim() == 'N/A'" class="parentcolortext">
+                          N/A
+                        </div>
+                        <a mat-flat-button *ngIf="b.STATION_SHORTAGE.trim() != '' && b.STATION_SHORTAGE.trim() !='N/A'" href="javascript:void(0);" class="parentcolor" (click)="openStationShortageModal(b.ME_PART_NUMBER_USED);">{{ b.STATION_SHORTAGE }}</a>
+                      </td>
+                      <!-- <td>{{ b.KEY }}</td> -->
+                      <td>
+                        <span *ngIf="b.COMM == null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #545b62;" (click)="setEoDash8HistoryModal(b.COMM, b.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                        <span *ngIf="b.COMM != null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #17a2b8;" (click)="setEoDash8HistoryModal(b.COMM, b.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="22">
+                        <mat-form-field class="dropNextReview">
+                          <mat-label class="nextReviewDateLabel">Next Review Date</mat-label>
+                          <input matInput [matDatepicker]="nextdp" [min]="minDate" [max]="maxDate" id="nextReviewDate" [formControl]="nextReviewDate" [disabled]="dropOffStatus">
+                          <mat-datepicker-toggle matSuffix [for]="nextdp"></mat-datepicker-toggle>
+                          <mat-datepicker #nextdp></mat-datepicker>
+                        </mat-form-field>&nbsp;
+                      </td>
+                      <td colspan="1">
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ruleHeader.includes('New Stations Changes')">
+          <div class="row">
+            <div class="col-12">&nbsp;</div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h6>NEW STATIONS CHANGES BOM Details - {{ NewEoDash8Obj.DASH_8 }}</h6>&nbsp;
+              <div class="tableFixedHead">
+                <table class="table table-striped">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>ME PART NUMBER USED</th>
+                      <th>KEYWORD DESCRIPTION</th>
+                      <th>AIRCRAFT COUNT</th>
+                      <th>QTY REQ</th>
+                      <th>REQD IND</th>
+                      <th>KIT IND</th>
+                      <th>TTL OH</th>
+                      <th>TTL PO</th>
+                      <th>TTL RO</th>
+                      <th>TTL REQ EO</th>
+                      <th>MATL STS ALL</th>
+                      <th>TTL REQ 30 DAY</th>
+                      <th>MATL STS 30 DAY</th>
+                      <th>TTL REQ 60 DAY</th>
+                      <th>MATL STS 60 DAY</th>
+                      <th>COMMENTS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let b of bomDetails$ | async">
+                      <td>{{ b.ME_PART_NUMBER_USED }}</td>
+                      <td>{{ b.KEYWORD_DESCRIPTION }}</td>
+                      <td>{{ b.AIRCRAFT_COUNT }}</td>
+                      <td>{{ b.QTY_REQ }}</td>
+                      <td>{{ b.REQD_IND }}</td>
+                      <td>
+                        <span *ngIf="NewEoDash8Obj.RULE == 'New Stations Changes'">
+                          <span *ngIf="b.KIT_IND != 'Y'; else kitnewstationschangesdetaillink">{{b.KIT_IND}}</span>
+                          <ng-template #kitnewstationschangesdetaillink>
+                            <a href="javascript:void(0);" class="badge badge-info" (click)='getKitAdPartsShortageDetail(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                              {{b.KIT_IND}}
+                            </a>
+                          </ng-template>
+                        </span>
+                      </td>
+                      <td>{{ b.TTL_OH }}</td>
+                      <td>{{ b.TTL_PO }}</td>
+                      <td>{{ b.TTL_RO }}</td>
+                      <td>{{ b.TTL_REQ_EO }}</td>
+                      <td *ngIf="b.MATL_STS_ALL == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="b.MATL_STS_ALL == 'NEED'" class="needtext"><b>{{b.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="b.MATL_STS_ALL == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="b.MATL_STS_ALL == 'TOOL'" class="tooltext"><b>{{b.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="b.MATL_STS_ALL == null" class="">UNKNOWN</td>
+                      <td>{{ b.TTL_REQ_30_DAY }}</td>
+                      <td *ngIf="b.MATL_STS_30_DAY == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_30_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_30_DAY == 'NEED'" class="needtext"><b>{{b.MATL_STS_30_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_30_DAY == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_30_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_30_DAY == 'TOOL'" class="tooltext"><b>{{b.MATL_STS_30_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_30_DAY == null" class="">UNKNOWN</td>
+                      <td>{{ b.TTL_REQ_60_DAY }}</td>
+                      <td *ngIf="b.MATL_STS_60_DAY == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_60_DAY == 'NEED'" class="needtext"><b>{{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_60_DAY == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_60_DAY == 'TOOL'" class="tooltext"><b>{{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="b.MATL_STS_60_DAY == null" class="">UNKNOWN</td>
+                      <td>
+                        <!-- {{ b.KEY }} -->
+                        <span *ngIf="b.COMM == null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #545b62;" (click)="setEoDash8HistoryModal(b.COMM, b.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                        <span *ngIf="b.COMM != null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #17a2b8;" (click)="setEoDash8HistoryModal(b.COMM, b.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="16">
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ruleHeader.includes('New Dash 8 With No BOM')">
+          <div class="row">
+            <div class="col-12">&nbsp;</div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h6>NEW DASH 8 WITH NO BOM Details - {{ NewEoDash8Obj.DASH_8 }}</h6>&nbsp;
+              <div class="tableFixedHead">
+                <table class="table table-striped">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>ME TYPE</th>
+                      <th>MAINT TYPE</th>
+                      <th>DASH 8 COMMENTS</th>
+                      <th>SCHEDULING STATUS</th>
+                      <th>DATA SOURCE</th>
+                      <th>STATION REQUIREMENTS</th>
+                      <th>COMMENTS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let b of bomDetails$ | async">
+                      <td>{{ b.ME_TYPE }}</td>
+                      <td>{{ b.MAINT_TYPE }}</td>
+                      <td>{{ b.COMMENTS }}</td>
+                      <td>{{ b.SCHEDULING_STATUS }}</td>
+                      <td>{{ b.DATA_SOURCE }}</td>
+                      <td>{{ b.STATION_REQUIREMENTS }}</td>
+                      <td>
+                        <!-- {{ b.KEY }} -->
+                        <span *ngIf="b.COMM == null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #545b62;" (click)="setEoDash8HistoryModal(b.COMM, b.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                        <span *ngIf="b.COMM != null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #17a2b8;" (click)="setEoDash8HistoryModal(b.COMM, b.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="6">
+                        <mat-form-field class="dropNextReview">
+                          <mat-label class="nextReviewDateLabel">Next Review Date</mat-label>
+                          <input matInput [matDatepicker]="nextdp" [min]="minDate" [max]="maxDate" id="nextReviewDate" [formControl]="nextReviewDate" [disabled]="dropOffStatus">
+                          <mat-datepicker-toggle matSuffix [for]="nextdp"></mat-datepicker-toggle>
+                          <mat-datepicker #nextdp></mat-datepicker>
+                        </mat-form-field>
+                      </td>
+                      <td>
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                      <!-- <td colspan="16">
+                            <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                            <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                          </td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ruleHeader.includes('Days Parts Shortage')">
+          <div class="row">
+            <div class="col-12">&nbsp;</div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <h6 *ngIf="NewEoDash8Obj.RULE == '30 Days Parts Shortage'">30 DAYS SYSTEM SHORTAGE BOM Details - {{ NewEoDash8Obj.DASH_8 }}</h6>&nbsp;
+              <h6 *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">60 OR 90 DAYS SYSTEM SHORTAGE BOM Details - {{ NewEoDash8Obj.DASH_8 }}</h6>&nbsp;
+              <h6 *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">120 OR 180 DAYS SYSTEM SHORTAGE BOM Details - {{ NewEoDash8Obj.DASH_8 }}</h6>&nbsp;
+              <h6 *ngIf="NewEoDash8Obj.RULE == '180 Plus Days Parts Shortage'">180 PLUS DAYS SYSTEM SHORTAGE BOM Details - {{ NewEoDash8Obj.DASH_8 }}</h6>&nbsp;
+              <div class="tableFixedHead">
+                <table class="table table-striped">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>ME PART NUMBER USED</th>
+                      <th>KEYWORD DESCRIPTION</th>
+                      <th>AIRCRAFT COUNT</th>
+                      <th>QTY REQ</th>
+                      <th>REQD IND</th>
+                      <th>KIT IND</th>
+                      <th>TTL OH</th>
+                      <th>TTL PO</th>
+                      <th>TTL RO</th>
+                      <th>TTL REQ EO</th>
+                      <th *ngIf="NewEoDash8Obj.RULE != '180 Plus Days Parts Shortage' && NewEoDash8Obj.RULE != '60 Or 90 Days Parts Shortage' && NewEoDash8Obj.RULE != '120 Or 180 Days Parts Shortage'">
+                        TTL REQ {{ dayType }} DAY
+                      </th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">TTL REQ 60 DAY</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">MATL STS 60 DAY</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">SHORTAGE 60 DAY</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">TTL REQ 90 DAYS</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">MATL STS 90 DAY</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">SHORTAGE 90 DAY</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">TTL REQ 120 DAYS</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">MATL STS 120 DAY</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">SHORTAGE 120 DAY</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">TTL REQ 180 DAYS</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">MATL STS 180 DAY</th>
+                      <th *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">SHORTAGE 180 DAY</th>
+                      <th class="headerzindex">STATION SHORTAGE</th>
+                      <th>COMMENTS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let b of bomDetails$ | async">
+                      <td class="text-center">{{ b.ME_PART_NUMBER_USED }}</td>
+                      <td class="">{{ b.KEYWORD_DESCRIPTION }}</td>
+                      <td class="text-center">{{ b.AIRCRAFT_COUNT }}</td>
+                      <td class="text-center">{{ b.QTY_REQ }}</td>
+                      <td class="text-center">{{ b.REQD_IND }}</td>
+                      <td class="text-center">
+                        <span *ngIf="NewEoDash8Obj.RULE == '30 Days Parts Shortage'">
+                          <span *ngIf="b.KIT_IND != 'Y'; else kit30daydetaillink">{{b.KIT_IND}}</span>
+                          <ng-template #kit30daydetaillink>
+                            <a href="javascript:void(0);" class="badge badge-info" (click)='getKit30DayDetail(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                              {{b.KIT_IND}}
+                            </a>
+                          </ng-template>
+                        </span>
+                        <!-- <span *ngIf="NewEoDash8Obj.RULE == '60 Days Parts Shortage'">
+                              <span *ngIf="b.KIT_IND != 'Y'; else kit60daydetaillink">{{b.KIT_IND}}</span>
+                              <ng-template #kit60daydetaillink>
+                                <a href="javascript:void(0);" class="badge badge-info" (click)='getKit60DayDetail(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                                  {{b.KIT_IND}}
+                                </a>
+                              </ng-template>
+                            </span>
+                            <span *ngIf="NewEoDash8Obj.RULE == '90 Days Parts Shortage'">
+                              <span *ngIf="b.KIT_IND != 'Y'; else kit90daydetaillink">{{b.KIT_IND}}</span>
+                              <ng-template #kit90daydetaillink>
+                                <a href="javascript:void(0);" class="badge badge-info" (click)='getKit90DayDetail(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                                  {{b.KIT_IND}}
+                                </a>
+                              </ng-template>
+                            </span> -->
+                        <span *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">
+                          <span *ngIf="b.KIT_IND != 'Y'; else kit6090daydetaillink">{{b.KIT_IND}}</span>
+                          <ng-template #kit6090daydetaillink>
+                            <a href="javascript:void(0);" class="badge badge-info" (click)='getKit6090DayDetailById(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                              {{b.KIT_IND}}
+                            </a>
+                          </ng-template>
+                        </span>
+                        <!-- <span *ngIf="NewEoDash8Obj.RULE == '120 Days Parts Shortage'">
+                              <span *ngIf="b.KIT_IND != 'Y'; else kit120daydetaillink">{{b.KIT_IND}}</span>
+                              <ng-template #kit120daydetaillink>
+                                <a href="javascript:void(0);" class="badge badge-info" (click)='getKit120DayDetail(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                                  {{b.KIT_IND}}
+                                </a>
+                              </ng-template>
+                            </span>
+                            <span *ngIf="NewEoDash8Obj.RULE == '180 Days Parts Shortage'">
+                              <span *ngIf="b.KIT_IND != 'Y'; else kit180daydetaillink">{{b.KIT_IND}}</span>
+                              <ng-template #kit180daydetaillink>
+                                <a href="javascript:void(0);" class="badge badge-info" (click)='getKit180DayDetail(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                                  {{b.KIT_IND}}
+                                </a>
+                              </ng-template>
+                            </span> -->
+                        <span *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">
+                          <span *ngIf="b.KIT_IND != 'Y'; else kit120180daydetaillink">{{b.KIT_IND}}</span>
+                          <ng-template #kit180daydetaillink>
+                            <a href="javascript:void(0);" class="badge badge-info" (click)='getKit120180DayDetail(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                              {{b.KIT_IND}}
+                            </a>
+                          </ng-template>
+                        </span>
+                        <span *ngIf="NewEoDash8Obj.RULE == '180 Plus Days Parts Shortage'">
+                          <span *ngIf="b.KIT_IND != 'Y'; else kit180plusdaydetaillink">{{b.KIT_IND}}</span>
+                          <ng-template #kit180plusdaydetaillink>
+                            <a href="javascript:void(0);" class="badge badge-info" (click)='getKit180PlusDayDetail(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                              {{b.KIT_IND}}
+                            </a>
+                          </ng-template>
+                        </span>
+                        <span *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage'">
+                          <span *ngIf="b.KIT_IND != 'Y'; else adpartsshortagedetaillink">{{b.KIT_IND}}</span>
+                          <ng-template #adpartsshortagedetaillink>
+                            <a href="javascript:void(0);" class="badge badge-info" (click)='getKitAdPartsShortageDetail(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                              {{b.KIT_IND}}
+                            </a>
+                          </ng-template>
+                        </span>
+                        <span *ngIf="NewEoDash8Obj.RULE == 'New Stations Changes'">
+                          <span *ngIf="b.KIT_IND != 'Y'; else newstationschangedetaillink">{{b.KIT_IND}}</span>
+                          <ng-template #newstationschangedetaillink>
+                            <a href="javascript:void(0);" class="badge badge-info" (click)='getKitNewStationsChangesDetail(dash8id, b.ME_PART_NUMBER_USED, b.KIT_IND)'>
+                              {{b.KIT_IND}}
+                            </a>
+                          </ng-template>
+                        </span>
+                      </td>
+                      <td class="text-center">{{ b.TTL_OH }}</td>
+                      <td class="text-center">{{ b.TTL_PO }}</td>
+                      <td class="text-center">{{ b.TTL_RO }}</td>
+                      <td class="text-center">{{ b.TTL_REQ_EO}}</td>
+                      <td class="text-center" *ngIf="NewEoDash8Obj.RULE != '180 Plus Days Parts Shortage' && NewEoDash8Obj.RULE != '60 Or 90 Days Parts Shortage' && NewEoDash8Obj.RULE != '120 Or 180 Days Parts Shortage'">
+                        <span *ngIf="NewEoDash8Obj.RULE == '30 Days Parts Shortage'">
+                          {{ b.TTL_REQ_30_DAY }}
+                        </span>
+                        <!-- <span *ngIf="NewEoDash8Obj.RULE == '60 Days Parts Shortage'">
+                              {{ b.TTL_REQ_60_DAY }}
+                            </span>
+                            <span *ngIf="NewEoDash8Obj.RULE == '90 Days Parts Shortage'">
+                              {{ b.TTL_REQ_90_DAYS }}
+                            </span> -->
+                        <span *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">
+                          {{ b.TTL_REQ_90_DAYS }}
+                        </span>
+                        <!-- <span *ngIf="NewEoDash8Obj.RULE == '120 Days Parts Shortage'">
+                              {{ b.TTL_REQ_120_DAYS }}
+                            </span>
+                            <span *ngIf="NewEoDash8Obj.RULE == '180 Days Parts Shortage'">
+                              {{ b.TTL_REQ_180_DAYS }}
+                            </span> -->
+                        <span *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">
+                          {{ b.TTL_REQ_180_DAYS }}
+                        </span>
+                        <!-- <span *ngIf="NewEoDash8Obj.RULE == '180 Plus Days Parts Shortage'">
+                                        {{ b.TTL_REQ_180PLUS_DAY }}
+                                      </span> -->
+                      </td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">
+                        {{ b.TTL_REQ_60_DAY }}
+                      </td>
+                      <!-- <td>{{ b.MATL_STS_60_DAY }}</td> -->
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && b.MATL_STS_60_DAY == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && b.MATL_STS_60_DAY == 'NEED'" class="needtext"><b> {{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && b.MATL_STS_60_DAY == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && b.MATL_STS_60_DAY == 'TOOL'" class="tooltext"><b>{{b.MATL_STS_60_DAY}}</b></td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && b.MATL_STS_60_DAY == null" class="">UNKNOWN</td>
+
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">
+                        {{ b.SHORTAGE60DAY }}
+                      </td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">
+                        {{ b.TTL_REQ_90_DAYS }}
+                      </td>
+                      <!-- <td>{{ b.MATL_STS_90_DAY }}</td> -->
+
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && b.MATL_STS_90_DAY == 'GOOD'" class="goodtext"><b>{{b.MATL_STS_90_DAY}}</b></td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && b.MATL_STS_90_DAY == 'NEED'" class="needtext"><b> {{b.MATL_STS_90_DAY}}</b></td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && b.MATL_STS_90_DAY == 'REVIEW'" class="reviewtext"><b>{{b.MATL_STS_90_DAY}}</b></td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && b.MATL_STS_90_DAY == 'TOOL'" class="tooltext"><b>{{b.MATL_STS_90_DAY}}</b></td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && b.MATL_STS_90_DAY == null" class="">UNKNOWN</td>
+
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">
+                        {{ b.SHORTAGE90DAY }}
+                      </td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">{{ b.TTL_REQ_120_DAYS }}</td>
+
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && b.MATL_STS_120_DAY == 'GOOD'" class="goodtext">{{ b.MATL_STS_120_DAY }}</td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && b.MATL_STS_120_DAY == 'NEED'" class="needtext">{{ b.MATL_STS_120_DAY }}</td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && b.MATL_STS_120_DAY == 'REVIEW'" class="reviewtext">{{ b.MATL_STS_120_DAY }}</td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && b.MATL_STS_120_DAY == 'TOOL'" class="tooltext">{{ b.MATL_STS_120_DAY }}</td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && b.MATL_STS_120_DAY == null" class="">UNKNOWN</td>
+
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">{{ b.SHORTAGE120DAY }}</td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">{{ b.TTL_REQ_180_DAYS }}</td>
+
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && b.MATL_STS_180_DAY == 'GOOD'" class="goodtext">{{ b.MATL_STS_180_DAY }}</td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && b.MATL_STS_180_DAY == 'NEED'" class="needtext">{{ b.MATL_STS_180_DAY }}</td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && b.MATL_STS_180_DAY == 'REVIEW'" class="reviewtext">{{ b.MATL_STS_180_DAY }}</td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && b.MATL_STS_180_DAY == 'TOOL'" class="tooltext">{{ b.MATL_STS_180_DAY }}</td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && b.MATL_STS_180_DAY == null" class="">UNKNOWN</td>
+
+                      <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">{{ b.SHORTAGE180DAY }}</td>
+
+                      <td>
+                        <div *ngIf="b.STATION_SHORTAGE.trim() == '' || b.STATION_SHORTAGE.trim() == 'N/A'" class="parentcolortext">
+                          N/A
+                        </div>
+                        <a mat-flat-button *ngIf="b.STATION_SHORTAGE.trim() != '' && b.STATION_SHORTAGE.trim() !='N/A'" href="javascript:void(0);" class="parentcolor" (click)="openStationShortageModal(b.ME_PART_NUMBER_USED);">{{ b.STATION_SHORTAGE }}</a>
+                      </td>
+                      <td class="text-center">
+                        <!-- {{ b.KEY }} -->
+                        <span *ngIf="b.COMM == null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #545b62;" (click)="setEoDash8HistoryModal(b.COMM, b.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                        <span *ngIf="b.COMM != null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #17a2b8;" (click)="setEoDash8HistoryModal(b.COMM, b.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="12" *ngIf="NewEoDash8Obj.RULE == '30 Days Parts Shortage'">
+                        <mat-form-field class="dropNextReview">
+                          <mat-label class="nextReviewDateLabel">Next Review Date</mat-label>
+                          <input matInput [matDatepicker]="nextdp" [min]="minDate" [max]="maxDate" id="nextReviewDate" [formControl]="nextReviewDate" [disabled]="dropOffStatus">
+                          <mat-datepicker-toggle matSuffix [for]="nextdp"></mat-datepicker-toggle>
+                          <mat-datepicker #nextdp></mat-datepicker>
+                        </mat-form-field>
+                      </td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '30 Days Parts Shortage'">
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                      <td colspan="17" *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' || NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">
+                        <mat-form-field class="dropNextReview">
+                          <mat-label class="nextReviewDateLabel">Next Review Date</mat-label>
+                          <input matInput [matDatepicker]="nextdp" [min]="minDate" [max]="maxDate" id="nextReviewDate" [formControl]="nextReviewDate" [disabled]="dropOffStatus">
+                          <mat-datepicker-toggle matSuffix [for]="nextdp"></mat-datepicker-toggle>
+                          <mat-datepicker #nextdp></mat-datepicker>
+                        </mat-form-field>
+                      </td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' || NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                      <td colspan="11" *ngIf="NewEoDash8Obj.RULE =='180 Plus Days Parts Shortage'">
+                        <mat-form-field class="dropNextReview">
+                          <mat-label class="nextReviewDateLabel">Next Review Date</mat-label>
+                          <input matInput [matDatepicker]="nextdp" [min]="minDate" [max]="maxDate" id="nextReviewDate" [formControl]="nextReviewDate" [disabled]="dropOffStatus">
+                          <mat-datepicker-toggle matSuffix [for]="nextdp"></mat-datepicker-toggle>
+                          <mat-datepicker #nextdp></mat-datepicker>
+                        </mat-form-field>
+                      </td>
+                      <td *ngIf="NewEoDash8Obj.RULE =='180 Plus Days Parts Shortage'">
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                      <!-- <td colspan="20">
+                            <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                            <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                          </td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ruleHeader.includes('Parts in Discrepancy')">
+          <div class="row" *ngIf="bomDetails$ | async">
+            <div class="col-12"><br />
+              <h6>Parts in Discrepancy - {{ NewEoDash8Obj.DASH_8 }}</h6>
+              <div class="tableFixedHead">
+                <table class="table table-striped">
+                  <thead class="thead-light">
+                    <tr>
+                      <th class="nowrap">ME NBR</th>
+                      <th class="nowrap">DESCRIPTION</th>
+                      <th class="nowrap">SCHED STA</th>
+                      <th class="nowrap">FILL STA</th>
+                      <th class="nowrap">AR</th>
+                      <th class="nowrap">QTY REQD</th>
+                      <th class="nowrap">QTY FILLED</th>
+                      <th class="nowrap">QTY OPEN</th>
+                      <th class="nowrap">QTY REQD TODAY</th>
+                      <th class="nowrap">TOTAL REQ</th>
+                      <th class="nowrap">ALL BOH</th>
+                      <th class="nowrap">CLT BOH</th>
+                      <th class="nowrap">PHL BOH</th>
+                      <th class="nowrap">PIT BOH</th>
+                      <th class="nowrap">PHX BOH</th>
+                      <th class="nowrap">FILL STA BOH</th>
+                      <th class="nowrap">PO OPEN QTY</th>
+                      <th class="nowrap">RO OPEN QTY</th>
+                      <th class="nowrap">COMMENTS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let pid of bomDetails$ | async">
+                      <td class="nowrap">{{ pid.MENBR }}</td>
+                      <td class="nowrap">{{ pid.DESCRIPTION }}</td>
+                      <td>{{ pid.SCHEDSTA }}</td>
+                      <td>{{ pid.FILLSTA }}</td>
+                      <td>{{ pid.AR }}</td>
+                      <td>{{ pid.QTYREQD }}</td>
+                      <td>{{ pid.QTYFILLED }}</td>
+                      <td>{{ pid.QTYOPEN }}</td>
+                      <td>{{ pid.QTYREQDTODAY }}</td>
+                      <td>{{ pid.TOTALREQUIREMENTS }}</td>
+                      <td>{{ pid.ALLBOH }}</td>
+                      <td>{{ pid.CLTBOH }}</td>
+                      <td>{{ pid.PHLBOH }}</td>
+                      <td>{{ pid.PITBOH }}</td>
+                      <td>{{ pid.PHXBOH }}</td>
+                      <td>{{ pid.FILLSTABOH }}</td>
+                      <td>{{ pid.POOPENQTY }}</td>
+                      <td>{{ pid.ROOPENQTY }}</td>
+                      <td class="nowrap">
+                        <!-- {{ pid.KEY }} -->
+                        <span *ngIf="pid.COMM == null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #545b62;" (click)="setEoDash8HistoryModal(pid.COMM, pid.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                        <span *ngIf="pid.COMM != null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #17a2b8;" (click)="setEoDash8HistoryModal(pid.COMM, pid.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="18">
+                        <mat-form-field class="dropNextReview">
+                          <mat-label class="nextReviewDateLabel">Next Review Date</mat-label>
+                          <input matInput [matDatepicker]="nextdp" [min]="minDate" [max]="maxDate" id="nextReviewDate" [formControl]="nextReviewDate" [disabled]="dropOffStatus">
+                          <mat-datepicker-toggle matSuffix [for]="nextdp"></mat-datepicker-toggle>
+                          <mat-datepicker #nextdp></mat-datepicker>
+                        </mat-form-field>
+                      </td>
+                      <td colspan="1">
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                      <!-- <td colspan="19">
+                            <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                            <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                          </td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ruleHeader.includes('Overdue EO Kit Work Order')">
+          <div class="row" *ngIf="bomDetails$ | async">
+            <div class="col-12"><br />
+              <h6>Overdue EO Kit Work Order - {{ NewEoDash8Obj.DASH_8 }}</h6>
+              <span class="oekwodesc">{{ overdueEoKitWorkOrderDesc }}</span>
+              <div class="tableFixedHead">
+                <table class="table table-striped">
+                  <thead class="thead-light">
+                    <tr>
+                      <!-- <th class="nowrap">KEYWORD DESCRIPTION</th> -->
+                      <th class="nowrap">STATION</th>
+                      <th class="nowrap">VENDOR NAME</th>
+                      <th class="nowrap">NCA VENDOR NUMBER</th>
+                      <th class="nowrap">DAYS LATE</th>
+                      <th class="nowrap">EO NUMBER</th>
+                      <th class="nowrap">DASH 8</th>
+                      <th class="nowrap">EO DESC</th>
+                      <th class="nowrap">QTY REQ</th>
+                      <th class="nowrap">REQD IND</th>
+                      <th class="nowrap">TTL OH</th>
+                      <th class="nowrap">TTL REQ EO</th>
+                      <th class="nowrap">TTL REQ 30 DAY</th>
+                      <th class="nowrap">TTL REQ 60 DAY</th>
+                      <th class="nowrap">TTL REQ 90 DAYS</th>
+                      <th class="nowrap">TTL REQ 120 DAYS</th>
+                      <th class="nowrap">TTL REQ 180 DAYS</th>
+                      <th class="nowrap">COMMENTS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let okit of bomDetails$ | async">
+                      <td class="nowrap">{{ okit.STATION }}</td>
+                      <td class="nowrap">{{ okit.VENDOR_NAME }}</td>
+                      <td class="nowrap">{{ okit.NCA_VENDOR_NUMBER }}</td>
+                      <td class="nowrap">{{ okit.DAYS_LATE }}</td>
+                      <td class="nowrap">{{ okit.EO_NUMBER }}</td>
+                      <td class="nowrap">{{ okit.DASH_8 }}</td>
+                      <td class="nowrap">{{ okit.EO_DESC }}</td>
+                      <td class="nowrap">{{ okit.QTY_REQ }}</td>
+                      <td class="nowrap">{{ okit.REQD_IND }}</td>
+                      <td class="nowrap">{{ okit.TTL_OH }}</td>
+                      <td class="nowrap">{{ okit.TTL_REQ_EO }}</td>
+                      <td class="nowrap">{{ okit.TTL_REQ_30_DAY }}</td>
+                      <td class="nowrap">{{ okit.TTL_REQ_60_DAY }}</td>
+                      <td class="nowrap">{{ okit.TTL_REQ_90_DAYS }}</td>
+                      <td class="nowrap">{{ okit.TTL_REQ_120_DAYS }}</td>
+                      <td class="nowrap">{{ okit.TTL_REQ_180_DAYS }}</td>
+                      <td class="nowrap">
+                        <!-- {{ okit.KEY }} -->
+                        <span *ngIf="okit.COMM == null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #545b62;" (click)="setEoDash8HistoryModal(okit.COMM, okit.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                        <span *ngIf="okit.COMM != null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #17a2b8;" (click)="setEoDash8HistoryModal(okit.COMM, okit.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="16">
+                        <mat-form-field class="dropNextReview">
+                          <mat-label class="nextReviewDateLabel">Next Review Date</mat-label>
+                          <input matInput [matDatepicker]="nextdp" [min]="minDate" [max]="maxDate" id="nextReviewDate" [formControl]="nextReviewDate" [disabled]="dropOffStatus">
+                          <mat-datepicker-toggle matSuffix [for]="nextdp"></mat-datepicker-toggle>
+                          <mat-datepicker #nextdp></mat-datepicker>
+                        </mat-form-field>
+                      </td>
+                      <td colspan="1">
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                      <!-- <td colspan="17">
+                            <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                            <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                          </td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ruleHeader.includes('Overdue POs and ROs')">
+          <div class="row" *ngIf="bomDetails$ | async">
+            <div class="col-12"><br />
+              <h6>Overdue POs and ROs - {{ NewEoDash8Obj.DASH_8 }}</h6>
+              <div class="tableFixedHead">
+                <table class="table table-striped">
+                  <thead class="thead-light">
+                    <tr>
+                      <th>KEYWORD</th>
+                      <th class="nowrap">SHIP STATION</th>
+                      <th class="nowrap">VENDOR NAME</th>
+                      <th class="nowrap">VENDOR NBR</th>
+                      <th class="nowrap">DAYS LATE</th>
+                      <th class="nowrap">EO NUMBER</th>
+                      <th class="nowrap">DASH 8</th>
+                      <th class="nowrap">DESCRIPTION</th>
+                      <th class="nowrap">QTY REQ</th>
+                      <th class="nowrap">REQD IND</th>
+                      <th class="nowrap">TTL OH</th>
+                      <th class="nowrap">TTL REQ EO</th>
+                      <th class="nowrap">TTL REQ 30 DAY</th>
+                      <th class="nowrap">TTL REQ 60 DAY</th>
+                      <th class="nowrap">TTL REQ 90 DAYS</th>
+                      <th class="nowrap">TTL REQ 120 DAYS</th>
+                      <th class="nowrap">TTL REQ 180 DAYS</th>
+                      <th>COMMENTS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let opr of bomDetails$ | async">
+                      <td class="nowrap">{{ opr.KEYWORD }}</td>
+                      <td>{{ opr.SHIP_STATION }}</td>
+                      <td class="nowrap">{{ opr.VENDOR_NAME }}</td>
+                      <td>{{ opr.VENDOR_NBR }}</td>
+                      <td>{{ opr.DAYS_LATE }}</td>
+                      <td>{{ opr.EO_NUMBER }}</td>
+                      <td class="nowrap">{{ opr.DASH_8 }}</td>
+                      <td class="nowrap">{{ opr.EO_DESC }}</td>
+                      <td>{{ opr.QTY_REQ }}</td>
+                      <td>{{ opr.REQD_IND }}</td>
+                      <td>{{ opr.TTL_OH }}</td>
+                      <td>{{ opr.TTL_REQ_EO }}</td>
+                      <td>{{ opr.TTL_REQ_30_DAY }}</td>
+                      <td>{{ opr.TTL_REQ_60_DAY }}</td>
+                      <td>{{ opr.TTL_REQ_90_DAYS }}</td>
+                      <td>{{ opr.TTL_REQ_120_DAYS }}</td>
+                      <td>{{ opr.TTL_REQ_180_DAYS }}</td>
+                      <td>
+                        <!-- {{ opr.KEY }} -->
+                        <span *ngIf="opr.COMM == null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #545b62;" (click)="setEoDash8HistoryModal(opr.COMM, opr.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                        <span *ngIf="opr.COMM != null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #17a2b8;" (click)="setEoDash8HistoryModal(opr.COMM, opr.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="17">
+                        <mat-form-field class="dropNextReview">
+                          <mat-label class="nextReviewDateLabel">Next Review Date</mat-label>
+                          <input matInput [matDatepicker]="nextdp" [min]="minDate" [max]="maxDate" id="nextReviewDate" [formControl]="nextReviewDate" [disabled]="dropOffStatus">
+                          <mat-datepicker-toggle matSuffix [for]="nextdp"></mat-datepicker-toggle>
+                          <mat-datepicker #nextdp></mat-datepicker>
+                        </mat-form-field>
+                      </td>
+                      <td colspan="1">
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                      <!-- <td colspan="18">
+                            <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                            <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                          </td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ruleHeader.includes('Yesterday Deferrals')">
+          <div class="row" *ngIf="bomDetails$ | async">
+            <div class="col-12"><br />
+              <h6>YESTERDAY DEFERRALS - {{ NewEoDash8Obj.DASH_8 }}</h6>
+              <div class="tableFixedHead">
+                <table class="table table-striped">
+                  <thead class="thead-light">
+                    <tr>
+                      <th class="nowrap">ME_PART_NUMBER_USED</th>
+                      <th class="nowrap">KEYWORD_DESCRIPTION</th>
+                      <th class="nowrap">AIRCRAFT_COUNT</th>
+                      <th class="nowrap">QTY_REQ</th>
+                      <th class="nowrap">REQD_IND</th>
+                      <th class="nowrap">KIT_IND</th>
+                      <th class="nowrap">TTL_OH</th>
+                      <th class="nowrap">TTL_PO</th>
+                      <th class="nowrap">TTL_RO</th>
+                      <th class="nowrap">TTL_REQ_EO</th>
+                      <th class="nowrap">MATL_STS_ALL</th>
+                      <th>COMMENTS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let ydd of bomDetails$ | async">
+                      <td class="nowrap">{{ ydd.ME_PART_NUMBER_USED }}</td>
+                      <td>{{ ydd.KEYWORD_DESCRIPTION }}</td>
+                      <td>{{ ydd.AIRCRAFT_COUNT }}</td>
+                      <td>{{ ydd.QTY_REQ }}</td>
+                      <td>{{ ydd.REQD_IND }}</td>
+                      <td>
+                        <!-- {{ ydd.KIT_IND }} -->
+                        <span *ngIf="NewEoDash8Obj.RULE == 'Yesterday Deferrals'">
+                          <span *ngIf="ydd.KIT_IND != 'Y'; else yesterdaydeferralskitdetaillink">{{ydd.KIT_IND}}</span>
+                          <ng-template #yesterdaydeferralskitdetaillink>
+                            <a href="javascript:void(0);" class="badge badge-info" (click)='getYesterdayDeferralsKitDetailById(dash8id, ydd.ME_PART_NUMBER_USED, ydd.KIT_IND)'>
+                              {{ydd.KIT_IND}}
+                            </a>
+                          </ng-template>
+                        </span>
+                      </td>
+                      <td>{{ ydd.TTL_OH }}</td>
+                      <td>{{ ydd.TTL_PO }}</td>
+                      <td>{{ ydd.TTL_RO }}</td>
+                      <td>{{ ydd.TTL_REQ_EO }}</td>
+                      <td *ngIf="ydd.MATL_STS_ALL == 'GOOD'" class="goodtext"><b>{{ydd.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="ydd.MATL_STS_ALL == 'NEED'" class="needtext"><b>{{ydd.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="ydd.MATL_STS_ALL == 'REVIEW'" class="reviewtext"><b>{{ydd.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="ydd.MATL_STS_ALL == null" class="">UNKNOWN</td>
+                      <td>
+                        <!-- {{ ydd.KEY }} -->
+                        <span *ngIf="ydd.COMM == null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #545b62;" (click)="setEoDash8HistoryModal(ydd.COMM, ydd.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                        <span *ngIf="ydd.COMM != null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #17a2b8;" (click)="setEoDash8HistoryModal(ydd.COMM, ydd.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="12">
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ruleHeader.includes('Capable Station Shortage')">
+          <div class="row" *ngIf="bomDetails$ | async">
+            <div class="col-12"><br />
+              <h6>CAPABLE STATION SHORTAGE - {{ NewEoDash8Obj.DASH_8 }}</h6>
+              <div class="tableFixedHead">
+                <table class="table table-striped">
+                  <thead class="thead-light">
+                    <tr>
+                      <th class="nowrap">ME PART NUMBER USED</th>
+                      <th class="nowrap">KEYWORD DESCRIPTION</th>
+                      <th class="nowrap">AIRCRAFT COUNT</th>
+                      <th class="nowrap">QTY REQ</th>
+                      <th class="nowrap">REQD IND</th>
+                      <th class="nowrap">KIT IND</th>
+                      <th class="nowrap">TTL OH</th>
+                      <th class="nowrap">TTL PO</th>
+                      <th class="nowrap">TTL RO</th>
+                      <th class="nowrap">TTL REQ EO</th>
+                      <th class="nowrap">MATL STS ALL</th>
+                      <th class="nowrap">STATION SHORTAGE</th>
+                      <th>COMMENTS</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let csx of bomDetails$ | async">
+                      <td class="nowrap">{{ csx.ME_PART_NUMBER_USED }}</td>
+                      <td>{{ csx.KEYWORD_DESCRIPTION }}</td>
+                      <td>{{ csx.AIRCRAFT_COUNT }}</td>
+                      <td>{{ csx.QTY_REQ }}</td>
+                      <td>{{ csx.REQD_IND }}</td>
+                      <td>
+                        <!-- {{ ydd.KIT_IND }} -->
+                        <span *ngIf="NewEoDash8Obj.RULE == 'Capable Station Shortage'">
+                          <span *ngIf="csx.KIT_IND != 'Y'; else capablestationshortagekitdetaillink">{{csx.KIT_IND}}</span>
+                          <ng-template #capablestationshortagekitdetaillink>
+                            <a href="javascript:void(0);" class="badge badge-info" (click)='getCapableStationShortageKitDetailById(dash8id, csx.ME_PART_NUMBER_USED, csx.KIT_IND)'>
+                              {{csx.KIT_IND}}
+                            </a>
+                          </ng-template>
+                        </span>
+                      </td>
+                      <td>{{ csx.TTL_OH }}</td>
+                      <td>{{ csx.TTL_PO }}</td>
+                      <td>{{ csx.TTL_RO }}</td>
+                      <td>{{ csx.TTL_REQ_EO }}</td>
+                      <td *ngIf="csx.MATL_STS_ALL == 'GOOD'" class="goodtext"><b>{{csx.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="csx.MATL_STS_ALL == 'NEED'" class="needtext"><b>{{csx.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="csx.MATL_STS_ALL == 'REVIEW'" class="reviewtext"><b>{{csx.MATL_STS_ALL}}</b></td>
+                      <td *ngIf="csx.MATL_STS_ALL == null" class="">UNKNOWN</td>
+                      <td>
+                        <div *ngIf="csx.STATION_SHORTAGE.trim() == '' || csx.STATION_SHORTAGE.trim() == 'N/A'" class="parentcolortext">
+                          N/A
+                        </div>
+                        <a mat-flat-button *ngIf="csx.STATION_SHORTAGE.trim() != '' && csx.STATION_SHORTAGE.trim() !='N/A'" href="javascript:void(0);" class="parentcolor" (click)="openStationShortageModal(csx.ME_PART_NUMBER_USED);">{{ csx.STATION_SHORTAGE }}</a>
+                      </td>
+                      <td>
+                        <!-- {{ csx.KEY }} -->
+                        <span *ngIf="csx.COMM == null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #545b62;" (click)="setEoDash8HistoryModal(csx.COMM, csx.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                        <span *ngIf="csx.COMM != null">
+                          <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="View/Edit Dash 8 History" style="background-color: #17a2b8;" (click)="setEoDash8HistoryModal(csx.COMM, csx.KEY)" data-target="#dash8history">
+                            <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                        </span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="12">
+                        <mat-form-field class="dropNextReview">
+                          <mat-label class="nextReviewDateLabel">Next Review Date</mat-label>
+                          <input matInput [matDatepicker]="nextdp" [min]="minDate" [max]="maxDate" id="nextReviewDate" [formControl]="nextReviewDate" [disabled]="dropOffStatus">
+                          <mat-datepicker-toggle matSuffix [for]="nextdp"></mat-datepicker-toggle>
+                          <mat-datepicker #nextdp></mat-datepicker>
+                        </mat-form-field>
+                      </td>
+                      <td colspan="1">
+                        <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                        <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                      </td>
+                      <!-- <td colspan="13">
+                            <button *ngIf="! dropOffStatus" type="button" class="btn btn-info btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                            <button *ngIf="dropOffStatus" type="button" class="btn btn-secondary btn-sm dropoff" (click)="dropDash8()" [disabled]="dropOffStatus">Drop off</button>
+                          </td> -->
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="kitDetails$ | async">
+      <div class="col-12"><hr /></div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="row" *ngIf="kitDetails$ | async">
+        <div class="col-12">
+          <h6>KIT Details - {{ menumberusedid }}</h6>
+          <div class="tableFixedHead">
+            <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+            <table class="table table-striped">
+              <thead class="thead-light">
+                <tr>
+                  <th>ME PART NUMBER IN KIT</th>
+                  <th>DESCRIPTION</th>
+                  <th>QTY REQ K</th>
+                  <th>REQD IND K</th>
+                  <th>OH</th>
+                  <th>PO</th>
+                  <th>RO</th>
+                  <th>TTL REQ EO KIT PART</th>
+                  <th>MATL STS KP ALL</th>
+                  <th *ngIf="NewEoDash8Obj.RULE != 'AD Parts Shortage' && NewEoDash8Obj.RULE != 'New Stations Changes' && NewEoDash8Obj.RULE != 'Yesterday Deferrals' && NewEoDash8Obj.RULE != '60 Or 90 Days Parts Shortage' && NewEoDash8Obj.RULE != '120 Or 180 Days Parts Shortage'">REQ KP {{ dayType }} DAY</th>
+                  <th *ngIf="NewEoDash8Obj.RULE != 'AD Parts Shortage' && NewEoDash8Obj.RULE != 'New Stations Changes' && NewEoDash8Obj.RULE != 'Yesterday Deferrals' && NewEoDash8Obj.RULE != '60 Or 90 Days Parts Shortage' && NewEoDash8Obj.RULE != '120 Or 180 Days Parts Shortage'">MATL STS KP {{ dayType }} DAY</th>
+                  <th *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes'">TTL REQ KP 30 DAY</th>
+                  <th *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes' || NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' ">TTL REQ KP 60 DAYS</th>
+                  <th *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes' || NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">TTL REQ KP 90 DAYS</th>
+                  <th *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes' || NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">TTL REQ KP 120 DAYS</th>
+                  <th *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes' || NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">TTL REQ KP 180 DAYS</th>
+                  <th *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes' || NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' || NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">MATL STS KP ALL</th>
+                  <!-- <th>TTL REQ KP 60 DAYS</th>
+                      <th>TTL REQ KP 90 DAYS</th>
+                      <th>MATL STS KP 90 DAY</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let kdd of kitDetails$ | async">
+                  <td>{{ kdd.ME_PART_NUMBER_IN_KIT }}</td>
+                  <td>{{ kdd.DESC }}</td>
+                  <td>{{ kdd.QTY_REQ_K }}</td>
+                  <td>{{ kdd.REQD_IND_K }}</td>
+                  <td>{{ kdd.TTL_OH }}</td>
+                  <td>{{ kdd.TTL_PO }}</td>
+                  <td>{{ kdd.TTL_RO }}</td>
+                  <td>{{ kdd.TTL_REQ_EO_KIT_PART }}</td>
+                  <td *ngIf="kdd.MATL_STS_KP_ALL == 'GOOD'" class="goodtext"><b>{{kdd.MATL_STS_KP_ALL}}</b></td>
+                  <td *ngIf="kdd.MATL_STS_KP_ALL == 'NEED'" class="needtext"><b>{{kdd.MATL_STS_KP_ALL}}</b></td>
+                  <td *ngIf="kdd.MATL_STS_KP_ALL == null" class="">UNKNOWN</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '30 Days Parts Shortage'">{{ kdd.TTL_REQ_KP_30_DAY }}</td>
+                  <!-- <td *ngIf="NewEoDash8Obj.RULE == '60 Days Parts Shortage'">{{ kdd.TTL_REQ_KP_60_DAYS }}</td>-->
+                  <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">{{ kdd.TTL_REQ_KP_60_DAYS }}</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage'">{{ kdd.TTL_REQ_KP_90_DAYS }}</td>
+                  <!-- <td *ngIf="NewEoDash8Obj.RULE == '120 Days Parts Shortage'">{{ kdd.TTL_REQ_KP_120_DAYS }}</td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '180 Days Parts Shortage'">{{ kdd.TTL_REQ_KP_180_DAYS }}</td> -->
+                  <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage'">{{ kdd.TTL_REQ_KP_180_DAYS }}</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '180 Plus Days Parts Shortage'">&nbsp;</td>
+
+                  <td *ngIf="NewEoDash8Obj.RULE == '30 Days Parts Shortage' && kdd.MATL_STS_KP_30_DAY == 'GOOD'" class="goodtext"><b>{{kdd.MATL_STS_KP_30_DAY}}</b></td>
+                  <!-- <td *ngIf="NewEoDash8Obj.RULE == '60 Days Parts Shortage' && kdd.MATL_STS_KP_60_DAY == 'GOOD'" class="goodtext"><b>{{kdd.MATL_STS_KP_60_DAY}}</b></td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '90 Days Parts Shortage' && kdd.MATL_STS_KP_90_DAY == 'GOOD'" class="goodtext"><b>{{kdd.MATL_STS_KP_90_DAY}}</b></td> -->
+                  <td *ngIf="NewEoDash8Obj.RULE == '60 Or 90 Days Parts Shortage' && kdd.MATL_STS_KP_90_DAY == 'GOOD'" class="goodtext"><b>{{kdd.MATL_STS_KP_90_DAY}}</b></td>
+                  <!-- <td *ngIf="NewEoDash8Obj.RULE == '120 Days Parts Shortage' && kdd.MATL_STS_KP_120_DAY == 'GOOD'" class="goodtext"><b>{{kdd.MATL_STS_KP_120_DAY}}</b></td>
+                      <td *ngIf="NewEoDash8Obj.RULE == '180 Days Parts Shortage' && kdd.MATL_STS_KP_180_DAY == 'GOOD'" class="goodtext"><b>{{kdd.MATL_STS_KP_180_DAY}}</b></td> -->
+                  <td *ngIf="NewEoDash8Obj.RULE == '120 Or 180 Days Parts Shortage' && kdd.MATL_STS_KP_180_DAY == 'GOOD'" class="goodtext"><b>{{kdd.MATL_STS_KP_180_DAY}}</b></td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '180 Plus Days Parts Shortage'">&nbsp;</td>
+
+                  <td *ngIf="NewEoDash8Obj.RULE == '30 Days Parts Shortage' && kdd.MATL_STS_KP_30_DAY == 'NEED'" class="needtext"><b>{{kdd.MATL_STS_KP_30_DAY}}</b></td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '60 Days Parts Shortage' && kdd.MATL_STS_KP_60_DAY == 'NEED'" class="needtext"><b>{{kdd.MATL_STS_KP_60_DAY}}</b></td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '90 Days Parts Shortage' && kdd.MATL_STS_KP_90_DAY == 'NEED'" class="needtext"><b>{{kdd.MATL_STS_KP_90_DAY}}</b></td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '120 Days Parts Shortage' && kdd.MATL_STS_KP_120_DAY == 'NEED'" class="needtext"><b>{{kdd.MATL_STS_KP_120_DAY}}</b></td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '180 Days Parts Shortage' && kdd.MATL_STS_KP_180_DAY == 'NEED'" class="needtext"><b>{{kdd.MATL_STS_KP_180_DAY}}</b></td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '180 Plus Parts Shortage'">&nbsp;</td>
+
+                  <td *ngIf="NewEoDash8Obj.RULE == '30 Days Parts Shortage' && kdd.MATL_STS_KP_30_DAY == null" class="">UNKNOWN</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '60 Days Parts Shortage' && kdd.MATL_STS_KP_60_DAY == null" class="">UNKNOWN</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '90 Days Parts Shortage' && kdd.MATL_STS_KP_90_DAY == null" class="">UNKNOWN</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '120 Days Parts Shortage' && kdd.MATL_STS_KP_120_DAY == null" class="">UNKNOWN</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '180 Days Parts Shortage' && kdd.MATL_STS_KP_180_DAY == null" class="">UNKNOWN</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == '180 Plus Parts Shortage'">&nbsp;</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes'">{{ TTL_REQ_KP_30_DAY }}</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes'">{{ TTL_REQ_KP_60_DAYS }}</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes'">{{ TTL_REQ_KP_90_DAYS }}</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes'">{{ TTL_REQ_KP_120_DAYS }}</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes'">{{ TTL_REQ_KP_180_DAYS }}</td>
+                  <td *ngIf="NewEoDash8Obj.RULE == 'AD Parts Shortage' || NewEoDash8Obj.RULE == 'New Stations Changes'">{{ MATL_STS_KP_ALL }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

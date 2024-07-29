@@ -1,0 +1,308 @@
+<div class="sdcontainer">
+  <div class="col-12 mattablecontainer" *ngIf="detailType == 'SO'">
+    <div class="row">
+      <div class="col-12 headerright">
+        &nbsp;<button mat-raised-button class="exportbtn ata-stroked-button" (click)="exporterSO.exportTable('xlsx', {fileName: fileName})">DOWNLOAD</button>
+        <br />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 headerleft meheader">
+        <b>{{id}} - {{ detailType}} Details</b>
+      </div>
+    </div>
+
+     <div class="row">
+      <div class="col-12">
+        <mat-table matTableExporter #exporterSO="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortTotalDetail($event)" class="mat-elevation-z8">
+          <ng-container matColumnDef="STATION">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Ship To Station</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.STATION }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="SHIP_FROM_STATION">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Ship From Station</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.SHIP_FROM_STATION }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ORDER_DATE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Date</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.ORDER_DATE | date:'yyyy-MM-dd' }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ORDER_QTY">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Qty</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.ORDER_QTY | number }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="QUANTITY_FILLED">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Quantity Filled</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.QUANTITY_FILLED  | number }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="CATEGORY">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Category</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.CATEGORY }}</mat-cell>
+          </ng-container>
+ 
+          <ng-container matColumnDef="ORDER_STATUS">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Status</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.ORDER_STATUS }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="CREATE_USER">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Create User</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.CREATE_USER }}</mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="so_total_displayedColumns; sticky: true;"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: so_total_displayedColumns;"></mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 mattablecontainer" *ngIf="detailType == 'PO'">
+      <div class="row">
+        <div class="col-12 headerright">
+          <button mat-raised-button class="exportbtn ata-stroked-button" (click)="exporterPO.exportTable('xlsx', {fileName: fileName})">DOWNLOAD</button>
+          <br />
+        </div>
+      </div>
+
+      <!-- <div class="headerleft">
+        <mat-table matTableExporter #exporterPO="matTableExporter" [dataSource]="datasource2" class="mat-elevation-z8">
+          <ng-container matColumnDef="ME_PART_NUMBER">
+            <mat-header-cell *matHeaderCellDef><b>{{ id }}</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"></mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="po_total_displayedColumns2; sticky: true;"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: po_total_displayedColumns2;"></mat-row>
+        </mat-table>            
+      </div> -->
+
+      <!-- <ng-container matColumnDef="ME_PART_NUMBER">
+        <mat-table [dataSource]="datasource2" class="mat-elevation-z8">
+          <ng-container matColumnDef="ME_PART_NUMBER">
+            <mat-header-cell *matHeaderCellDef class="headerleft"><b>{{id}}</b></mat-header-cell>
+            
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="po_total_displayedColumns2; sticky: true;"></mat-header-row>
+          
+        </mat-table>
+      </ng-container> -->
+
+    <div class="row">
+      <div class="col-12 headerleft meheader">
+        <b>{{id}} - {{ detailType}} Details</b>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12">
+        <mat-table matTableExporter #exporterPO="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortTotalDetail($event)" class="mat-elevation-z8">
+          <!-- <ng-container [matColumnDef]="ME_PART_NUMBER" *ngFor="let x of datasource">
+            <th mat-header-cell *matHeaderCellDef> {{ id }} </th>
+            <td mat-cell *matCellDef="let x">
+                <span *ngIf="x.ME_PART_NUMBER == 0 || x[0].index !== 0; else actions">{{ x[ME_PART_NUMBER] }}</span>
+                <ng-template #actions>
+                    {{ id }}
+                </ng-template>
+            </td>
+        </ng-container> -->
+          
+          <!-- <ng-container matColumnDef="ME_PART_NUMBER">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>{{ id }}</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"></mat-cell>
+          </ng-container> -->
+
+          <!-- <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element">  </td>
+        </ng-container> -->
+
+
+        <!-- <ng-container matColumnDef="ME_PART_NUMBER">
+          <mat-table [dataSource]="datasource2" class="mat-elevation-z8">
+            <ng-container matColumnDef="ME_PART_NUMBER">
+              <mat-header-cell *matHeaderCellDef class="meheader"><b>{{id}}</b></mat-header-cell>
+              <mat-cell *matCellDef></mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="po_total_displayedColumns2; sticky: true;"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: po_total_displayedColumns2;"></mat-row>
+          </mat-table>
+        </ng-container> -->
+                      
+          <ng-container matColumnDef="ORDER_NUMBER">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Number</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.ORDER_NUMBER }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="STATION">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Ship To Station</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.STATION }} </mat-cell>
+          </ng-container>
+          
+          <ng-container matColumnDef="SUPPLIER_NAME">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Supplier Name</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.SUPPLIER_NAME }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ORDER_DATE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Date</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.ORDER_DATE | date:'yyyy-MM-dd' }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ORDER_QTY">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Qty</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.ORDER_QTY | number }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="RECEIVED_QTY">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Received Qty</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.RECEIVED_QTY }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="TYPESTATUS">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Category</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.TYPESTATUS }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ORDER_STATUS">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Status</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.ORDER_STATUS }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="Responsibility">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Responsibility</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.Responsibility }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="ANALYST_RELEASE_DATE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>MTP Release Date</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.ANALYST_RELEASE_DATE | date:'yyyy-MM-dd' }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="COMMITTED_DELIVER_DATE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Committed Date</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.COMMITTED_DELIVER_DATE | date:'yyyy-MM-dd' }}</mat-cell>
+          </ng-container>
+          
+          <ng-container matColumnDef="AWB">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>AWB</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.AWB }} </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="LEAD_TIME">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Lead Time</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.LEAD_TIME | number }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="STATUS">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Status</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.STATUS }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="DAYS_LATE">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Days Late</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.DAYS_LATE }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="CREATE_USER">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>Create User</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">{{ x.CREATE_USER }}</mat-cell>
+          </ng-container>
+          <mat-header-row *matHeaderRowDef="po_total_displayedColumns; sticky: true;"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: po_total_displayedColumns;"></mat-row>
+        </mat-table>            
+      </div>
+
+    </div>
+
+  </div>
+  <div class="col-12 mattablecontainer" *ngIf="detailType == 'RO'">
+    
+    <div class="row">
+      <div class="col-12 headerright">
+        <button mat-raised-button class="exportbtn ata-stroked-button" (click)="exporterRO.exportTable('xlsx', {fileName: fileName})">DOWNLOAD</button>
+        <br />
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-12 headerleft meheader">
+        <b>{{id}} - {{ detailType }} Details</b>
+      </div>
+    </div>
+
+    <div>
+      
+      <mat-table matTableExporter #exporterRO="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortTotalDetail($event)" class="mat-elevation-z8">
+        
+        <ng-container matColumnDef="ORDER_NUMBER">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Number</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">{{ x.ORDER_NUMBER }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="STATION">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Ship To Station</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.STATION }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="SHIP_FROM_STATION">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Ship From Station</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">{{ x.SHIP_FROM_STATION }}</mat-cell>
+          <!--SHIP_FROM_STATION-->
+        </ng-container>
+
+        <ng-container matColumnDef="VENDOR_NAME">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Vendor Name</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">{{ x.VENDOR_NAME }}</mat-cell>
+          <!--VENDOR_NAME-->
+        </ng-container>
+
+        <ng-container matColumnDef="ORDER_DATE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Date</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">{{ x.ORDER_DATE | date:'yyyy-MM-dd' }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ORDER_QTY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Qty</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">{{ x.ORDER_QTY | number }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="RECEIVED_QTY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Received Qty</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">{{ x.RECEIVED_QTY }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="CATEGORY">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Category</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.CATEGORY }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ORDER_STATUS">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Order Status</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">{{ x.ORDER_STATUS }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="RO_REQUIRED_DATE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>RO Required Date</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">{{ x.RO_REQUIRED_DATE | date:'yyyy-MM-dd' }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="STATUS">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Status</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">{{ x.STATUS }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="DAYS_LATE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>Days Late</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">{{ x.DAYS_LATE }}</mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="ro_total_displayedColumns; sticky: true;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: ro_total_displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>

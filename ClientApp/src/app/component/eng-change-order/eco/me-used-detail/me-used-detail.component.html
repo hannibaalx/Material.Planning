@@ -1,0 +1,56 @@
+    <!-- <div class="eotitle">
+      <h5><b>M & E Used Detail</b></h5>
+    </div> -->
+    <div class="meusedContainer">
+      <div class="row">
+        <div class="col-6">
+          <table class="table table-striped">
+            <thead class="thead-light">
+              <th class="centertext">Alpha Station</th>
+              <th class="centertext">Station Category</th>
+              <th class="centertext">On Hand</th>
+              <th class="centertext">Open PO</th>
+              <th class="centertext">Open RO</th>
+              <th class="centertext">Intransit</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let me of meUsedDetail$ | async">
+                <td class="centertext">{{ me.STA }}</td>
+                <td class="centertext">{{ me.STA_CTGRY }}</td>
+                <td class="centertext">{{ me.STA_OH_QTY }}</td>
+                <td class="centertext">{{ me.STA_PO_OPEN_QTY }}</td>
+                <td class="centertext">{{ me.STA_RO_OPEN_QTY }}</td>
+                <td class="centertext">{{ me.STA_INTRANSIT_QTY}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+<div class="meusedContainer">
+  <div class="row">
+    <div class="col-6">
+      <table class="table table-striped">
+        <thead class="thead-light">
+          <th class="centertext">Alpha Station</th>
+          <th class="centertext">Station Category</th>
+          <th class="centertext">On Hand</th>
+          <th class="centertext">Open PO</th>
+          <th class="centertext">Open RO</th>
+          <th class="centertext">Intransit</th>
+        </thead>
+        <tbody>
+          <tr *ngFor="let me of meUsedDetail$ | async">
+            <td class="centertext">{{ me.STA }}</td>
+            <td class="centertext">{{ me.STA_CTGRY }}</td>
+            <td class="centertext">{{ me.STA_OH_QTY }}</td>
+            <td class="centertext">{{ me.STA_PO_OPEN_QTY }}</td>
+            <td class="centertext">{{ me.STA_RO_OPEN_QTY }}</td>
+            <td class="centertext">{{ me.STA_INTRANSIT_QTY}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

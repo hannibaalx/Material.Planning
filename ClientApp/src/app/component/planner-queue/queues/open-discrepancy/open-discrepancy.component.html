@@ -1,0 +1,198 @@
+<div class="opendisccontainer">
+    <div class="datacontainer">
+        <div class="row">
+            <div class="col-12 datacenter">
+                <h5><b>Open Discrepancy</b></h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 dataright">
+              <div>
+                  <button mat-raised-button class="exportbtn" (click)="exporter.exportTable('xlsx', {fileName:'Open Discrepancy summary'})" color="primary">DOWNLOAD SUMMARY</button>
+                  &nbsp;<button mat-raised-button class="exportbtn" (click)="exporter2.exportTable('xlsx', {fileName:'Open Discrepancy detail'})" color="primary">DOWNLOAD DETAIL</button>
+              </div>
+              <div>
+                
+            </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mattablecontainer">
+              <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+                <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortOpenDiscrepancy($event)" class="mat-elevation-z8">
+                    <ng-container matColumnDef="ME_PART_NUMBER">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>M&E</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> 
+                            <a mat-raised-button *ngIf="x.ME_PART_NUMBER != null" class="mebtn" href="javascript:void(0);" (click)="sendMeDetails(x.ME_PART_NUMBER)">{{ x.ME_PART_NUMBER }}</a>
+                            &nbsp;
+                            <a *ngIf="x.ME_PART_NUMBER != null" mat-button color="primary" [routerLink]="['../ata/', x.ME_PART_NUMBER]" class="atalaunch" target="_blank">
+                                <mat-icon>launch</mat-icon>
+                            </a>                            
+                        </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="MFG_PART_NUMBER">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>MFG</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x"> 
+                              <label *ngIf="x.ME_PART_NUMBER == null && x.MFG_PART_NUMBER != null">{{ x.MFG_PART_NUMBER }}</label>
+                          </mat-cell>
+                      </ng-container>
+                  
+                    <ng-container matColumnDef="MEL_LOG_PAGE">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>LOG PAGE</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.MEL_LOG_PAGE }} </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="MEL_DROP_DEAD_DATE">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>DROP DEAD DATE</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.MEL_DROP_DEAD_DATE | date:'yyyy-MM-dd'  }} </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="DaysInQueue">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>DAYS IN QUEUE</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.DaysInQueue }} </mat-cell>
+                    </ng-container>
+          
+                    <ng-container matColumnDef="COMMENTS">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMMENTS</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LAST_UPDATES">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>LAST UPDATES</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }} </mat-cell>
+                    </ng-container>
+                 
+                    <mat-header-row *matHeaderRowDef="open_discrepancy_displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: open_discrepancy_displayedColumns;"></mat-row>
+                  </mat-table>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-12 mattablecontainer">
+              <mat-table matTableExporter #exporter2="matTableExporter" [dataSource]="detaildatasource" class="mat-elevation-z8 detaildata">
+                  <ng-container matColumnDef="ME_PART_NUMBER">
+                    <mat-header-cell *matHeaderCellDef><b>ME PART NUMBER</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.ME_PART_NUMBER }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="MFG_PART_NUMBER">
+                    <mat-header-cell *matHeaderCellDef><b>MFG PART NUMBER</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MFG_PART_NUMBER }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="MEL_LOG_PAGE">
+                    <mat-header-cell *matHeaderCellDef><b>MEL LOG PAGE</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MEL_LOG_PAGE }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="MEL_DROP_DEAD_DATE">
+                    <mat-header-cell *matHeaderCellDef><b>MEL DROP DEAD DATE</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MEL_DROP_DEAD_DATE }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="ME_DESC">
+                    <mat-header-cell *matHeaderCellDef><b>ME DESC</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.ME_DESC }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="MEL_RESPONSIBILITY">
+                    <mat-header-cell *matHeaderCellDef><b>MEL RESPONSIBILITY</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MEL_RESPONSIBILITY }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="AC_TAIL">
+                    <mat-header-cell *matHeaderCellDef><b>AC TAIL</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.AC_TAIL }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="MEL_SCHED_STA">
+                    <mat-header-cell *matHeaderCellDef><b>MEL SCHED STA</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MEL_SCHED_STA }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="MEL_DAYS_OPEN">
+                    <mat-header-cell *matHeaderCellDef><b>MEL DAYS OPEN</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MEL_DAYS_OPEN }}
+                      </mat-cell>
+                  </ng-container>
+                  
+                  <ng-container matColumnDef="MEL_FCST_DATE">
+                    <mat-header-cell *matHeaderCellDef><b>MEL FCST DATE</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MEL_FCST_DATE }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="MEL_SCHED_DATE">
+                    <mat-header-cell *matHeaderCellDef><b>MEL SCHED DATE</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MEL_SCHED_DATE }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="MEL_TYPE">
+                    <mat-header-cell *matHeaderCellDef><b>MEL TYPE</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MEL_TYPE }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="MEL_QTY_OPEN">
+                    <mat-header-cell *matHeaderCellDef><b>MEL QTY OPEN</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MEL_QTY_OPEN }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="MEL_QTY_REQ_TODAY">
+                    <mat-header-cell *matHeaderCellDef><b>MEL QTY REQ TODAY</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.MEL_QTY_REQ_TODAY }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="ME_OH">
+                    <mat-header-cell *matHeaderCellDef><b>ME OH</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                        {{ x.ME_OH }}
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="LAST_UPDATES">
+                    <mat-header-cell *matHeaderCellDef><b>LAST UPDATES</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                          {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }}                         
+                      </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="COMMENTS">
+                    <mat-header-cell *matHeaderCellDef><b>COMMENTS</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x">
+                          {{ x.COMMENTS }}                         
+                      </mat-cell>
+                  </ng-container>
+
+                  <mat-header-row *matHeaderRowDef="open_discrepancy_detail_displayedColumns; sticky: true;"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: open_discrepancy_detail_displayedColumns;"></mat-row>
+              </mat-table>
+          </div>
+    </div>
+</div>

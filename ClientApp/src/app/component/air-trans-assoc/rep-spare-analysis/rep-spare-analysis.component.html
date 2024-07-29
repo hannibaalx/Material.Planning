@@ -1,0 +1,435 @@
+<div class="sacontainer">
+    <div class="row">
+      <div class="col-12 headertop">
+        REPAIRABLE SPARE ANALYSIS | MATERIAL PLANNING
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            &nbsp;
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-3" *ngIf="(generalInfo$ | async) as generalInfo">
+        <table class="tblconfig" *ngFor="let gi of generalInfo">
+          <thead>
+            <tr>
+              <th colspan="2" class="leftheader">&nbsp;General Information</th>
+              <th>&nbsp;</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Part Type</td>
+              <td>{{ gi.PART_TYPE }}</td>
+            </tr>
+            <tr>
+              <td>Commodity</td>
+              <td>{{ gi.COMMODITY }}</td>
+            </tr>
+            <tr>
+              <td>Supervisor</td>
+              <td>{{ gi.SUPERVISOR }}</td>
+            </tr>
+            <tr>
+              <td>Planner</td>
+              <td>{{ gi.PLANNER }}</td>
+            </tr>
+            <tr>
+              <td>Fleet</td>
+              <td>{{ gi.ME_FLEET }}</td>
+            </tr>
+            <tr>
+              <td>Unit of Measure</td>
+              <td>{{ gi.UNIT_OF_ISSUE }}</td>
+            </tr>
+            <tr>
+              <td>Essentiality</td>
+              <td>{{ gi.ESS_CODE }}</td>
+            </tr>
+            <tr>
+              <td>Shelf Life (Months)</td>
+              <td>{{ gi.SHELF_LIFE_MONTHS }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-9" *ngFor="let ts of titleSection$ | async">
+        <div class="row">
+          <div class="col-12 headerprint rightheader">
+            <span class="rightheader-align">
+              <b>{{ ts.ME_PART_NUMBER }} | {{ ts.MFG_PART_NUMBER }}</b>
+            </span>
+          </div>
+          <!-- <div class="col-1">
+            <button mat-icon-button id="btnPdf" color="primary" (click)="openPdf();" aria-label="pdf print">
+              <mat-icon>picture_as_pdf</mat-icon>
+            </button>
+          </div> -->
+        </div>
+        <div class="row">
+          <div class="col-12 headerprint">
+            <h6>
+              <b>Keyword/Description</b>
+            </h6>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 headerprint">
+            {{ ts.KEYWORD_DESCRIPTION }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            &nbsp;
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 headerprint">
+            <h6>
+              <b>IMQ Notes</b>
+            </h6>
+          </div>
+          <div class="col-12 headerprint" *ngFor="let imq of imqNotes$ | async">
+            <span *ngIf="imq.IMQ_NOTES != ''; else showNone">{{imq.IMQ_NOTES}}</span>
+            <ng-template #showNone>
+              <span>None</span>
+            </ng-template>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            &nbsp;
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        &nbsp;
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <table class="tblconfig" *ngFor="let po of purchaseOrder$ | async">
+          <thead>
+            <tr>
+              <th colspan="2" class="leftheader">
+                &nbsp;Purchase Orders (PO)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                Open POs
+              </td>
+              <td>
+                {{ po.OPEN_PO_OPENED}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Unit Price
+              </td>
+              <td>
+                {{ po.PRICE | currency : 'USD'}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Catalogue LT
+              </td>
+              <td>
+                {{ po.CATALOG_LEAD_TIME }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                AVG LT
+              </td>
+              <td>
+                {{ po.AVG_LT }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Primary Vendor
+              </td>
+              <td>
+                {{ po.PO_PRIMARY_VENDOR }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-9">
+        <div class="row" *ngFor="let oi of overallInventory$ | async">
+          <div class="col-12 flex-container">
+            <div class="minifabContainer">
+              <button mat-mini-fab class="minifab-button1" aria-label="OHB">
+                {{ oi.OH }}<br />
+                <h5><b>OHB</b></h5>
+              </button>
+            </div>
+            <div class="minifabContainer">
+              <button mat-mini-fab class="minifab-button2" aria-label="OWN">
+                {{ oi.OWNERSHIP }}<br />
+                <h5><b>OWN</b></h5>
+              </button>
+            </div>
+            <div class="minifabContainer">
+              <button mat-mini-fab class="minifab-button3" matTooltip="Pipe = Ownership / Allocated Quantity" aria-label="PIPE">
+                <span>{{ oi.PIPE_STOCK }}</span><br />
+                <h5><b>PIPE</b></h5>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        &nbsp;
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-3">
+        <table class="tblconfig" *ngFor="let ro of repairOrder$ | async">
+          <thead>
+            <tr>
+              <th colspan="2" class="leftheader">
+                &nbsp;Repair Orders (RO)
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                Open ROs
+              </td>
+              <td>
+                {{ ro.OPEN_RO }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Catalogue TAT
+              </td>
+              <td>
+                {{ ro.RO_CATALOG_TAT }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                AVG TAT
+              </td>
+              <td>
+                {{ ro.AVG_TAT }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Primary Vendor
+              </td>
+              <td>
+                {{ ro.RO_PRIMARY_VENDOR }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-4">
+          <table class="metricstable rightpanel" *ngFor="let m of metrics$ | async">
+              <thead>
+                  <tr>
+                      <th colspan="2" class="metricsheader">
+                          <h4>Metrics</h4>
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>
+                          Inventory Turns <span matTooltip="Inventory Turns = Total Usage/ Ownership" position="right">
+                            <mat-icon id="inventoryTurns" class="inventoryturns" color="primary">help</mat-icon>
+                          </span>
+                      </td>
+                      <td class="text-center">
+                          {{ m.INVx_System_Level }}
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          Allocated Qty
+                      </td>
+                      <td class="text-center">
+                          {{ m.ALOC }}
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          Allocated Station
+                      </td>
+                      <td class="text-center">
+                          {{ m.ALLOC_STA }}
+                      </td>
+                  </tr>
+                  <tr>
+                      <td>
+                          Zero Stock Station
+                      </td>
+                      <td class="text-center">
+                          {{ m.ZERO_STOCK_STA }}
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>
+      <div class="col-4">
+        <table class="opendisctable rightpanel" *ngFor="let od of openDiscrepancies$ | async">
+          <thead>
+            <tr>
+              <th colspan="2" class="opendischeader">
+                <h4>Open Discrepancies</h4>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                Open FMRs:
+              </td>
+              <td class="text-center">
+                {{ od.OPEN_FMRS }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Required Qty:
+              </td>
+              <td class="text-center">
+                {{ od.REQUIRED_QTY }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row" style="background-color: white;">
+      <div class="col-3">
+        <table class="tblconfig" *ngFor="let hd of historicalData$ | async">
+          <thead>
+            <tr>
+              <th colspan="2" class="leftheader">
+                &nbsp;Historical Data
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                Past 12 Month Usage
+              </td>
+              <td>
+                {{ hd.LAST_12M_USAGE }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Past 12 Month Scrap
+              </td>
+              <td>
+                {{ hd.LAST_12M_SCRAP }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Scrap Rate %
+              </td>
+              <td>
+                {{ hd.SCRAP_RATE | percent}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Past 12 Month AOGs
+              </td>
+              <td>
+                {{ hd.LAST_12M_AOGS }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Past 12 Month Deferrals
+              </td>
+              <td>
+                {{ hd.LAST_12M_DEFERRALS }}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-8">
+        <br />
+        <table class="recommendtable rightpanel" *ngIf="recommendationNotes$ | async">
+          <thead>
+            <tr>
+              <th class="recommendheader">
+                <h4>Recommendations/Notes</h4>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let rn of recommendationNotes$ | async">
+              <td>
+                {{ rn.PLANNER_NAME }} - {{ rn.UPDATE_TIME | date:'yyyy-MM-dd HH:mm' }}
+                <br />
+                {{ rn.COMMENTS }}
+                <br />
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="row" style="background-color: white;">&nbsp;</div>
+    <div class="row" style="background-color: white;">
+      <div class="col-3">
+          <table class="tblconfig">
+            <tbody>
+              <tr>
+                <td>
+                  <div>
+                    <canvas id="myChart" width="300" height="300"></canvas>
+                  </div>                
+                </td>
+              </tr>
+            </tbody>
+          </table>      
+      </div>
+      <div class="col-8">
+        <table class="commentssection">
+          <tbody>
+            <tr>
+              <td>
+                <form (ngSubmit)="onSubmit(f)" #f="ngForm" *ngIf="titleSection$ | async">
+                  <label id="lblComment"><b>Comments:</b></label>
+                  <br />
+                  <div class="form-group">
+                    <textarea id="txtComment" name="txtComment" class="form-control" rows="5" cols="50" ngModel></textarea>
+                  </div>
+                  <br />
+                  <button mat-stroked-button id="btnSave" type="submit" class="stroked-button">Save</button>&nbsp;&nbsp;
+                  <button type="button" id="btnCommentHistory" mat-stroked-button matBadge class="stroked-button" (click)="openSaHistory();">Comments History</button>&nbsp;&nbsp;
+                  <button mat-stroked-button id="btnPrint" type="button" class="stroked-button" (click)="print_PDF(meNumber);">Download PDF</button>
+                </form>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+  

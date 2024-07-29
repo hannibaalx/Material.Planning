@@ -1,0 +1,68 @@
+
+
+<!--<div class="pqacontainer"  > *ngIf="revReasonQueues$ || revReasonAlerts$" [hidden]="hideReviewNotification"
+    <div class="row">
+        <div class="col-12 header-borders queue-border-left queue-border-right queue-border-bottom">
+            <h6>Queues XXX</h6>
+            <div *ngIf="(revReasonQueues$ | async) as revRQ;">
+                <div *ngFor="let rq of revReasonQueues$">
+                    <a *ngIf="rq.REVIEW_REASON === 'Zero Stock' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/zscomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Zero Stock' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/zscomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Baseline Station Shortage' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/bsscomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Baseline Station Shortage' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/bsscomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'SM Baseline Station Shortage' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/smbsscomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'SM Baseline Station Shortage' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/smbsscomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Open Discrepancy' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/opdiscalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Open Discrepancy' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/opdiscalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="false && rq.REVIEW_REASON === 'MEL'" routerLink="/ata/melcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'TES Critical' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/tescomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+             <a *ngIf="rq.REVIEW_REASON === 'TES Critical' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/tescomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Parts Shortage for Kit' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/pskcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Parts Shortage for Kit' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/pskcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Kit Shortage by Parts' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/kspcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Kit Shortage by Parts' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/kspcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Repairable OH to AQ Review' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/repohaqcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Repairable OH to AQ Review' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/repohaqcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+            <a style="display:none" *ngIf="rq.REVIEW_REASON === 'Negative Ownership Change'" routerLink="/ata/negcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'SO Pending Review' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/sopendcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'SO Pending Review' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/sopendcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Scheduled ROT REP Shortage' && rq.Drop_off != 'Y'" href="javascript:void(0);" routerLink="/ata/schedrrcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-danger">{{rq.REVIEW_REASON}}</a>
+            <a *ngIf="rq.REVIEW_REASON === 'Scheduled ROT REP Shortage' && rq.Drop_off == 'Y'" href="javascript:void(0);" routerLink="/ata/schedrrcomment/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{rq.REVIEW_REASON}}</a>
+                </div>
+                <div *ngIf="revReasonQueues$.length == 0">
+                    <p class="badge badge-light badgefontsize">No Queue Data Found</p>
+                </div> 
+            </div> -->
+
+            <!-- <h6>Alerts</h6> -->
+            <!-- <div *ngIf="(revReasonAlerts$ | async) as revAQ;"> 
+                <div *ngFor="let ra of revReasonAlerts$">
+                    <a *ngIf="ra.REVIEW_REASON === 'System Low Stock' && ra.Drop_off !='Y'" href="javascript:void(0);" routerLink="/ata/slsalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'System Low Stock' && ra.Drop_off =='Y'" href="javascript:void(0);" routerLink="/ata/slsalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'Overdue PO or RO' && ra.Drop_off !='Y'" href="javascript:void(0);" routerLink="/ata/overdalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'Overdue PO or RO' && ra.Drop_off =='Y'" href="javascript:void(0);" routerLink="/ata/overdalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'AOS Review' && ra.Drop_off !='Y'" href="javascript:void(0);" routerLink="/ata/aosalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'AOS Review' && ra.Drop_off =='Y'" href="javascript:void(0);" routerLink="/ata/aosalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="false && ra.REVIEW_REASON === 'NEF'" routerLink="/ata/nefalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'Catalog Expiration' && ra.Drop_off !='Y'" href="javascript:void(0);" routerLink="/ata/catexpalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'Catalog Expiration' && ra.Drop_off =='Y'" href="javascript:void(0);" routerLink="/ata/catexpalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'Vendor WO Assignment' && ra.Drop_off !='Y'" href="javascript:void(0);" routerLink="/ata/vwaalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'Vendor WO Assignment' && ra.Drop_off =='Y'" href="javascript:void(0);" routerLink="/ata/vwaalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON.trim() === 'Ownership No Allocation' && ra.Drop_off !='Y'" href="javascript:void(0);" routerLink="/ata/obnaalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON.trim() === 'Ownership No Allocation' && ra.Drop_off =='Y'" href="javascript:void(0);" routerLink="/ata/obnaalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'Usage and No Allocation' && ra.Drop_off !='Y'" href="javascript:void(0);" routerLink="/ata/unaalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'Usage and No Allocation' && ra.Drop_off =='Y'" href="javascript:void(0);" routerLink="/ata/unaalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'Main Station Balancing' && ra.Drop_off !='Y'" href="javascript:void(0);" routerLink="/ata/msbalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'Main Station Balancing' && ra.Drop_off =='Y'" href="javascript:void(0);" routerLink="/ata/msbalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'OutStation Balancing' && ra.Drop_off !='Y'" href="javascript:void(0);" routerLink="/ata/outstaalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+                    <a *ngIf="ra.REVIEW_REASON === 'OutStation Balancing' && ra.Drop_off =='Y'" href="javascript:void(0);" routerLink="/ata/outstaalert/{{meRule.ME_PART_NUMBER}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>-->
+                <!-- </div>
+                <div *ngIf="revReasonAlerts$.length == 0">
+                    <p class="badge badge-light">No Alert Data Found</p>
+                </div>                            
+            
+        </div>  
+    </div>
+    <br/><br />
+</div> -->
+

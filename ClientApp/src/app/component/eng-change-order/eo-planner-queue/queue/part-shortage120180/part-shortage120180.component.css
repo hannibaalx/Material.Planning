@@ -1,0 +1,99 @@
+.ps120180container{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 99%;
+}
+.datacenter{
+    text-align: center;
+}
+.dataright{
+    text-align: right;
+    position: relative;
+    top: -25px;
+    font-size: 10px;
+}
+.slsrow:nth-of-type(even){
+    background-color: #f2f2f2;
+  }
+.hoverable:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.mat-header-cell{
+    flex-direction: column;
+    justify-content: center;
+    background-color: #36495a;
+    color: #ffffff;
+    font-family: 'AmericanSans';
+    font-size: 16px;
+}
+.mat-cell{
+    font-size: 12px;
+    text-align: center;
+    justify-content: center;
+    border: 1px solid#dee2e6;
+    align-self: stretch;
+}
+.mat-row, .mat-header-row {  
+    min-width: 1000px;  
+    width: 100%;  
+ }
+a{
+    font-size: 11px;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+.header-title{
+    position: relative;
+    left: 10px;
+    top: 5px;
+    text-align: left;
+}
+.dataleft{
+    text-align: left;
+    position: relative;
+    top: -36px;
+    font-size: 16px;
+    font-family: "AmericanSans";
+    color:#ffffff;
+}
+.exportbtn[_ngcontent-ng-cli-universal-c361] {
+    display: inline-block;
+    padding: .25em .4em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    position: relative;
+    top: 7px;
+}
+.dataright{
+    text-align: right;
+    position: relative;
+    top: -15px;
+}
+.mattablecontainer{
+    height: 315px;
+    overflow: auto; 
+    position: relative;
+    top: 11px;   
+}
+.mat-row:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.pleasewaitind {
+    position: relative;
+    top: 150px;
+    background-color: #36495a!important;
+}

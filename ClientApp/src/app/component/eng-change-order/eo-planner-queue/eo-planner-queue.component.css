@@ -1,0 +1,245 @@
+.eoplContainer{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 99%;
+}
+.sectiontop{
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 10px;
+}
+.sectionbottom{
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 5px;
+}
+.sectionleft{
+    border-left:  2px solid #dee2e6;
+    margin-left: 0px;
+}
+.btn-rule{
+    position: relative;
+    float:right;
+    font-size: 9px;
+    background-color: #0078d2;
+    color: #ffffff;
+ }
+ .alert-btn-rule{
+    position: relative;
+    float:right;
+    font-size: 9px;
+    background-color: #ffffff; 
+ }
+ .orangebtn{
+     background-color: orange;
+ }
+.color1{
+    background-color: #0366D6;
+    width: 194px;
+}
+.color2{
+    background-color: #AD343E;
+    width: 194px;
+}
+.control-center{
+    margin-left: 33%;
+}
+.text-center{
+    text-align: center;
+}
+table{
+    font-size: 11px;
+    table-layout: auto;
+}
+/* th, td{
+    border: 1px solid#dee2e6;
+    text-align: center;
+} */
+th{
+    border: 1px solid#dee2e6;
+    text-align: center;
+}
+.tableFixedHead {
+  height: 248px;
+  overflow-y: auto;
+  width: 100%;
+}
+.tableFixedHead th{
+  position: sticky;
+  top: 0;
+}
+.dropoff {
+    position: relative;
+    float: right;
+    line-height: 1.5;
+    width: 100px;
+}
+.dropNextReview{
+    position: relative;
+    float: right;
+    line-height: 1; 
+}
+.nextReviewDateLabel{
+    font-size: 14px;
+}
+.oekwodesc{
+    left: 0px;
+    position: relative;
+    float: left;
+    top: -3px;
+}
+.needtext{
+    color: red;
+    text-align: center;
+}
+.goodtext{
+    color: green;
+    text-align: center;
+}
+.reviewtext{
+    color: orange;
+    text-align: center;
+}
+.tooltext{
+    color: lightseagreen;
+    text-align: center;
+}
+.orangebackgroundcolor
+{
+    background-color: orange;
+}
+.nowrap{
+    white-space: nowrap;
+    text-align: center;
+}
+.plannerddl{
+    position: relative;
+    left: 36px;
+}
+.queuebutton{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 90%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: baseline;
+    width: 99%;
+    height: 18px;
+    margin-top: 3px;
+    background-color: #d0dae0;
+    color: #000000;
+}
+.alertbutton{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 90%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: left;
+    white-space: nowrap;
+    vertical-align: baseline;
+    width: 99%;
+    height: 18px;
+    margin-top: 3px;
+    background-color: red;
+    color: #ffffff;
+}
+.eotitle{
+    position: relative;
+    left: 8px;
+    background-color: #36495a;
+    color: #ffffff;
+    height: 40px;
+    /* top: -25px; */
+}
+.queueheader{
+    background-color: #36495a;
+    color: #ffffff;
+    font-family: 'AmericanSans';
+    font-size: 16px;
+}
+thead tr th{
+    background-color: #36495a;
+    color: #ffffff;
+    font-size: 12px;
+}
+.modal-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 1rem 1rem;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: .3rem;
+    border-top-right-radius: .3rem;
+    background-color: #36495a;
+    color: #ffffff;
+}
+.parentcolor{
+    background-color: inherit;
+    font-size: 11px;
+    position: relative;
+    top: -9px;
+    color: #0056b3;
+    /* text-decoration: underline;  */
+    /* z-index: -1; */
+}
+.parentcolortext{
+    background-color: inherit;
+    font-size: 11px;
+    text-align: center;
+}
+.headerzindex{
+    z-index: 10;
+}
+.mat-drawer-content {
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 100%;
+    overflow: unset;
+}
+.header-title{
+    position: relative;
+    top: 5px;
+    left: 10px;
+    font-size: 20px;
+    font-family: "AmericanSans";
+}
+/* .mat-form-field{
+    margin-top: 15px;
+} */
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+.plnr-control{
+    margin-top: 10px;
+}
+tr:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20) !important;
+}
+.plannerspinner{
+    position: absolute;
+    left: 225px;
+    top: 148px;
+    /* color: #36495a!important; */
+}
+.pleasewaitind {
+    position: relative;
+    top: 150px;
+    background-color: #36495a!important;
+}
+.pleasewaitind2 {
+    position: relative;
+    top: 225px;
+    background-color: #36495a!important;
+    z-index: 100;
+}

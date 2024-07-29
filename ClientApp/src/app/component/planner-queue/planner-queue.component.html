@@ -1,0 +1,163 @@
+<div class="pqcontainer">
+  <div class="row">
+    <div class="col-4 sectionbottom" id="top">
+      <!-- <select id="ddlPlanner" (change)="getRuleCountsForPlanner($event.target.value)">
+        <option disabled>Select a planner</option>
+        <option *ngFor="let pl of planners$ | async" value={{pl.PLNR_NAME}}>{{pl.PLNR_NAME}}</option>
+      </select> -->
+      <mat-spinner class="plannerspinner" diameter="20" [hidden]="isLoadingComplete"></mat-spinner>
+      <form>
+        <mat-form-field>
+          <input type="text" matInput id="plannerControl" [formControl]="plannerControl" [matAutocomplete]="auto" placeholder="Enter Planner" aria-label="PlannerName">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let x of filteredPlanners$ | async" (click)="getRuleCountsForPlanner(plannerControl.value)" [value]="x.PLANNER_NAME">
+              {{ x.PLANNER_NAME }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+    </div>
+    <div class="col-8 textright">
+      <span *ngFor="let t of refreshtime$ | async ">
+        <div class="last-refresh">
+          <b>Last refreshed:</b> {{ t.UPDATED_DATETIME | date :'yyyy/MM/dd, hh:mm:ss a' }}
+        </div>
+      </span>
+    </div>
+  </div>
+  <div class="row borderleft sectionbottom">
+    <div class="col-2 header-color">
+      <!-- <div class="row"> -->
+       <b class="queue-header">Queues</b>  
+      <!-- </div> -->
+        
+      <div class="row">
+        <div class="col-2 queue-buttons">
+          <!-- <br /><br /> -->
+          <button mat-raised-button class="queuebutton" (click)="setRule('Zero Stock')">
+            Zero Stock <span *ngIf="zsCount || zsCount == 0" class="badge badge-light btn-rule">{{ zsCount }}</span>
+          </button>
+          <!-- <button mat-raised-button class="queuebutton" (click)="setRule('Baseline Station Shortage')">
+            Baseline Station Shortage <span class="badge badge-light btn-rule" *ngFor="let x of let x of baseline_ss$ | async">{{ x.count }}</span>
+          </button> -->
+          <button mat-raised-button class="queuebutton" (click)="setRule('SM Baseline Station Shortage')">
+            Baseline Station Shortage <span *ngIf="smbsCount || smbsCount == 0" class="badge badge-light btn-rule">{{ smbsCount }}</span>
+          </button>
+          <!-- <button mat-raised-button class="queuebutton" (click)="setRule('Open Discrepancy')">
+            Open Discrepancy <span *ngIf="odCount || odCount == 0" class="badge badge-light btn-rule">{{ odCount }}</span>
+          </button> -->
+          <button mat-raised-button class="queuebutton" (click)="setRule('System Low Stock')">
+            System Low Stock <span *ngIf="slsCount || slsCount == 0" class="badge badge-light btn-rule">{{ slsCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('Associated ME No Stock')">
+            Associated M&E <span *ngIf="amnosCount || amnosCount == 0" class="badge badge-light btn-rule">{{ amnosCount }}</span>
+          </button>
+          <!-- <button mat-raised-button class="queuebutton" (click)="setRule('Overdue PO or RO')">
+            Overdue PO or RO <span *ngIf="oprCount || oprCount == 0" class="badge badge-light btn-rule">{{ oprCount }}</span>
+          </button> -->
+          <!-- <button mat-raised-button class="queuebutton" (click)="setRule('AOS Review')">
+            AOS Review <span *ngIf="aosCount || aosCount == 0" class="badge badge-light btn-rule">{{ aosCount }}</span>
+          </button> -->
+          <button mat-raised-button class="queuebutton" (click)="setRule('TES Critical')">
+            TES Critical <span *ngIf="tesCount || tesCount == 0" class="badge badge-light btn-rule">{{ tesCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('Parts Shortage for Kit')">
+            Parts Shortage for Kit <span *ngIf="psfkCount || psfkCount == 0" class="badge badge-light btn-rule">{{ psfkCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('Kit Shortage by Parts')">
+            Kit Shortage by Parts <span *ngIf="ksbpCount || ksbpCount == 0" class="badge badge-light btn-rule">{{ ksbpCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('Repairable OH to AQ Review')">
+            ROT REP Below 50% Allocation <span *ngIf="repohCount || repohCount == 0" class="badge badge-light btn-rule">{{ repohCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('SO Pending Review')">
+            SO Pending Review <span *ngIf="sopCount || sopCount == 0" class="badge badge-light btn-rule">{{ sopCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('Scheduled ROT REP Shortage')">
+            Scheduled ROT REP Shortage <span *ngIf="srrsCount || srrsCount == 0" class="badge badge-light btn-rule">{{ srrsCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('Ownership No Allocation')">
+            Ownership No Allocation <span *ngIf="onaCount || onaCount == 0" class="badge badge-light btn-rule">{{ onaCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('Usage and No Allocation')">
+            Usage No Allocation <span *ngIf="unaCount || unaCount == 0" class="badge badge-light btn-rule">{{ unaCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('New ME Setup or Changes')">
+            New M&E Setup or Changes <span *ngIf="nmsCount || nmsCount == 0" class="badge badge-light btn-rule">{{ nmsCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('Scraps')">
+            Scraps <span *ngIf="scpCount || scpCount == 0" class="badge badge-light btn-rule">{{ scpCount }}</span>
+          </button>
+          <!-- <button mat-raised-button class="queuebutton" (click)="setRule('Main Station Balancing')">
+            Main Station Balancing <span *ngIf="msbCount || msbCount == 0" class="badge badge-light btn-rule">{{ msbCount }}</span>
+          </button>
+          <button mat-raised-button class="queuebutton" (click)="setRule('Out Station Balancing')">
+            Out Station Balancing <span *ngIf="osbCount || osbCount == 0" class="badge badge-light btn-rule">{{ osbCount }}</span>
+          </button> -->
+                      <!-- <button mat-raised-button class="queuebutton" (click)="setRule('Catalog Expiration')">
+              Catalog Expiration <span *ngIf="catexCount || catexCount == 0" class="badge badge-light btn-rule">{{ catexCount }}</span>
+            </button> -->
+            <!-- <button mat-raised-button class="queuebutton" (click)="setRule('Vendor WO Assignment')">
+              Vendor WO Assignment <span *ngIf="vwoaCount || vwoaCount == 0" class="badge badge-light btn-rule">{{ vwoaCount }}</span>
+            </button> -->
+        </div>        
+      </div>
+
+    </div>
+    <div class="col-10 sectionborder borderleft zsdetail">
+      <app-zero-stock (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Zero Stock'"></app-zero-stock>
+      <!-- <app-baseline-station-shortage (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Baseline Station Shortage'"></app-baseline-station-shortage> -->
+      <app-sm-baseline-station-shortage (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'SM Baseline Station Shortage'"></app-sm-baseline-station-shortage>
+      <app-new-me-setup-or-changes (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'New ME Setup or Changes'"></app-new-me-setup-or-changes>
+      <app-system-low-stock (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'System Low Stock'"></app-system-low-stock>
+      <app-associated-me-no-stock (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Associated ME No Stock'"></app-associated-me-no-stock>
+      <app-aging-po-ro (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Overdue PO or RO'"></app-aging-po-ro>
+      <app-aos-review (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'AOS Review'"></app-aos-review>
+      <!-- <app-nef (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'NEF'"></app-nef> -->
+      <app-open-discrepancy (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Open Discrepancy'"></app-open-discrepancy>
+      <!-- <app-mel (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'MEL'"></app-mel> -->
+      <app-tes-critical (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'TES Critical'"></app-tes-critical>
+      <app-parts-shortage-for-kit (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Parts Shortage for Kit'"></app-parts-shortage-for-kit>
+      <app-kit-shortage-by-parts (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Kit Shortage by Parts'"></app-kit-shortage-by-parts>
+      <app-catalog-expiration (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Catalog Expiration'"></app-catalog-expiration>
+      <app-vendor-wo-assignment (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Vendor WO Assignment'"></app-vendor-wo-assignment>
+      <app-main-station-balancing (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Main Station Balancing'"></app-main-station-balancing>
+      <app-out-station-balancing (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Out Station Balancing'"></app-out-station-balancing>
+      <app-rep-oh-aq-review (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Repairable OH to AQ Review'"></app-rep-oh-aq-review>
+      <!-- <app-negative-ownership-change (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Negative Ownership Change'"></app-negative-ownership-change> -->
+      <app-so-pending-review (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'SO Pending Review'"></app-so-pending-review>
+      <app-sched-rot-rep-shortage  (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Scheduled ROT REP Shortage'"></app-sched-rot-rep-shortage>
+      <app-ownership-no-allocation (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Ownership No Allocation'"></app-ownership-no-allocation>
+      <app-usage-no-allocation (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Usage and No Allocation'"></app-usage-no-allocation>
+      <app-scraps (setMeRule)="receiveMeRule($event)" *ngIf="selectedRule == 'Scraps'"></app-scraps>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 sectiontop2">
+      <!-- (greetEvent)="greet($event);" -->
+      <app-zero-stock-comments *ngIf="selectedRule == 'Zero Stock'"></app-zero-stock-comments>
+      <app-baseline-station-shortage-comments *ngIf="selectedRule == 'Baseline Station Shortage'"></app-baseline-station-shortage-comments>
+      <app-sm-baseline-station-shortage-comments *ngIf="selectedRule == 'SM Baseline Station Shortage'"></app-sm-baseline-station-shortage-comments>
+      <app-new-me-setup-or-changes-comments *ngIf="selectedRule == 'New ME Setup or Changes'"></app-new-me-setup-or-changes-comments>
+      <app-scraps-comments *ngIf="selectedRule == 'Scraps'"></app-scraps-comments>
+      <app-open-discrepancy-alert *ngIf="selectedRule == 'Open Discrepancy'"></app-open-discrepancy-alert>
+      <app-tes-critical-comments *ngIf="selectedRule == 'TES Critical'"></app-tes-critical-comments>
+      <app-associated-me-no-stock-comment *ngIf="selectedRule == 'Associated ME No Stock'" ></app-associated-me-no-stock-comment>
+      <app-parts-shortage-for-kit-comments *ngIf="selectedRule == 'Parts Shortage for Kit'"></app-parts-shortage-for-kit-comments>
+      <app-kit-shortage-for-parts-comments *ngIf="selectedRule == 'Kit Shortage by Parts'"></app-kit-shortage-for-parts-comments>
+      <app-rep-oh-aq-review-comments *ngIf="selectedRule == 'Repairable OH to AQ Review'"></app-rep-oh-aq-review-comments>
+      <app-so-pending-review-comments *ngIf="selectedRule == 'SO Pending Review'"></app-so-pending-review-comments>
+      <app-sched-rot-rep-shortage-comments *ngIf="selectedRule == 'Scheduled ROT REP Shortage'"></app-sched-rot-rep-shortage-comments>
+      <app-system-low-stock-alert *ngIf="selectedRule == 'System Low Stock'"></app-system-low-stock-alert>
+      <app-aging-po-ro-alert *ngIf="selectedRule == 'Overdue PO or RO'"></app-aging-po-ro-alert>
+      <app-aos-review-alert *ngIf="selectedRule == 'AOS Review'"></app-aos-review-alert>
+      <app-catalog-expiration-alert *ngIf="selectedRule == 'Catalog Expiration'"></app-catalog-expiration-alert>
+      <app-vendor-wo-assignment-alert *ngIf="selectedRule == 'Vendor WO Assignment'"></app-vendor-wo-assignment-alert>
+      <app-ownership-no-allocation-alert *ngIf="selectedRule == 'Ownership No Allocation'"></app-ownership-no-allocation-alert>
+      <app-usage-no-allocation-alert *ngIf="selectedRule == 'Usage and No Allocation'"></app-usage-no-allocation-alert>
+      <app-main-station-balancing-alert *ngIf="selectedRule == 'Main Station Balancing'"></app-main-station-balancing-alert>
+      <app-out-station-balancing-alert *ngIf="selectedRule == 'Out Station Balancing'"></app-out-station-balancing-alert>
+    </div>
+  </div>
+  <app-maint-snackbar></app-maint-snackbar>
+</div>

@@ -1,0 +1,55 @@
+<!-- <span mat-dialog-title class="me-title">ME Review - {{ menumber }}
+  <input matInput placeholder="Placeholder" />
+</span> -->
+  <mat-dialog-content>
+    <div class="row">
+      <div class="col-3 header-color">
+        M&E
+      </div>
+      <div class="col-9 header-color">
+        Comments
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-3 header-height">
+          <span class="me-title">{{ menumber.toString() }}</span>
+        </div>
+        <div class="col-9 header-height">
+          <input matInput maxlength="200" class="input-length" placeholder="Enter comments here" />
+        </div>
+            <!-- <mat-table [dataSource]="datasource1" class="mat-elevation-z8"> -->
+            <div>
+              <!-- <mat-form-field appearance="fill">
+                <mat-label>Leave a comment</mat-label> -->
+                <!-- <form> -->
+                    <!-- <mat-form-field appearance="fill">
+                      <mat-label>Leave a comment</mat-label>
+                      <mat-table [dataSource]="arrmenumber" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="menumber"> 
+                          <mat-header-cell *matHeaderCellDef><b>M&E</b></mat-header-cell>
+                          <mat-cell *matCellDef="let x">{{ x.menumber }}</mat-cell>
+                        </ng-container>
+
+                        <ng-container matColumnDef="comments">
+                          <mat-header-cell *matHeaderCellDef><b>Comments</b></mat-header-cell>
+                          <mat-cell *matCelDef>
+                            blah blah
+                              <mat-label>Standard form field</mat-label>
+                              <input matInput placeholder="Placeholder" />
+                           </mat-cell>
+                        </ng-container>
+          
+                        <mat-header-row *matHeaderRowDef="displayedColumns;"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                      </mat-table>
+                  </mat-form-field> -->
+                <!-- </form> -->
+            </div>
+        </div>
+    <!-- </div> -->
+  </mat-dialog-content>
+    <mat-dialog-actions align="end">
+      <button mat-stroked-button mat-dialog-close mat-dialog-close="false" class="stroked-button2" type="button" #closebtn (click)="closeDialog()">Close</button>
+      <button mat-stroked-button class="stroked-button" type="button" (click)="savecomment(menumber)">Submit</button>
+    </mat-dialog-actions>

@@ -1,0 +1,20 @@
+<div id="search-component">
+
+  <div class="input-group mb-3">
+    <div class="input-group-prepend">
+      <span class="input-group-text" id="basic-addon1">M&E Number</span>
+    </div>
+    <!-- <input type="text" #partSearchBox id="part-search-box" class="form-control" placeholder="" aria-label="Part"
+      aria-describedby="basic-addon1" (input)="search(#partSearchBox.value") > -->
+      <input #partSearchBox id="part-search-box" class="inputwidth" maxlength="14" (input)="search(partSearchBox.value)" />
+    <!--<span><button type="button" class="btn btn-info" (click)="getPartInfo(txtpartnumber)">OK</button></span>-->
+    <!-- <span><button type="button" class="btn btn-info">OK</button></span> -->
+
+  </div>
+  
+  <!-- <ul class="search-result">
+    <li *ngFor="let part of parts$ | async">
+        {{part.ME_PART_NUMBER}}, {{part.KEYWORD}}
+    </li>
+  </ul> -->
+</div>

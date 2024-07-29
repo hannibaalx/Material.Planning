@@ -1,0 +1,122 @@
+.eotitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+
+.addremovebutton{
+    position: relative;
+    top: 30px;  
+}
+
+.selectlistcontainer{
+    border: grey 1px solid;
+    overflow-y: auto;
+    width: 100%;
+    position: relative;
+}
+.full-width{
+    width: 100%;
+}
+.partreq{
+    position: relative;
+    top: 10px;
+    left: 16px;
+}
+.loadingSpinner{
+    position: relative;
+    top: -32px;
+    left: 320px;
+}
+textarea{
+    height: 75px;
+}
+table{
+    font-size: 10px;
+}
+.tableFixedHead {
+    height: 290px;
+    overflow-y: auto;
+    width: 100%;
+}
+.tableFixedHead th{
+    position: sticky;
+    top: 0;
+    border: 1px solid gray;
+    text-align: center;
+}
+.table td{
+    border: 1px solid gray;
+    text-align: center;
+}
+.nowrap{
+    white-space: nowrap  
+}
+.center-text{
+    text-align: center;
+}
+.search-result li {
+    border-bottom: 1px solid gray;
+    border-left: 1px solid gray;
+    border-right: 1px solid gray;
+    border-top: 1px solid gray;
+    width: 280px;
+    height: 25px;
+    padding: 5px;
+    background-color: white;
+    cursor: pointer;
+    list-style-type: none;
+    left: -40px;
+    position: relative;
+    z-index: 100;
+  }
+    
+  .search-result li:hover {
+    background-color: #607D8B;
+  }
+  
+  .search-result li a {
+    color: #888;
+    display: block;
+    text-decoration: none;
+  }
+  
+  .search-result li a:hover {
+    color: white;
+  }
+  .search-result li a:active {
+    color: white;
+  }
+  .mat-drawer-content {
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 100%;
+    overflow: unset;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}
+/* .mat-stepper-vertical, .mat-stepper-horizontal{
+    font-family: 'AmericanSans'!important;
+}
+.mat-tab-label-content {
+    font-family: "AmericanSans"!important;
+} */
+.basic-container .mat-step-header .mat-step-icon-selected {
+    font-family: "AmericanSans"!important;
+    background-color: #6cb73a;
+    color: #fff;
+  }
+  
+  /* .mat-step-header .mat-step-icon {
+      background-color: rgba(167, 35, 35, 0.54);
+      color: #fff;
+  } */

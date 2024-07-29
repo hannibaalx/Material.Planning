@@ -1,0 +1,103 @@
+/* @import '@angular/material/prebuilt-themes/indigo-pink.css'; */
+
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #e01a76;
+}
+
+/* html,
+body {
+  height: 100%;
+  width: 100%;
+} */
+body {
+  margin: 0;
+  font-family: 'AmericanSans';
+}
+
+@font-face {
+  font-family: "AmericanSans";
+  src: local("AmericanSans"), url(./assets/fonts/americansans-regular.woff) format("truetype");
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+.chkbox-color{
+  color: #0366d6;
+  border-color: #0366d6;
+  
+}
+.spinner-container{
+  /* text-align: center; */
+
+  /* margin: 0 auto;
+  width: max-content; */
+
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* .spinner-container div {
+  display: inline-block;
+} */
+
+.popover { 
+  max-width: 100% !important; 
+}
+mat-sidenav-container{
+  font-family: AmericanSans;
+  font-size: 14px;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 0 !important;
+  width: 100vw;
+  height: 100vh;
+  background-color: #000;
+}
+.modal {
+  z-index: 9999;
+  background-color:transparent!important;
+}
+.mat-drawer-inner-container {
+  width: 100% !important;
+  height: 100% !important;
+  overflow: unset !important;
+}
+.eoreportcontainer .mat-tab-label{
+  font-family: 'AmericanSans' !important;
+}
+.mat-sort-header-arrow, .mat-sort-header-position-before .mat-sort-header-arrow {
+  margin: 0 0 0 6px;
+  color: #ffffff;
+}
+.snackbar-container{
+  margin-bottom: 30px;
+&.error {
+  background-color: rgb(239, 65, 65);
+}
+&.success {
+  background-color: #00b989;
+}
+}
+.mat-snack-bar-container{
+  position:relative;
+  right:1;
+  left: 1;
+  bottom: 0;
+  margin:auto;
+}

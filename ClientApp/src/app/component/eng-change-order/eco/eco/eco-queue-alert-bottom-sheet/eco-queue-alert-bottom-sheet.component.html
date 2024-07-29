@@ -1,0 +1,59 @@
+<div class="pqacontainer" *ngIf="ecoRevReasonQueues$ && ecoRevReasonAlerts$" [hidden]="hideReviewNotification">
+  <div class="row">
+    <div class="col-12">
+      <h3><b>Dash 8 - {{ data.dash8 }}</b></h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 header-borders queue-border-left">
+      <h6>Queues</h6>
+    </div>
+    <div class="col-5 header-borders queue-border-left queue-border-right">
+      <h6>Alerts</h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-6 queue-border-left queue-border-right">
+      <div *ngIf="(ecoRevReasonQueues$ | async) as revRQ;">
+        <div *ngFor="let rq of revRQ">
+          <a *ngIf="rq.REVIEW_REASON === 'AD Parts Shortage' && rq.DROP_OFF != 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/ad/{{data.planner}}" target='_blank' class="badge badge-danger">AD SYSTEM SHORTAGE</a>
+          <a *ngIf="rq.REVIEW_REASON === 'AD Parts Shortage' && rq.DROP_OFF == 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/ad/{{data.planner}}" target='_blank' class="badge dropped">AD SYSTEM SHORTAGE</a>
+          <a *ngIf="rq.REVIEW_REASON === '30 Days Parts Shortage' && rq.DROP_OFF != 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/30/{{data.planner}}" target='_blank' class="badge badge-danger">30 DAYS SYSTEM SHORTAGE BOM</a>
+          <a *ngIf="rq.REVIEW_REASON === '30 Days Parts Shortage' && rq.DROP_OFF == 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/30/{{data.planner}}" target='_blank' class="badge dropped">30 DAYS SYSTEM SHORTAGE BOM</a>
+          <a *ngIf="rq.REVIEW_REASON === '60 Or 90 Days Parts Shortage' && rq.DROP_OFF != 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/6090/{{data.planner}}" target='_blank' class="badge badge-danger">60 OR 90 DAYS SYSTEM SHORTAGE</a>
+          <a *ngIf="rq.REVIEW_REASON === '60 Or 90 Days Parts Shortage' && rq.DROP_OFF == 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/6090/{{data.planner}}" target='_blank' class="badge dropped">60 OR 90 DAYS SYSTEM SHORTAGE</a>
+          <a *ngIf="rq.REVIEW_REASON === '120 Or 180 Days Parts Shortage' && rq.DROP_OFF != 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/120180/{{data.planner}}" target='_blank' class="badge badge-danger">120 OR 180 DAYS SYSTEM SHORTAGE</a>
+          <a *ngIf="rq.REVIEW_REASON === '120 Or 180 Days Parts Shortage' && rq.DROP_OFF == 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/120180/{{data.planner}}" target='_blank' class="badge dropped">120 OR 180 DAYS SYSTEM SHORTAGE</a>
+          <a *ngIf="rq.REVIEW_REASON === '180 Plus Days Parts Shortage' && rq.DROP_OFF != 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/180p/{{data.planner}}" target='_blank' class="badge badge-danger">180 PLUS DAYS SYSTEM SHORTAGE</a>
+          <a *ngIf="rq.REVIEW_REASON === '180 Plus Days Parts Shortage' && rq.DROP_OFF == 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/180p/{{data.planner}}" target='_blank' class="badge dropped">180 PLUS DAYS SYSTEM SHORTAGE</a>
+          <a *ngIf="rq.REVIEW_REASON === 'New Dash 8 With No BOM' && rq.DROP_OFF != 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/nd8nb/{{data.planner}}" target='_blank' class="badge badge-danger">NEW DASH 8 WITH NO BOM</a>
+          <a *ngIf="rq.REVIEW_REASON === 'New Dash 8 With No BOM' && rq.DROP_OFF == 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/nd8nb/{{data.planner}}" target='_blank' class="badge dropped">NEW DASH 8 WITH NO BOM</a>
+          <a *ngIf="rq.REVIEW_REASON === 'New Stations Changes' && rq.DROP_OFF != 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/nsc/{{data.planner}}" target='_blank' class="badge badge-danger">NEW STATIONS CHANGES</a>
+          <a *ngIf="rq.REVIEW_REASON === 'New Stations Changes' && rq.DROP_OFF == 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/nsc/{{data.planner}}" target='_blank' class="badge dropped">NEW STATIONS CHANGES</a>
+          <a *ngIf="rq.REVIEW_REASON === 'Capable Station Shortage' && rq.DROP_OFF != 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/css/{{data.planner}}" target='_blank' class="badge badge-danger">CAPABLE STATION SHORTAGE</a>
+          <a *ngIf="rq.REVIEW_REASON === 'Capable Station Shortage' && rq.DROP_OFF == 'Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/css/{{data.planner}}" target='_blank' class="badge dropped">CAPABLE STATION SHORTAGE</a>
+        </div>
+        <div *ngIf="revRQ.length == 0">
+          <p class="badge badge-light badgefontsize">No Queue Data Found</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-5 queue-border-right">
+      <div *ngIf="(ecoRevReasonAlerts$ | async) as revAQ;">
+        <div *ngFor="let ra of revAQ">
+          <a *ngIf="ra.REVIEW_REASON === 'Overdue EO Kit Work Order' && ra.DROP_OFF !='Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/oekwo/{{data.planner}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+          <a *ngIf="ra.REVIEW_REASON === 'Overdue EO Kit Work Order' && ra.DROP_OFF =='Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/oekwo/{{data.planner}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+          <a *ngIf="ra.REVIEW_REASON === 'Overdue POs and ROs' && ra.DROP_OFF !='Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/opr/{{data.planner}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+          <a *ngIf="ra.REVIEW_REASON === 'Overdue POs and ROs' && ra.DROP_OFF =='Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/opr/{{data.planner}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+          <a *ngIf="ra.REVIEW_REASON === 'Parts in Discrepancy' && ra.DROP_OFF !='Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/pid/{{data.planner}}" target='_blank' class="badge badge-warning">{{ra.REVIEW_REASON}}</a>
+          <a *ngIf="ra.REVIEW_REASON === 'Parts in Discrepancy' && ra.DROP_OFF =='Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/pid/{{data.planner}}" target='_blank' class="badge dropped">{{ra.REVIEW_REASON}}</a>
+          <a *ngIf="ra.REVIEW_REASON === 'Yesterday Deferrals' && ra.DROP_OFF !='Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/yd/{{data.planner}}" target='_blank' class="badge badge-warning">YESTERDAY DEFERRALS</a>
+          <a *ngIf="ra.REVIEW_REASON === 'Yesterday Deferrals' && ra.DROP_OFF =='Y'" routerLink="/eo/plq/eobomkitdetail/{{data.dash8}}/yd/{{data.planner}}" target='_blank' class="badge dropped">YESTERDAY DEFERRALS</a>
+        </div>
+        <div *ngIf="revAQ.length == 0" >
+          <p class="badge badge-light">No Alert Data Found</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

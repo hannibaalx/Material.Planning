@@ -1,0 +1,17 @@
+mat-form-field {
+    display: block!important;
+    position: relative!important;
+    flex: auto!important;
+    min-width: 0!important;
+    width: 100%!important;
+}
+.stroked-button{
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 2px;
+}

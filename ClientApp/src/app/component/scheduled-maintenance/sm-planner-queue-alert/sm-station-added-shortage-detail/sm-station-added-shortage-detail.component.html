@@ -1,0 +1,42 @@
+<h2 mat-dialog-title></h2>
+  <mat-dialog-content>
+    <div class="row">
+        <div class="col-12 mattablecontainer">
+            <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource"
+              (matSortChange)="sortStationAddedShortageDetail($event)" class="mat-elevation-z8">
+
+              <ng-container matColumnDef="ME_PART_NUMBER_USED">
+                <mat-header-cell *matHeaderCellDef mat-sort-header><b>ME PART NUMBER USED</b></mat-header-cell>
+                <mat-cell *matCellDef="let x"> {{ x.ME_PART_NUMBER_USED }} </mat-cell>
+              </ng-container>
+      
+              <ng-container matColumnDef="STATION">
+                <mat-header-cell *matHeaderCellDef mat-sort-header><b>STATION</b></mat-header-cell>
+                <mat-cell *matCellDef="let x"> {{ x.STATION }} </mat-cell>
+              </ng-container>
+      
+              <ng-container matColumnDef="STA_OH_QTY">
+                <mat-header-cell *matHeaderCellDef mat-sort-header><b>ON HAND</b></mat-header-cell>
+                <mat-cell *matCellDef="let x"> {{ x.STA_OH_QTY }} </mat-cell>
+              </ng-container>
+      
+              <ng-container matColumnDef="STA_INTRANSIT_QTY">
+                <mat-header-cell *matHeaderCellDef mat-sort-header><b>INTRANSIT</b></mat-header-cell>
+                <mat-cell *matCellDef="let x"> {{ x.STA_INTRANSIT_QTY }} </mat-cell>
+              </ng-container>
+      
+              <ng-container matColumnDef="THREHOLD">
+                <mat-header-cell *matHeaderCellDef mat-sort-header><b>THREHOLD</b></mat-header-cell>
+                <mat-cell *matCellDef="let x"> {{ x.THREHOLD }} </mat-cell>
+              </ng-container>
+      
+              <mat-header-row *matHeaderRowDef="station_added_shortage_detail_displayedColumns; sticky: true;"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: station_added_shortage_detail_displayedColumns;"></mat-row>
+            </mat-table>
+          </div>
+    </div>
+  </mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close mat-dialog-close="false" color="primary" type="button" #closebtn (click)="closeDialog()">Close</button>
+</mat-dialog-actions>
+

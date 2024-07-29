@@ -1,0 +1,162 @@
+.eoplContainer{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 99%;
+}
+.sectiontop{
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 10px;
+}
+.sectionbottom{
+    border-bottom: 2px solid #dee2e6;
+    padding-bottom: 10px;
+}
+.sectionleft{
+    border-left:  2px solid #dee2e6;
+    margin-left: 0px;
+}
+.btn-rule{
+    position: relative;
+    float:right;
+    font-size: 9px;
+ }
+ .orangebtn{
+     background-color: orange;
+ }
+.color1{
+    background-color: #0366D6;
+    width: 194px;
+}
+.color2{
+    background-color: #AD343E;
+    width: 194px;
+}
+.control-center{
+    margin-left: 33%;
+}
+.text-center{
+    text-align: center;
+}
+table{
+    font-size: 11px; 
+}
+th, td{
+    border: 1px solid black;
+    text-align: center;
+}
+.tableFixedHead {
+  height: 400px;
+  overflow-y: auto;
+  width: 100%;
+}
+.tableFixedHead th{
+  position: sticky;
+  top: 0;
+}
+.dropoff {
+    position: relative;
+    float: right;
+    line-height: 1.5;
+    width: 100px;
+}
+.dropNextReview{
+    position: relative;
+    float: right;
+    line-height: 1.5; 
+}
+.nextReviewDateLabel{
+    font-size: 14px;
+}
+.oekwodesc{
+    left: 0px;
+    position: relative;
+    float: left;
+    top: -3px;
+}
+.needtext{
+    color: red;
+    text-align: center;
+}
+.goodtext{
+    color: green;
+    text-align: center;
+}
+.reviewtext{
+    color: orange;
+    text-align: center;
+}
+.tooltext{
+    color: lightseagreen;
+    text-align: center;
+}
+.orangebackgroundcolor
+{
+    background-color: orange;
+}
+.nowrap{
+    white-space: nowrap  
+}
+.plannerddl{
+    position: relative;
+    left: 36px;
+}
+.queuebutton{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 90%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    width: 194px;
+    height: 18px;
+    margin-top: 3px;
+}
+mat-sidenav-container{
+    font-family: Helvetica, Sans-serif;
+    font-size: 14px;
+    height: 100%;
+    width: 100%;
+    /* overflow: hidden; */
+}
+
+mat-sidenav, mat-sidenav-content{
+    padding: 16px;
+    height: 100%;
+    background-color: white;
+}
+
+mat-sidenav{
+    background-color: white;
+    width: 250px;
+}
+.eotitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+.parentcolor{
+    background-color: inherit;
+    font-size: 11px;
+    position: relative;
+    top: -9px;
+    color: #0056b3;
+    /* text-decoration: underline;  */
+    /* z-index: -1; */
+}
+.parentcolortext{
+    background-color: inherit;
+    font-size: 11px;
+    text-align: center;
+}
+.headerzindex{
+    z-index: 10;
+}
+.pleasewaitind {
+    position: relative;
+    top: 150px;
+    background-color: #36495a!important;
+    z-index: 100;
+}

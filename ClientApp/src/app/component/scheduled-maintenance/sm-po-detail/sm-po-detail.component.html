@@ -1,0 +1,149 @@
+<div class="form-container">
+    <!-- <div class="smtitle">
+      <h5><b>SM PO Detail</b></h5>
+    </div> -->
+  
+  <div class="row">
+    <div class="col-12 table-container">
+      <mat-table [dataSource]="datasource" class="mat-elevation-z8 podetails" matSort (matSortChange)="sortTable($event)">
+
+        <ng-container matColumnDef="ME_PART_NUMBER">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>ME PART NUMBER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.ME_PART_NUMBER }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="MFG_PART_NUMBER">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>MFG PART NUMBER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.MFG_PART_NUMBER }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="PO_NUMBER">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>PO NUMBER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.PO_NUMBER }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ORDER_STATUS_IND_DESC">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>ORDER STATUS IND DESC</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.ORDER_STATUS_IND_DESC }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ORDER_DATE">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>ORDER DATE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.ORDER_DATE | date :'yyyy-MM-dd' }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="RECEIVED_DATE">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>RECEIVED DATE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.RECEIVED_DATE | date :'yyyy-MM-dd' }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="REQUIRED_DATE">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>REQUIRED DATE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.REQUIRED_DATE | date :'yyyy-MM-dd' }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="UNIT_COST">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>UNIT COST</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.UNIT_COST }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="VENDOR_NAME">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>VENDOR NAME</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.VENDOR_NAME }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="BUYER_CODE">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>BUYER CODE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.BUYER_CODE }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="BUYER_EMPLOYEE_NUMBER">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>BUYER EMPLOYEE NUMBER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.BUYER_EMPLOYEE_NUMBER }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="PO_REQSTER">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>PO REQSTER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.PO_REQSTER }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="PO_REQSTER_LAST_NAME">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>PO REQSTER LAST NAME</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.PO_REQSTER_LAST_NAME }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="PO_REQSTER_FIRST_NAME">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>PO REQSTER FIRST NAME</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.PO_REQSTER_FIRST_NAME }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="STATION">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>STATION</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.STATION }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="PURCHASE_QTY_ON_ORDER">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>PURCHASE QTY ON ORDER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.PURCHASE_QTY_ON_ORDER }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TOTAL_QTY_RECEIVED">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>TOTAL_QTY_RECEIVED</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.TOTAL_QTY_RECEIVED }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="OPEN_QTY">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>OPEN_QTY</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.OPEN_QTY }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="COMMENT_LINE">
+          <mat-header-cell  *matHeaderCellDef mat-sort-header><b>COMMENT LINE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.COMMENT_LINE }}
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="smPoDetail_displayedColumns; sticky: true;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: smPoDetail_displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>  
+

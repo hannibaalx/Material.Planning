@@ -1,0 +1,16 @@
+.nefcontainer{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 98%;
+}
+.datacenter{
+    text-align: center;
+}
+.nefrow:nth-of-type(even){
+    background-color: #f2f2f2;
+  }
+.hoverable:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}

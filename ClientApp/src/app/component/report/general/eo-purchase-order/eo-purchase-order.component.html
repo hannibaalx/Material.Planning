@@ -1,0 +1,205 @@
+<div class="pocontainer">
+  <div class="row">
+    <div class="col-3">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">PO Request Date Range</label></div>
+      <div class="center-text">
+        <mat-form-field>
+          <mat-label>Start Date</mat-label>
+          <input title="Start Date" matInput [matDatepicker]="postartdp" [max]="maxDate" id="postartdate"
+            [formControl]="postartdate">
+          <mat-datepicker-toggle matSuffix [for]="postartdp"></mat-datepicker-toggle>
+          <mat-datepicker #postartdp></mat-datepicker>
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <mat-label>End Date</mat-label>
+          <input title="End Date" matInput [matDatepicker]="poenddp" [max]="maxDate" id="poenddate"
+            [formControl]="poenddate">
+          <mat-datepicker-toggle matSuffix [for]="poenddp"></mat-datepicker-toggle>
+          <mat-datepicker #poenddp></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">PO Status</label></div>
+      <div class="">
+        <mat-selection-list #allPoSelected dense class="selectlistcontainer">
+          <mat-list-option class="mat-body-1 listitem" *ngFor="let pos of postatus$ | async" color="primary">
+            {{ pos.ORDER_STATUS_IND_DESC }}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">Ship Station</label></div>
+      <div class="">
+        <mat-selection-list #allPoStationSelected dense class="selectlistcontainer">
+          <mat-list-option class="mat-body-1 listitem" *ngFor="let posta of postations$ | async" color="primary">
+            {{posta.STATION}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>M & E</label><br />
+        <input type="text" #poSearchMEN class="input200" id="poSearchMEN" name="poSearchMEN"
+          (input)="autoSearch($event, 'men')" />
+        <ul *ngIf="filteredPoMEN$ && hidePoMEN" class="search-result">
+          <li *ngFor="let m of filteredPoMEN$ | async" (click)="poSearchMEN.value=m.ME_PART_NUMBER; hidePoMEN= false"
+            value="m.ME_PART_NUMBER">
+            {{m.ME_PART_NUMBER}}
+          </li>
+        </ul>
+      </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>MPN</label><br />
+        <input type="text" #poSearchMPN class="input200" id="poSearchMPN" name="poSearchMPN"
+          (input)="autoSearch($event, 'mpn')" />
+        <ul *ngIf="filteredPoMPN$ && hidePoMPN" class="search-result">
+          <li *ngFor="let m of filteredPoMPN$ | async" (click)="poSearchMPN.value=m.MFG_PART_NUMBER; hidePoMPN=false"
+            value="m.MFG_PART_NUMBER">
+            {{m.MFG_PART_NUMBER}}
+          </li>
+        </ul>
+      </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>Purchase Order Number</label><br />
+        <input type="text" #poSearchPON class="input200" id="poSearchPON" name="poSearchPON"
+          (input)="autoSearch($event, 'pon')" />
+        <ul *ngIf="filteredPON$ && hidePON" class="search-result">
+          <li *ngFor="let pon of filteredPON$ | async" (click)="poSearchPON.value=pon.PO_NUMBER; hidePON=false"
+            value="pon.PO_NUMBER">
+            {{pon.PO_NUMBER}}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row spacer50">
+    <div class="col-12">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col-3">&nbsp;</div>
+    <div class="col-3 center-text">
+      <button mat-stroked-button (click)="selectAll('postatus')" class="stroked-button">Select All</button>&nbsp;
+      <button mat-stroked-button (click)="deselectAll('postatus')" class="stroked-button">Deselect All</button>
+    </div>
+    <div class="col-2 center-text">
+      <button mat-stroked-button (click)="selectAll('poshipstation')" class="stroked-button">Select All</button>&nbsp;
+      <button mat-stroked-button (click)="deselectAll('poshipstation')" class="stroked-button">Deselect All</button>
+    </div>
+    <div class="col-2 center-text">
+      <span [hidden]="hidePoBtn">
+        <button mat-stroked-button (click)="generateReport()" class="stroked-button">SUBMIT</button>
+        <span class="loadingPoSpinner">
+          <mat-spinner diameter="30" [hidden]="hidePoSpinner"></mat-spinner>
+        </span>
+      </span>
+      <!-- <span [hidden]="hidePoSpinner">
+                <mat-spinner ></mat-spinner>
+            </span> -->
+      <span [hidden]="!hidePoBtn">
+        <button mat-stroked-button (click)="exportReport()" class="stroked-button">DOWNLOAD</button>
+        <span class="loadingPoSpinner">
+          <mat-spinner diameter="30" [hidden]="hidePoSpinner"></mat-spinner>
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="tableFixedHead">
+        <table id="tblPoResult" class="table table-striped">
+          <thead class="thead-light">
+            <tr>
+              <th>ME PART NUMBER</th>
+              <th>MFG PART NUMBER</th>
+              <th>KEYWORD DESCRIPTION</th>
+              <th>BUYER CODE</th>
+              <th>BUYER EMPLOYEE NUMBER</th>
+              <th>BUYER EMPLOYEE FIRST NAME</th>
+              <th>BUYER EMPLOYEE LAST NAME</th>
+              <th>PO NUMBER</th>
+              <th>ORDER STATUS IND DESC</th>
+              <th>STATION</th>
+              <th>REQUIRED DATE</th>
+              <th>RECEIVED DATE</th>
+              <th>PURCHASE QTY ON ORDER</th>
+              <th>TOTAL QTY RECEIVED</th>
+              <th>OPEN QTY</th>
+              <th>UNIT COST</th>
+              <th>CATALOG LEAD TIME</th>
+              <th>VENDOR NAME</th>
+              <th>MATERIAL REVIEW DATE</th>
+              <th>ORDER DATE</th>
+              <th>ANALYST CODE</th>
+              <th>NCA VENDOR NUMBER</th>
+              <th>NEW ITEM IND DESC</th>
+              <th>LINE NUMBER</th>
+              <th>NCA UNIT OF ISSUE</th>
+              <th>ORDER TYPE</th>
+              <th>PURCHASE ORDER PRINT DATE</th>
+              <th>BUYER HOLD STATUS</th>
+              <th>LAST ACTIVITY DATE</th>
+              <th>ANALYST EMPLOYEE NUMBER</th>
+              <th>ANALYST EMPLOYEE LAST NAME</th>
+              <th>ANALYST EMPLOYEE FIRST NAME</th>
+              <th>ANALYST RELEASE DATE</th>
+              <th>LAST ACTUAL COST</th>
+              <th>AVERAGE COST</th>
+              <th>EXPEDITE INDICATOR DESC</th>
+              <th>COMMITTED DELIVER DATE</th>
+              <th>COMMENT LINE</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let x of resp">
+              <td>{{ x.ME_PART_NUMBER }}</td>
+              <td>{{ x.MFG_PART_NUMBER }}</td>
+              <td>{{ x.KEYWORD_DESCRIPTION }}</td>
+              <td>{{ x.BUYER_CODE }}</td>
+              <td>{{ x.BUYER_EMPLOYEE_NUMBER }}</td>
+              <td>{{ x.BUYER_EMPLOYEE_FIRST_NAME }}</td>
+              <td>{{ x.BUYER_EMPLOYEE_LAST_NAME }}</td>
+              <td>{{ x.PO_NUMBER }}</td>
+              <td>{{ x.ORDER_STATUS_IND_DESC }}</td>
+              <td>{{ x.STATION }}</td>
+              <td>{{ x.REQUIRED_DATE }}</td>
+              <td>{{ x.RECEIVED_DATE }}</td>
+              <td>{{ x.PURCHASE_QTY_ON_ORDER }}</td>
+              <td>{{ x.TOTAL_QTY_RECEIVED }}</td>
+              <td>{{ x.OPEN_QTY }}</td>
+              <td>{{ x.UNIT_COST }}</td>
+              <td>{{ x.CATALOG_LEAD_TIME }}</td>
+              <td>{{ x.VENDOR_NAME }}</td>
+              <td>{{ x.MATERIAL_REVIEW_DATE }}</td>
+              <td>{{ x.ORDER_DATE }}</td>
+              <td>{{ x.ANALYST_CODE }}</td>
+              <td>{{ x.NCA_VENDOR_NUMBER }}</td>
+              <td>{{ x.NEW_ITEM_IND_DESC }}</td>
+              <td>{{ x.LINE_NUMBER }}</td>
+              <td>{{ x.NCA_UNIT_OF_ISSUE }}</td>
+              <td>{{ x.ORDER_TYPE }}</td>
+              <td>{{ x.PURCHASE_ORDER_PRINT_DATE }}</td>
+              <td>{{ x.BUYER_HOLD_STATUS }}</td>
+              <td>{{ x.LAST_ACTIVITY_DATE }}</td>
+              <td>{{ x.ANALYST_EMPLOYEE_NUMBER }}</td>
+              <td>{{ x.ANALYST_EMPLOYEE_LAST_NAME }}</td>
+              <td>{{ x.ANALYST_EMPLOYEE_FIRST_NAME }}</td>
+              <td>{{ x.ANALYST_RELEASE_DATE }}</td>
+              <td>{{ x.LAST_ACTUAL_COST }}</td>
+              <td>{{ x.AVERAGE_COST }}</td>
+              <td>{{ x.EXPEDITE_INDICATOR_DESC }}</td>
+              <td>{{ x.COMMITTED_DELIVER_DATE }}</td>
+              <td>{{ x.COMMENT_LINE }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

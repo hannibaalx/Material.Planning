@@ -1,0 +1,132 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="side" (opened)="log('opened')" (closed)="log('closed')" [(opened)]="sbOpened">Sidenav</mat-sidenav>
+  <mat-sidenav-content>Main
+    <button (click)="sbOpened = !sbOpened"><i class="fa fa-bars"></i></button>
+    <button (click)="sidenav.open()">Open</button>
+    <button (click)="sidenav.close()">Close</button>
+    <button (click)="sidenav.toggle()">Toggle</button>
+    <hr />
+    <div>
+      The value of nullchk is -> {{ nullchk ?? nullchk }}<br />
+      The tuple is -> {{ ourTuple }}
+    </div>
+    <!-- <div>
+      <select id="ddlPlanner" class="plannerddl">
+        <option disabled>Select a planner</option>
+        <option *ngFor="let x of planners$ | async" value="{{ x.PLANNER }}">x {{ x.PLANNER }} x</option>
+      </select>
+    </div> -->
+    <!-- <div>
+      <mat-list dense>
+        <mat-list-item>Item 1</mat-list-item>
+        <mat-list-item>Item 2</mat-list-item>
+        <mat-list-item>Item 3</mat-list-item>
+      </mat-list>
+    </div> -->
+    <!-- <div>
+        <mat-nav-list>
+          <a mat-list-item href="#"> Home</a>
+          <a mat-list-item href="#"> About</a>
+          <a mat-list-item href="#"> Services</a>
+        </mat-nav-list>
+      </div> -->
+
+    <!-- <div class="col-2"> -->
+    <!-- <mat-list>
+      <mat-list-item>
+        <mat-icon matListIcon>home</mat-icon>
+        <h3 matLine>Heading</h3>
+        <p matLine>Line</p>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+      <mat-list-item>
+        <mat-icon matListIcon color="primary">folder</mat-icon>
+        <h3 matLine>Heading 2</h3>
+        <p matLine>Line 2</p>
+      </mat-list-item>
+    </mat-list> -->
+    <!-- </div> -->
+    <hr />
+    <!-- <div class="col-5">
+      <mat-card tabindex="0">
+        <mat-card-title dense>
+          Card Title 1
+        </mat-card-title>
+        <mat-card-content>
+          <mat-label>{{ cardContent1 }}</mat-label>
+          <br />
+          <textarea matInput [(ngModel)]="cardContent1" [hidden]="blnEditCard[0]" rows="5" cols="70"></textarea>
+        </mat-card-content>
+        <mat-card-actions align="start">
+          <button mat-flat-button (click)="saveCard(0)" [hidden]="blnHideOK[0]">OK</button>
+          <button mat-flat-button (click)="editCardContent(0)" [hidden]="blnHideEdit[0]">Edit</button>
+          <button mat-flat-button>Delete</button>
+        </mat-card-actions>
+      </mat-card>
+      <mat-card tabindex="1">
+        <mat-card-title dense>
+          Card Title 2
+        </mat-card-title>
+        <mat-card-content>
+          <mat-label>{{ cardContent2 }}</mat-label>
+          <br />
+          <textarea matInput [(ngModel)]="cardContent2" [hidden]="blnEditCard[1]" rows="5" cols="70"></textarea>
+        </mat-card-content>
+        <mat-card-actions align="start">
+          <button mat-flat-button (click)="saveCard(1)" [hidden]="blnHideOK[1]">OK</button>
+          <button mat-flat-button (click)="editCardContent(1)" [hidden]="blnHideEdit[1]">Edit</button>
+          <button mat-flat-button>Delete</button>
+        </mat-card-actions>
+      </mat-card>
+    </div> -->
+    <hr />
+    <!-- <div class="example-container">
+      <mat-form-field appearance="fill">
+        <mat-label>Input</mat-label>
+        <input matInput>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Select</mat-label>
+        <mat-select>
+          <mat-option value="option">Option</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill">
+        <mat-label>Textarea</mat-label>
+        <textarea matInput></textarea>
+      </mat-form-field>
+    </div> -->
+    <hr />
+    <form [formGroup]="dynamicForm" *ngIf="eoExistingDash8.length > 0">
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" formArrayName="arr">
+        <!-- This is the tree node template for leaf nodes -->
+
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding [formGroupName]="node.index">
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          <div class="form-group">
+            INDEX
+            <input placeholder="INDEX" formControlName="INDEX" />
+            ME_PART_NUMBER_USED
+            <input placeholder="ME_PART_NUMBER_USED" formControlName="ME_PART_NUMBER_USED" />
+          </div>
+        </mat-tree-node>
+
+        <!-- This is the tree node template for expandable nodes -->
+        <!-- <mat-tree-node *matTreeNodeDef="let node; when: hasChild" matTreeNodePadding>
+          <button mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + ME_PART_NUMBER_USED">
+
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          {{ME_PART_NUMBER_USED}}
+          {{node | json}}
+        </mat-tree-node> -->
+
+      </mat-tree>
+    </form>
+  </mat-sidenav-content>
+</mat-sidenav-container>

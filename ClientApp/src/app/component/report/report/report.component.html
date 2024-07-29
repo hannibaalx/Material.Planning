@@ -1,0 +1,11 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side">
+        <app-navigation></app-navigation>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <button (click)="sidenav.toggle()"><i class="fa fa-bars"></i></button>
+        <div class="reportTitle">
+            <h5><b>Reports</b></h5>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

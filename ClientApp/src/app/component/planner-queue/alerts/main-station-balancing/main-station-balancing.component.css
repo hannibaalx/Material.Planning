@@ -1,0 +1,82 @@
+.datacontainer{
+    font-size: 12px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 98%;
+}
+.datacenter{
+    text-align: center;
+}
+.dataright{
+    text-align: right;
+    position: relative;
+    top: -25px;
+    font-size: 10px;
+}
+.mainstabalrow:nth-of-type(even){
+    background-color: #f2f2f2;
+  }
+.hoverable:hover {
+    color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.mattablecontainer{
+    height: 315px;
+    overflow: auto;    
+}
+.mat-header-cell{
+    flex-direction: column;
+    font-size: 20vm;
+    font-family: 'AmericanSans';
+    justify-content: center;
+    background-color: #36495a!important;
+    color: #ffffff;
+}
+.mat-cell{
+    font-size: 12px;
+    text-align: center;
+    justify-content: center;
+}
+.exportbtn{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+.mebtn{
+    /* display: inline-block; */
+    padding: .25em .4em;
+    font-size: 86%;
+    font-weight: 700;
+    line-height: 2;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    width: 100px !important;
+    min-width: unset !important;
+}
+.mat-button-wrapper{
+    position: relative;
+    left: 10px;
+}
+.mat-row:nth-of-type(even){
+    background-color: #f2f2f2;
+}
+.detaildata
+{
+    position: relative;
+    top: 25px;
+}
+.mat-row:hover {
+    color: #212529;
+  background-color: rgba(0,0,0,.20);
+}
+.pleasewaitind {
+    position: relative;
+    top: 150px;
+    background-color: #36495a!important;
+}

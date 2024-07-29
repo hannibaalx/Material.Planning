@@ -1,0 +1,118 @@
+.odcontainer{
+    font-size: 10px;
+    margin: auto;
+    min-width: 80%;
+    max-width: 98%;
+}
+/* table{
+    width: 98%;
+}
+th, td{
+    text-align: center;
+}
+.td-nowrap{
+    white-space: nowrap;
+}
+.tableFixedHead {
+  height: 600px;
+  overflow-y: auto;
+  width: 100%;
+}
+.tableFixedHead th{
+  position: sticky;
+  top: 0;
+} */
+.mattablecontainer{
+    height: 660px;
+    overflow: auto;    
+}
+.mat-header-cell{
+    flex-direction: column;
+    font-size: 20vm;
+    font-family: 'AmericanSans';
+    justify-content: center;
+    background-color: #36495a!important;
+    color: #ffffff;
+}
+.mat-cell{
+    font-size: 11px;
+    text-align: center;
+    justify-content: center;
+}
+.mat-row:nth-of-type(even){
+    background-color: #f2f2f2;
+}
+.mat-elevation-z8{
+    box-shadow: none;
+}
+.mat-row:hover {
+      color: #212529;
+    background-color: rgba(0,0,0,.20);
+}
+.exportbtn{
+    display: inline-block;
+    padding: .25em .4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+}
+.dataright{
+    text-align: right;
+    position: relative;
+    top: -25px;
+    font-size: 10px;
+}
+.stroked-button {
+    background-color: #fff;
+    border: 2px solid #0078d2!important;
+    color: #4db4fa;
+    min-width: 115px;
+    font-size: 16px;
+    margin: 0 2px 0 5px!important;
+    line-height: 22px!important;
+    top: 15px;
+    left: -10px;
+}
+.meheader {
+    color: #3f51b5;
+    font-family: AmericanSans;
+    font-size: 20px;
+}
+.sparelbl {
+    color: #3f51b5;
+    font-family: AmericanSans;
+    font-weight: bold;
+    position: relative;
+    top: 40px;
+}
+.ayn_buttons{
+    position: relative;
+    left: 70px;
+}
+.ayn_buttons_spacing{
+    width: 85px;
+    margin-right: -4px;
+    font-size: 14px;
+    justify-content: 10px;
+}
+.btn-rule{
+    position: relative;
+    font-size: 14px;
+    background-color: #3f51b5;
+    color: #fff;
+    
+    border:1px solid #3f51b5;    
+    /* height:25px; */
+    border-radius:50%;
+    -moz-border-radius:50%;
+    -webkit-border-radius:50%;
+    /* width:25px; */
+}
+.loadingSpinner{
+    position: relative;
+    top: -44px;
+    left: 256px;
+  }

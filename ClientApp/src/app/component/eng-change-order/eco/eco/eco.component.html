@@ -1,0 +1,733 @@
+<div class="modal fade" id="eonumber" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="eonumberLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form (ngSubmit)="onSubmit(fm, 'eonumber', currentEoNumber.trim())" #fm="ngForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">EO Number - {{ currentEoNumber }}</h4>
+          <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <textarea autofocus id="EoNumberComment" name="EoNumberComment" class="form-control"
+              placeholder="Enter EO Number comment" rows="5" cols="100" ngModel></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-outline-dark">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="dash8" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="dash8Label"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl " role="document">
+    <form (ngSubmit)="onSubmit(f, 'dash8', currentDash8Number.trim())" #f="ngForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Comment History - {{ currentDash8Number }}</h4>
+          <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <!-- <textarea autofocus id="Dash8Comment" name="Dash8Comment" class="form-control" placeholder="Enter Dash 8 comment" rows="5" cols="100" ngModel></textarea> -->
+            <table class="table table-striped">
+              <thead class="thead-light">
+                <th>M&E Used</th>
+                <th>FLEET</th>
+                <th>RES CODE</th>
+                <th>ATA CODE</th>
+                <th>PRIME</th>
+                <th>KEY DESC</th>
+                <th>M&E IN KIT</th>
+                <th>QTY REQ</th>
+                <th>REQD IND</th>
+                <th>QTY REQ K</th>
+                <th>REQD IND K</th>
+                <th>TTL REQ EO</th>
+                <th>REQD EO KIT PART</th>
+                <!-- <th>TTL REQ 30 DAY</th>
+                <th>REQ KP 30 DAY</th>
+                <th>TTL REQ 60 DAY</th>
+                <th>REQ KP 60 DAY</th>
+                <th>TTL REQ 90 DAY</th>
+                <th>REQ KP 90 DAY</th>
+                <th>TTL REQ 120 DAY</th>
+                <th>REQ KP 120 DAY</th>
+                <th>TTL REQ 180 DAY</th>
+                <th>REQ KP 180 DAY</th> -->
+                <th>AVG COST</th>
+                <th>SHLF LIFE</th>
+                <th>CHEMCL IND</th>
+                <th>TTL_OH</th>
+                <th>TTL_PO</th>
+                <th>TTL_RO</th>
+                <th>MATL_STS_ALL</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="30">
+                    row one
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="30">
+                    row two
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="30">
+                    row three
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-outline-dark">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="dash8history" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="dash8historyLabel" aria-hidden="true">
+  <form (ngSubmit)="onSubmit(frm, 'dash8', currentDash8Number)" #frm="ngForm">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">COMMENT HISTORY</h4>
+          <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <ul class="nav nav-tabs">
+                <li class="active">
+                  <a data-toggle="tab" href="#viewdash8comment" (click)="hideSave()" class="nav-link active">View</a>
+                </li>
+                <li class="">
+                  <a data-toggle="tab" href="#enterdash8comment" (click)="showSave()" class="nav-link">Enter Comments</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tab-content col-12">
+            <div id="viewdash8comment" class="tab-pane fade in active collapse show">
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="dash8history">{{ eoDash8History }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="enterdash8comment" class="tab-pane fade">
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-12">
+                      <textarea autofocus id="Dash8Comment" name="Dash8Comment" class="form-control" rows="3" cols="50"
+                        ngModel></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" *ngIf="showSaveval" class="btn btn-outline-dark">Save</button>&nbsp;
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal fade" id="eohistory" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="eohistoryLabel" aria-hidden="true">
+  <form (ngSubmit)="onSubmit(eohistfm, 'eohistory', currentEoNumber)" #eohistfm="ngForm">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modal-basic-title">COMMENT HISTORY</h5>
+          <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <ul class="nav nav-tabs">
+                <li class="active">
+                  <a data-toggle="tab" href="#viewcomment" (click)="hideSave();" class="nav-link active">View</a>
+                </li>
+                <li class="">
+                  <a data-toggle="tab" href="#entercomment" (click)="showSave()" class="nav-link">Enter Comments</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="tab-content col-12">
+            <div id="viewcomment" class="tab-pane fade in active collapse show">
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-12">
+                      <label for="eohistory">{{ eoHistoryComment }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="entercomment" class="tab-pane fade">
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="row">
+                    <div class="col-12">
+                      <textarea autofocus id="EoNumberHistComment" name="EoNumberHistComment" class="form-control" rows="4"
+                        cols="50" ngModel></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" *ngIf="showSaveval" class="btn btn-outline-dark">Save</button>
+          &nbsp;
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="modal fade" id="aircraftscheduled" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="aircraftscheduledLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Number of Aircraft Opened</h4>
+        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="aircraftSched$ | async">
+          <div class="tableFixedHeadModal">
+            <table class="table table-striped">
+              <thead class="thead-light">
+                <tr>
+                  <th class="text-center">DASH 8</th>
+                  <th class="text-center">STATION</th>
+                  <th class="text-center">AC</th>
+                  <th class="text-center">SCHEDULED DATE</th>
+                  <th class="text-center">CARRIER</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let a of aircraftSched$ | async">
+                  <td class="text-center">{{ a.dash_8 }}</td>
+                  <td class="text-center">{{ a.STATION }}</td>
+                  <td class="text-center">{{ a.AC }}</td>
+                  <td class="text-center">{{ a.SCHDLD_DATE | date: 'yyyy-MM-dd' }}</td>
+                  <td class="text-center">{{ a.CARRIER }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="aircraftscheduledinwork" data-backdrop="static" tabindex="-1" role="dialog"
+  aria-labelledby="aircraftscheduledinworkLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Number of Aircraft In Work</h4>
+        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="aircraftSchedInWork$ | async">
+          <div class="tableFixedHeadModal">
+            <table class="table table-striped">
+              <thead class="thead-light">
+                <tr>
+                  <th class="text-center">DASH 8</th>
+                  <th class="text-center">STATION</th>
+                  <th class="text-center">AC</th>
+                  <th class="text-center">SCHEDULED DATE</th>
+                  <th class="text-center">CARRIER</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let a of aircraftSchedInWork$ | async">
+                  <td class="text-center">{{ a.dash_8 }}</td>
+                  <td class="text-center">{{ a.STATION }}</td>
+                  <td class="text-center">{{ a.AC }}</td>
+                  <td class="text-center">{{ a.SCHDLD_DATE | date: 'yyyy-MM-dd' }}</td>
+                  <td class="text-center">{{ a.CARRIER }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="aircraftaccomplished" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="aircraftaccomplishedLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Number of Aircraft Accomplished</h4>
+        <button type="button" class="close" aria-label="Close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="aircraftAccomplished$ | async">
+          <div class="tableFixedHeadModal">
+            <table class="table table-striped">
+              <thead class="thead-light">
+                <tr>
+                  <th class="text-center">DASH 8</th>
+                  <th class="text-center">AIRCRAFT</th>
+                  <th class="text-center">ACCOMPLISHMENT DATE</th>
+                  <th class="text-center">STATION</th>
+                  <th class="text-center">CARRIER</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let aa of aircraftAccomplished$ | async">
+                  <td class="text-center">{{ aa.DASH_8 }}</td>
+                  <td class="text-center">{{ aa.AIRCFT_ID }}</td>
+                  <td class="text-center">{{ aa.ACCOMPLISHMENT_DATE | date: 'yyyy-MM-dd'  }}</td>
+                  <td class="text-center">{{ aa.STATION }}</td>
+                  <td class="text-center">{{ aa.CARRIER }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="ecoContainer">
+      <div class="row">
+        <div class="col-1 selectlabel"><label>Select critera</label></div>
+        <div class="col-sm-5">
+          <span class="adindcontrol">
+            AD IND <input type="checkbox" class="chkboxadjust" name="options" id="rdoAD_IND">&nbsp;&nbsp;
+          </span>
+          <div class="btn-group-sm btn-group-toggle" data-toggle="buttons" role="group" style="position: relative; float: right;top:-16px;">
+            <!-- <label class="btn btn-secondary " (click)="enableSearch('NEW_EO_LIST.AD_IND')">
+              <input type="radio"  name="options" id="rdoAD_IND" value="AD_IND" checked>AD IND
+            </label> -->
+            <label class="btn btn-secondary" (click)="enableSearch('NEW_EO_LIST.ATA')">
+              <input type="radio" name="options" id="rdoATA" value="ATA">ATA
+            </label>
+            <label class="btn btn-secondary" (click)="enableSearch('NEW_EO_LIST.DASH_8')">
+              <input type="radio" name="options" id="rdoDASH8" value="DASH_8">DASH_8
+            </label>
+            <label class="btn btn-secondary" (click)="enableSearch('NEW_EO_PARTS_TTL_REQ')">
+              <!-- will return all dash8 that the m&e are part of -->
+              <input type="radio" name="options" id="rdoM&E" value="NEW_EO_PARTS_TTL_REQ">M & E
+            </label>
+            <label class="btn btn-secondary" (click)="enableSearch('NEW_EO_PARTS_TTL_REQ-MPN')">
+              <input type="radio" name="options" id="rdoMPN" value="NEW_EO_PARTS_TTL_REQ-MPN">MPN
+            </label>
+            <label class="btn btn-secondary" (click)="enableSearch('NEW_EO_LIST.EO_DESC')">
+              <input type="radio" name="options" id="rdoEODESC" value="EO_DESC">EO DESC
+            </label>
+            <label class="btn btn-secondary" (click)="enableSearch('NEW_EO_LIST.EO_NUMBER')">
+              <input type="radio" name="options" id="rdoEONUMBER" value="EO_NUMBER">EO NUMBER
+            </label>
+            <!-- <label class="btn btn-secondary" (click)="enableSearch('NEW_EO_LIST.MFG_PART_NUMBER')">
+              <input type="radio" name="options" id="rdoMFGPARTNUMBER" value="MFG_PART_NUMBER" >MFG PARTNUMBER
+            </label> -->
+            <label class="btn btn-secondary" (click)="enableSearch('PLANNER')">
+              <input type="radio" name="options" id="rdoPLANNER" value="PLANNER">PLANNER
+            </label>
+            <label class="btn btn-secondary" (click)="enableSearch('FLEET_CODE')">
+              <input type="radio" name="options" id="rdoFLEETCODE" value="FLEET_CODE">FLEET
+            </label>
+          </div>
+        </div>
+        <div class="col-sm-6 text-right">
+            <!-- <button type="button" class="btn btn-secondary" routerLink="/eo/plq" tabindex="0" data-trigger="hover" data-toggle="tooltip" data-placement="bottom" title="Queues and Alerts">
+              <i class="fa fa-exclamation-triangle fa-sm"></i>
+            </button>
+          &nbsp; -->
+          <!-- *** DO NOT DELETE THE BELOW BUTTON AND ASSOCIATED CODE - this button exports to excel the results from this page *** 
+          <button type="button" class="btn btn-secondary" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="Reports" (click)="exportexcel()">
+            <i class="fa fa-book fa-sm"></i>
+          </button>-->
+          <!-- <button type="button" class="btn btn-secondary" routerLink="/eo/reports" tabindex="0" data-toggle="tooltip" data-placement="bottom" title="EO Reports">
+            <i class="fa fa-book fa-sm"></i>
+          </button> -->
+        </div>
+      </div>
+       <div class="row searchfor"  [style]="strShowSearch"><!--*ngIf="showSearch" -->
+        <div class="col-sm-12">
+          <label>Search for</label>&nbsp;
+          <input type="text" #searchInput id="search-Input" name="search-Input"  autocomplete="on" (change)='search(searchInput.value)'
+            autofocus class="txtSearch" [disabled]='searchDisabled'>
+          <!-- <ul *ngIf="searchType == 'NEW_EO_LIST.ATA'" class="search-result">
+                <li *ngFor="let e of ecoInfo$ | async" (click)="searchInput.value=e.ATA" value="e.ATA">
+                    {{e.ATA}}
+                </li>
+              </ul>
+              <ul *ngIf="searchType == 'NEW_EO_LIST.DASH_8'" class="search-result">
+                <li *ngFor="let e of ecoInfo$ | async" (click)="searchInput.value=e.DASH_8" value="e.DASH_8">
+                    {{e.DASH_8}}
+                </li>
+              </ul> -->     
+          <ul *ngIf="searchType == 'NEW_EO_LIST.EO_DESC' && hidDescList" class="search-result">
+            <li *ngFor="let e of ecoInfo$ | async" (click)="search(e.EO_NUMBER); hidDescList= false" value="EO_DESC">
+              {{e.EO_DESC}}
+            </li>
+          </ul>
+          <ul *ngIf="searchType == 'PLANNER' && hidDescList" class="search-result">
+            <li *ngFor="let p of eoplanner$ | async" (click)="search(p.PLANNER); hidDescList= false" value="PLANNER">
+              {{p.PLANNER }}
+            </li>
+          </ul>
+          <!-- <ul *ngIf="searchType == 'NEW_EO_LIST.EO_NUMBER'" class="search-result">
+                <li *ngFor="let e of ecoInfo$ | async" (click)="searchInput.value=e.EO_NUMBER" value="e.EO_NUMBER">
+                    {{e.EO_NUMBER}}
+                </li>
+              </ul>
+              <ul *ngIf="searchType == 'NEW_EO_LIST.MFG_PART_NUMBER'" class="search-result">
+                <li *ngFor="let e of ecoInfo$ | async" (click)="searchInput.value=e.MFG_PART_NUMBER" value="e.MFG_PART_NUMBER">
+                    {{e.MFG_PART_NUMBER}}
+                </li>
+              </ul>
+              <ul *ngIf="searchType == 'NEW_EO_LIST.PLANNER'" class="search-result">
+                <li *ngFor="let e of ecoInfo$ | async" (click)="searchInput.value=e.PLANNER" value="e.PLANNER">
+                    {{e.PLANNER}}
+                </li>
+              </ul> -->
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <hr>
+        </div>
+      </div>
+      <mat-spinner class="plannerspinner" diameter="20" [hidden]="isLoadingComplete"></mat-spinner>
+      <div class="row justify-content-left" *ngIf="eoSummary$">
+        <div class="col-auto">
+          <table class="table table-responsive">
+            <thead class="thead-light">
+              <tr>
+                <th colspan="7" class="text-center">
+                  <h6>EO Summary</h6>
+                </th>
+              </tr>
+              <tr>
+                <th>FLEET CODE</th>
+                <th>EO NUMBER</th>
+                <th>AD IND</th>
+                <th>TOTAL NO. OF AIRCRAFTS</th>
+                <th>NO. OF FUTURE SCHEDULES</th>
+                <th>NO. OF AIRCRAFT IN WORK</th>
+                <th>NO. OF AIRCRAFT ACCOMP</th>                
+              </tr>  
+            </thead>
+            <tbody>
+              <tr  *ngFor="let x of eoSummary$">
+                <td>{{ x.FLEET_CODE }}</td>
+                <td>{{ x.EO_NUMBER }}</td>
+                <td>{{ x.AD_IND }}</td>
+                <td>{{ x.FUTURE_SCHEDULD + x.IN_WORK + x.ACCOMPLISHMENTS }}</td>
+                <td>{{ x.FUTURE_SCHEDULD }}</td>
+                <td>{{ x.IN_WORK }}</td>
+                <td>{{ x.ACCOMPLISHMENTS }}</td>
+              </tr>  
+            </tbody>            
+          </table>
+        </div>
+      </div>
+      <div class="row" *ngIf="ecoInfo$ as ecoInfo else loadingplane">
+        <!--*ngIf="ecoInfo$ | async"-->
+        <div class="col-12 text-center" *ngIf="ecoInfo$.length == 0">
+          <h5>No data found</h5>
+        </div>
+        <div class="col-12" *ngIf="ecoInfo$.length > 0">
+          <div class="tableFixedHead" [ngStyle]="eoInfoHeaderStyle()">
+            <table id="eoInfo" class="table table-striped">
+              <thead class="thead-light">
+                <!-- <tr>
+                  <th colspan="15" class="sectionTitle">
+                    <h6>EO Info</h6>
+                    <span class="timelabel" *ngFor="let t of refreshtime$ | async ">
+                      <div ><b>Last refreshed:</b> {{ t.UPDATED_DATETIME | date :'yyyy/MM/dd, hh:mm:ss a' }}</div>
+                    </span>
+                  </th>
+                </tr> -->
+                <tr>
+                  <th>DATA SOURCE</th>
+                  <th>PLANNER</th>
+                  <th>FLEET CODE</th>
+                  <!-- <th>TASK TYPE</th> -->
+                  <th>ME TYPE</th>
+                  <th>EO NUMBER</th>
+                  <th>AD IND</th>
+                  <th class="zindex">DASH8</th>
+                  <th>SCHEDULING STATUS</th>
+                  <th>NO. OF FUTURE SCHEDULES</th>
+                  <th class="zindex">NO. OF AIRCRAFT IN WORK</th>
+                  <th>NO. OF AIRCRAFT ACCOMP</th>
+                  <th>EO DESC</th>
+                  <th>MAINT TYPE</th>
+                  <th class="stationwd">CAPABLE STATIONS</th>
+                  <th>MX PLANNING COMMENTS</th>
+                  <!-- <th>DASH8 HISTORY</th>
+                    <th>EO HISTORY</th> -->
+                  <!-- <th>WORK REQUIREMENT</th>
+                    <th>REVISION DATE</th>
+                    <th>OPERATION STEP</th>
+                    <th>ATA</th>
+                    <th>MFG PART NUMBER</th> -->
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let eco of ecoInfo">
+                  <!-- -->
+                  <td>{{ eco.DATA_SOURCE }}</td>
+                  <td> {{ eco.PLANNER }} </td>
+                  <td>{{ eco.FLEET_CODE }}</td>
+                  <!-- <td> {{ eco.TASK_TYPE }} </td> -->
+                  <td> {{ eco.ME_TYPE }}</td>
+                  <td class="nowrap">
+                    {{ eco.EO_NUMBER }}&nbsp;
+                    <a *ngIf="eco.EO_HISTORY == null" href="javascript:void(0);" class="badge badge-pill badge-secondary" role="button"
+                      data-toggle="modal" title="View/Edit EO History"
+                      (click)="setHistoryModal(eco.EO_HISTORY, eco.EO_NUMBER)" data-target="#eohistory">
+                      <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                      <a *ngIf="eco.EO_HISTORY != null" href="javascript:void(0);" class="badge badge-pill badge-info" role="button"
+                      data-toggle="modal" title="View/Edit EO History"
+                      (click)="setHistoryModal(eco.EO_HISTORY, eco.EO_NUMBER)" data-target="#eohistory">
+                      <i class="fa fa-comments fa-2x" aria-hidden="true"></i></a>
+                    <!-- <a class="" href="javascript:void(0);" role="button" data-toggle="modal" (click)="setEoNumber(eco.EO_NUMBER)" data-target="#eonumber">{{ eco.EO_NUMBER }}</a> -->
+                  </td>
+                  <td> 
+                    {{ eco.AD_IND }}
+                   </td>
+                  <td class="nowrap">
+                    <!-- <a class="#" href="javascript:void(0);" role="button" data-toggle="modal" (click)="setDash8Number(eco.DASH_8)" data-target="#dash8">{{ eco.DASH_8 }}</a> -->
+                    <a [routerLink]="['/eo/dash8detail', eco.DASH_8]" class="" href="#"
+                      target="_blank">{{eco.DASH_8}}</a>
+                    &nbsp;
+                    <a *ngIf="eco.DASH8_COMMENTS == null" href="javascript:void(0);" class="badge badge-pill badge-secondary" role="button"
+                      data-toggle="modal" title="View/Edit DASH8 History"
+                      (click)="setDash8HistoryModal(eco.DASH8_COMMENTS, eco.DASH_8)" data-target="#dash8history">
+                      <i class="fa fa-comments fa-2x" style="z-index: -1;" aria-hidden="true"></i>
+                    </a>
+                    <a *ngIf="eco.DASH8_COMMENTS != null" href="javascript:void(0);" class="badge badge-pill badge-info" role="button"
+                      data-toggle="modal" title="View/Edit DASH8 History"
+                      (click)="setDash8HistoryModal(eco.DASH8_COMMENTS, eco.DASH_8)" data-target="#dash8history">
+                      <i class="fa fa-comments fa-2x" style="z-index: -1;" aria-hidden="true"></i>
+                    </a>
+                    <button mat-icon-button color="primary" (click)="openBottomSheet(eco.DASH_8, eco.PLANNER)" aria-label="view in other queues or alerts">
+                      <mat-icon>info</mat-icon>
+                    </button>
+                  </td>
+                  <td>{{ eco.SCHEDULING_STATUS }}</td>
+                  <td class="text-center">
+                    <!-- <a [routerLink]="['./acsched', eco.DASH_8.trim()]" class="" href="#" target="_blank">{{ eco.CNT_SCHDLD }}</a> -->
+                    <span *ngIf="eco.CNT_SCHDLD != null">
+                      {{ eco.CNT_SCHDLD }}&nbsp;&nbsp;
+                      <a *ngIf="eco.CNT_SCHDLD == 0" href="javascript:void(0);" class="badge badge-pill badge-secondary" role="button" data-toggle="modal" title="Number of Aircraft Opened" (click)="setAircraftScheduledModal(eco.DASH_8)" data-target="#aircraftscheduled"><i class="fa fa-plane fa-2x"></i></a>
+                      <a *ngIf="eco.CNT_SCHDLD > 0" href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="Number of Aircraft Opened" (click)="setAircraftScheduledModal(eco.DASH_8)" data-target="#aircraftscheduled"><i class="fa fa-plane fa-2x"></i></a>
+                    </span>
+                  </td>
+                  <td class="text-center">
+                    <span class="text-top">{{ eco.CNT_INWORK }}&nbsp;&nbsp;</span>
+                    <a *ngIf="eco.CNT_INWORK == 0" href="javascript:void(0);"  role="button" data-toggle="modal" title="Number of Aircraft In Work" (click)="setAircraftScheduledInWorkModal(eco.DASH_8)" data-target="#aircraftscheduledinwork"><mat-icon matSuffix class="tool-color">build</mat-icon></a>
+                    <a *ngIf="eco.CNT_INWORK > 0" href="javascript:void(0);"  role="button" data-toggle="modal" title="Number of Aircraft In Work" (click)="setAircraftScheduledInWorkModal(eco.DASH_8)" data-target="#aircraftscheduledinwork"><mat-icon matSuffix color="primary">build</mat-icon></a>
+                  </td>
+                  <td class="text-center"> 
+                    <span *ngIf="eco.NO_OF_ACCOMPLISHMENTS != null">
+                      {{ eco.NO_OF_ACCOMPLISHMENTS }}&nbsp;&nbsp;
+                      <a *ngIf="eco.NO_OF_ACCOMPLISHMENTS == 0" href="javascript:void(0);" class="badge badge-pill badge-secondary" role="button" data-toggle="modal" title="Number of Aircraft Accomplished" (click)="setAircraftAccomplished(eco.DASH_8)" data-target="#aircraftaccomplished"><i class="fa fa-thumbs-up fa-2x"></i></a> 
+                      <a *ngIf="eco.NO_OF_ACCOMPLISHMENTS > 0" href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" title="Number of Aircraft Accomplished" (click)="setAircraftAccomplished(eco.DASH_8)" data-target="#aircraftaccomplished"><i class="fa fa-thumbs-up fa-2x"></i></a>
+                    </span>
+                  </td>
+                  <td>
+                    {{ eco.EO_DESC }}
+                    <!-- <a class="" href="javascript:void(0);" role="button" data-toggle="modal" data-target="#eodesc">{{ eco.EO_DESC }}</a> -->
+                  </td>
+                  <td> {{ eco.MAINT_TYPE }}</td>
+                  <td> {{ eco.STATION_REQUIREMENTS }}</td>
+                  <td> {{ eco.COMMENTS }}</td>
+                  <!--<td>
+                        <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" (click)="setDash8HistoryModal(eco.DASH8_COMMENTS, eco.DASH_8)" data-target="#dash8history">History / Comment</a>
+                    </td> -->
+                  <!-- <td> 
+                      <a href="javascript:void(0);" class="badge badge-pill badge-info" role="button" data-toggle="modal" (click)="setHistoryModal(eco.EO_HISTORY, eco.EO_NUMBER)" data-target="#eohistory">History / Comment</a>
+                    </td> -->
+                  <!-- <td> WORK_REQUIREMENT </td>
+                    <td> REVISION_DATE </td>
+                    <td> OPERATION_STEP </td>
+                    <td> DATA_SOURCE </td>
+                    <td> ATA </td>
+                    <td> MFG_PART_NUMBER </td> -->
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+       <div class="row" *ngIf="(this.searchType == 'NEW_EO_PARTS_TTL_REQ-MPN' || this.searchType == 'NEW_EO_PARTS_TTL_REQ') && meDetail$ | async as meDetail">
+        <div class="col-12">
+          <div class="tableFixedHead">
+            <table class="table table-striped">
+              <thead class="thead-light">
+                <tr>
+                  <th colspan="15" class="sectionTitle">
+                    <h6>Part Number Total Requirements</h6>
+                  </th>
+                </tr>
+                <tr>
+                  <th>M & E</th>
+                  <th>COUNT DASH 8</th>
+                  <th>NO OF AC</th>
+                  <th>KEYWORD</th>
+                  <!-- <th>AVG COST</th> -->
+                  <th>EO REQ</th>
+                  <th>30 DAY REQ</th>
+                  <th>60 DAY REQ</th>
+                  <th>90 DAY REQ</th>
+                  <th>120 DAY REQ</th>
+                  <th>180 DAY REQ</th>
+                  <th>ONHAND</th>
+                  <th>OPEN PO</th>
+                  <th>OPEN RO</th>
+                  <th>STATUS</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let me of meDetail; let i = index;">
+                  <td class="nowrap">
+                      <a [routerLink]="['/eo/medetail', searchInput.value, me.ME_PART_NUMBER]" class="" href="#" target="_blank">{{ me.ME_PART_NUMBER }}</a>
+                      &nbsp;
+                      <a href="javascript:void(0);"
+                          [tabindex]="i"
+                          class="badge badge-info" 
+                          data-boundary="window"
+                          data-toggle="popover" 
+                          [title]="me.KEYWORD" 
+                          data-animation="true" 
+                          data-html="true" 
+                          data-placement="bottom" 
+                          (click)="popMeSummary($event, me.ME_FLEET, me.ME_RESOURCE_CODE, me.ME_ATA_CODE, me.PRIME_MPN, me.KEYWORD, me.CTLG_PRICE, me.SHLF_LIFE, me.CHEMCL_IND, me.UI, me.MT, me.CTLG_LT)"
+                          data-content=""><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                      </a>
+                  </td>
+                  <td>{{ me.Count_DASH_8 }}</td>
+                  <td>{{ me.NO_OF_AC }}</td>
+                  <td>{{ me.KEYWORD }}</td>
+                  <!-- <td>{{ me.AVG_COST | number}}</td> -->
+                  <td>{{ me.TOTAL_EO_REQ }}</td>
+                  <td>{{ me.TOTAL_30_DAY_REQ }}</td>
+                  <td>{{ me.TOTAL_60_DAY_REQ }}</td>
+                  <td>{{ me.TOTAL_90_DAY_REQ }}</td>
+                  <td>{{ me.TOTAL_120_DAY_REQ }}</td>
+                  <td>{{ me.TOTAL_180_DAY_REQ }}</td>
+                  <td>{{ me.TOTAL_ONHAND }}</td>
+                  <td>
+                    <span *ngIf="me.TOTAL_OPEN_PO == 0; else poAnchor">{{me.TOTAL_OPEN_PO}}</span>
+                    <ng-template #poAnchor>
+                        <a [routerLink]="['../mepodetail',me.ME_PART_NUMBER]" class="" href="#" target="_blank">{{me.TOTAL_OPEN_PO}}</a>
+                    </ng-template>
+                  </td>
+                  <td>{{ me.TOTAL_OPEN_RO }}</td>
+                  <td *ngIf="me.SYS_STATUS == 'GOOD'" class="goodtext"><b>{{ me.SYS_STATUS }}</b></td>
+                  <td *ngIf="me.SYS_STATUS == 'NEED'" class="needtext"><b>{{ me.SYS_STATUS }}</b></td>
+                  <td *ngIf="me.SYS_STATUS == 'REVIEW'" class="reviewtext"><b>{{ me.SYS_STATUS }}</b></td>
+                  <td *ngIf="me.SYS_STATUS == 'TOOL'" class="tooltext"><b>{{ me.SYS_STATUS }}</b></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-12">
+          schedule tableau graph shows here,
+          button -> opens tab that displays results from  - select * from  NEW_SCHEDULE_DATA where button clicked - column to query = value in input control
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-3">
+          <button type="button" class="btn btn-outline-secondary">Schedule</button>
+           <a class="" [routerLink]="[eco/detail/]" href="javascript:void(0);" role="button" target="_blank">Schedule</a> 
+           <a [routerLink]="[eco/detail, ses.ME_PART_NUMBER.trim()]" class="" href="#" target="_blank">{{ses.ME_PART_NUMBER}}</a>
+        </div>
+      </div> -->
+    </div>
+    <app-maint-snackbar></app-maint-snackbar>
+
+
+<ng-template #blank></ng-template>
+
+<ng-template #loading>
+  <div class="text-center">
+    <div class="spinner-grow text-primary" style="position: relative; float:left;width: 3rem; height: 3rem;"
+      role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+    <div class="spinner-border text-secondary" style="position: relative; float:left;width: 3rem; height: 3rem;"
+      role="status">
+      <span class="sr-only"></span>
+    </div>
+    <div class="spinner-grow text-danger" style="position: relative; float:left;width: 3rem; height: 3rem;"
+      role="status">
+      <span class="sr-only"></span>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #loadingplane>
+    <div class="spinner-container" [hidden]="hideLoading">
+      <div class="spinners">
+        <img src="assets/images/loader.gif" alt="loading...." height="250" width="250">
+      </div>
+    </div>
+</ng-template>

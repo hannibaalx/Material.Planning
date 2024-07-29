@@ -1,0 +1,314 @@
+<div class="pscontainer">
+    <div class="row">
+        <div class="col-2">
+            <div class="center-text"><label class="mat-subheading-1 label-top-20">Planner</label></div>      
+            <mat-selection-list #allPlannerSelected dense class="selectlistcontainer" role="listbox" aria-label="planner">
+                <mat-list-option class="mat-body-1 listitem" *ngFor="let x of planners$ | async" value="x.PLANNER" color="primary">
+                {{ x.PLANNER }}
+                </mat-list-option>
+            </mat-selection-list>
+        <!-- <p>
+            Options selected: {{getSelectedPlanner(this.allPlannerSelected.selectedOptions.selected)}}
+        </p> -->
+        </div>
+        <div class="col-2">
+            <div class="center-text"><label class="mat-subheading-1 label-top-20">Date Range</label></div>
+            <mat-selection-list #allDateRangeSelected dense class="selectlistcontainer2">
+                <mat-list-option class="mat-body-1 listitem" *ngFor="let dr of dateRange" color="primary">
+                {{ dr.name }}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+        <div class="col-2">
+            <div class="">
+                <div class="center-text"><label class="mat-subheading-1 label-top-20">Part Requirement</label></div>
+                <mat-selection-list #allPartRequirementSelected dense class="selectlistcontainer2">
+                    <mat-list-option class="mat-body-1 listitem" *ngFor="let pr of partRequirement$ | async" color="primary">
+                    {{ pr.REQD_IND }}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="">
+                <div class="center-text"><label class="mat-subheading-1 label-top-20">Part Type</label></div>
+                <mat-selection-list #allPartTypeSelected dense class="selectlistcontainer2">
+                    <mat-list-option class="mat-body-1 listitem" *ngFor="let pt of partType" color="primary">
+                    {{ pt.partType }}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+            <div class="">
+                <div class="center-text"><label class="mat-subheading-1 label-top-20">Kit Ind</label></div>
+                <mat-selection-list #allKitIndSelected dense class="selectlistcontainer2">
+                    <mat-list-option class="mat-body-1 listitem" *ngFor="let ki of kitInd" color="primary">
+                    {{ ki.value }}
+                    </mat-list-option>
+                </mat-selection-list>
+            </div>
+
+        </div>
+        <div class="col-2">
+            <div class="autoinput">
+                <!-- <mat-form-field floatLabel="auto" hideRequiredMarker appearance="legacy, standard, fill, outline"> -->
+                <!-- <mat-form-field>
+                    <label class="mat-subheading-1 label-top-17" dense>EO</label>
+                    <input type="text" matInput [matAutocomplete]="searchEO" class="input200" [formControl]="eoControl" />
+                    <mat-autocomplete #searchEO="matAutocomplete" [displayWith]="eonumberdisplay">
+                        <mat-option *ngFor="let eon of filteredEo$ | async" [value]="eon.EO_NUMBER">
+                            {{eon.EO_NUMBER}}
+                        </mat-option>
+                </mat-autocomplete> 
+                </mat-form-field> -->
+                
+                <label class="mat-subheading-1 label-top-20" dense>M & E</label><br />
+                <input type="text" #searchMEU class="input200" id="searchMEU" name="searchMEU" (input)="autoSearch($event, 'meu')" />
+                <ul *ngIf="filteredMEU$ && hideMEU" class="search-result">
+                    <li *ngFor="let m of filteredMEU$ | async" (click)="searchMEU.value=m.MEU; hideMEU= false" value="m.MEU">
+                        {{m.MEU}}
+                    </li>
+                </ul>                   
+            </div>
+            <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>MPN</label><br />
+                <input type="text" #searchMPN class="input200" id="searchMPN" name="searchMPN" (input)="autoSearch($event, 'mpn')" />
+                <ul *ngIf="filteredMPN$ && hideMPN" class="search-result">
+                    <li *ngFor="let m of filteredMPN$ | async" (click)="searchMPN.value=m.MPN; hideMPN=false" value="m.MPN">
+                    {{m.MPN}}
+                    </li>
+                </ul>
+            </div>
+            <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>MT</label><br />
+                <input type="text" #searchMT class="input200" id="searchMT" name="searchMT" (input)="autoSearch($event, 'mt')" />
+                <ul *ngIf="filteredMT$ && hideMT" class="search-result">
+                    <li *ngFor="let m of filteredMT$ | async" (click)="searchMT.value=m.MT; hideMT=false" value="m.MT">
+                    {{m.MT}}
+                    </li>
+                </ul>
+            </div>
+            <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>Dash 8</label><br />
+                <input type="text" #searchDash8 class="input200" id="searchDash8" name="searchDash8" (input)="autoSearch($event, 'dash8')" />
+                <ul *ngIf="filteredDash8$ && hideDash8" class="search-result">
+                    <li *ngFor="let d8 of filteredDash8$ | async" (click)="searchDash8.value=d8.DASH_8; hideDash8=false" value="d8.DASH_8">
+                    {{d8.DASH_8}}
+                    </li>
+                </ul>
+            </div>
+            <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>EO</label><br />
+                <input type="text" #searchEO class="input200" id="searchEO" name="searchEO" (input)="autoSearch($event, 'eo')" />
+                <ul *ngIf="filteredEo$ && hideEoNumber" class="search-result">
+                    <li *ngFor="let eon of filteredEo$ | async" (click)="searchEO.value=eon.EO_NUMBER; hideEoNumber= false" value="eon.EO_NUMBER">
+                        {{ eon.EO_NUMBER }}
+                    </li>
+                </ul>     
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="chkitind">
+                <mat-checkbox id="chkADIND" [checked] labelPosition="before">AD Ind</mat-checkbox>
+            </div>               
+        </div>
+    </div>
+    <div class="col-12"><hr /></div>
+    <div class="row margintop60">
+        <div class="col-2 center-text">
+            <button mat-raised-button (click)="selectAll('planner')" class="stroked-button">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('planner')" class="stroked-button">Deselect All</button>
+        </div>
+        <div class="col-2 center-text">
+            <button mat-raised-button (click)="selectAll('daterange')" class="stroked-button">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('daterange')" class="stroked-button">Deselect All</button>
+        </div>
+        <div class="col-2 center-text">
+            <button mat-raised-button (click)="selectAll('partreq')" class="stroked-button">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('partreq')" class="stroked-button">Deselect All</button>
+        </div>
+        <div class="col-2 center-text">
+            <button mat-raised-button (click)="selectAll('parttype')" class="stroked-button">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('parttype')" class="stroked-button">Deselect All</button>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-2 center-text">
+            <span [hidden]="hideBtn">
+                <button mat-raised-button (click)="generateReport()" class="stroked-button">SUBMIT</button>
+                <span class="loadingPsSpinner"><mat-spinner diameter="30" [hidden]="hidePsSpinner"></mat-spinner></span>
+            </span>
+            <!-- <span [hidden]="">
+                <mat-spinner ></mat-spinner>
+            </span> -->
+            <span [hidden]="!hideBtn">
+                <button mat-raised-button (click)="exportReport()" class="stroked-button">DOWNLOAD</button>
+                <span class="loadingPsSpinner"><mat-spinner diameter="30" [hidden]="hidePsSpinner"></mat-spinner></span>
+            </span>
+            
+        </div>
+    </div>
+    <br />
+    <div class="tableFixedHead">
+        <table id="tblPSResult" class="table table-striped">
+            <thead class="thead-light">
+                <tr>
+                    <th>DASH 8</th>
+                    <th>AD IND</th>
+                    <th>WORK REQUIREMENT</th>
+                    <th>EO NUMBER</th>
+                    <th>EO DESC</th>
+                    <th>TASK TYPE</th>
+                    <th>ME TYPE</th>
+                    <th>MAINT TYPE</th>
+                    <th>SCHEDULING STATUS</th>
+                    <th>STATION REQUIREMENTS</th>
+                    <th>ATA</th>
+                    <th>CNT OPENED</th>
+                    <th>SOURCE</th>
+                    <th>ME PART NUMBER USED</th>
+                    <th>KIT IND</th>
+                    <th>QTY REQ</th>
+                    <th>REQD IND</th>
+                    <th>TTL REQ EO</th>
+                    <th>TTL REQ 30 DAY</th>
+                    <th>TTL REQ 60 DAY</th>
+                    <th>TTL REQ 90 DAYS</th>
+                    <th>TTL REQ 120 DAYS</th>
+                    <th>TTL REQ 180 DAYS</th>
+                    <th>ME FLEET</th>
+                    <th>ME RESOURCE CODE</th>
+                    <th>ME ATA CODE</th>
+                    <th>PRIME MPN</th>
+                    <th>KEYWORD DESCRIPTION</th>
+                    <th>UI</th>
+                    <th>SHLF LIFE</th>
+                    <th>CTLG LT</th>
+                    <th>CTLG PRICE</th>
+                    <th>MT</th>
+                    <th>ESS</th>
+                    <th>CHEMCL IND</th>
+                    <th>TTL OH</th>
+                    <th>TTL PO</th>
+                    <th>TTL RO</th>
+                    <th>MATL STS ALL</th>
+                    <th>MATL STS 30 DAY</th>
+                    <th>MATL STS 60 DAY</th>
+                    <th>MATL STS 90 DAY</th>
+                    <th>MATL STS 120 DAY</th>
+                    <th>MATL STS 180 DAY</th>
+                    <th>ME PART NUMBER IN KIT</th>
+                    <th>QTY REQ K</th>
+                    <th>REQD IND K</th>
+                    <th>KP ME FLEET</th>
+                    <th>KP ME RESOURCE CODE</th>
+                    <th>KP ME ATA CODE</th>
+                    <th>KP PRIME MPN</th>
+                    <th>KP KEYWORD DESCRIPTION</th>
+                    <th>KP UI</th>
+                    <th>KP SHLF LIFE</th>
+                    <th>KP CTLG LT</th>
+                    <th>KP CTLG PRICE</th>
+                    <th>KP MT</th>
+                    <th>KP ESS</th>
+                    <th>KP CHEMCL IND</th>
+                    <th>KP TTL OH</th>
+                    <th>KP TTL PO</th>
+                    <th>KP TTL RO</th>
+                    <th>TTL REQ EO KIT PART</th>
+                    <th>TTL REQ KP 30 DAY</th>
+                    <th>TTL REQ KP 60 DAYS</th>
+                    <th>TTL REQ KP 90 DAYS</th>
+                    <th>TTL REQ KP 120 DAYS</th>
+                    <th>TTL REQ KP 180 DAYS</th>
+                    <th>MATL STS KP ALL</th>
+                    <th>MATL STS KP 30 DAY</th>
+                    <th>MATL STS KP 60 DAY</th>
+                    <th>MATL STS KP 90 DAY</th>
+                    <th>MATL STS KP 120 DAY</th>
+                    <th>MATL STS KP 180 DAY</th>
+                    <th>PLANNER</th>
+                </tr>            
+            </thead>
+            <tbody>
+                <tr *ngFor="let x of resp">
+                    <td>{{x.DASH_8}}</td>
+                    <td>{{x.AD_IND}}</td>
+                    <td>{{x.WORK_REQUIREMENT}}</td>
+                    <td>{{x.EO_NUMBER}}</td>
+                    <td>{{x.EO_DESC}}</td>
+                    <td>{{x.TASK_TYPE}}</td>
+                    <td>{{x.ME_TYPE}}</td>
+                    <td>{{x.MAINT_TYPE}}</td>
+                    <td>{{x.SCHEDULING_STATUS}}</td>
+                    <td>{{x.STATION_REQUIREMENTS}}</td>
+                    <td>{{x.ATA}}</td>
+                    <td>{{x.CNT_SCHDLD}}</td>
+                    <td>{{x.SOURCE}}</td>
+                    <td>{{x.ME_PART_NUMBER_USED}}</td>
+                    <td>{{x.KIT_IND}}</td>
+                    <td>{{x.QTY_REQ}}</td>
+                    <td>{{x.REQD_IND}}</td>
+                    <td>{{x.TTL_REQ_EO}}</td>
+                    <td>{{x.TTL_REQ_30_DAY}}</td>
+                    <td>{{x.TTL_REQ_60_DAY}}</td>
+                    <td>{{x.TTL_REQ_90_DAYS}}</td>
+                    <td>{{x.TTL_REQ_120_DAYS}}</td>
+                    <td>{{x.TTL_REQ_180_DAYS}}</td>
+                    <td>{{x.ME_FLEET}}</td>
+                    <td>{{x.ME_RESOURCE_CODE}}</td>
+                    <td>{{x.ME_ATA_CODE}}</td>
+                    <td>{{x.PRIME_MPN}}</td>
+                    <td>{{x.KEYWORD_DESCRIPTION}}</td>
+                    <td>{{x.UI}}</td>
+                    <td>{{x.SHLF_LIFE}}</td>
+                    <td>{{x.CTLG_LT}}</td>
+                    <td>{{x.CTLG_PRICE}}</td>
+                    <td>{{x.MT}}</td>
+                    <td>{{x.ESS}}</td>
+                    <td>{{x.CHEMCL_IND}}</td>
+                    <td>{{x.TTL_OH}}</td>
+                    <td>{{x.TTL_PO}}</td>
+                    <td>{{x.TTL_RO}}</td>
+                    <td>{{x.MATL_STS_ALL}}</td>
+                    <td>{{x.MATL_STS_30_DAY}}</td>
+                    <td>{{x.MATL_STS_60_DAY}}</td>
+                    <td>{{x.MATL_STS_90_DAY}}</td>
+                    <td>{{x.MATL_STS_120_DAY}}</td>
+                    <td>{{x.MATL_STS_180_DAY}}</td>
+                    <td>{{x.ME_PART_NUMBER_IN_KIT}}</td>
+                    <td>{{x.QTY_REQ_K}}</td>
+                    <td>{{x.REQD_IND_K}}</td>
+                    <td>{{x.KP_ME_FLEET}}</td>
+                    <td>{{x.KP_ME_RESOURCE_CODE}}</td>
+                    <td>{{x.KP_ME_ATA_CODE}}</td>
+                    <td>{{x.KP_PRIME_MPN}}</td>
+                    <td>{{x.KP_KEYWORD_DESCRIPTION}}</td>
+                    <td>{{x.KP_UI}}</td>
+                    <td>{{x.KP_SHLF_LIFE}}</td>
+                    <td>{{x.KP_CTLG_LT}}</td>
+                    <td>{{x.KP_CTLG_PRICE}}</td>
+                    <td>{{x.KP_MT}}</td>
+                    <td>{{x.KP_ESS}}</td>
+                    <td>{{x.KP_CHEMCL_IND}}</td>
+                    <td>{{x.KP_TTL_OH}}</td>
+                    <td>{{x.KP_TTL_PO}}</td>
+                    <td>{{x.KP_TTL_RO}}</td>
+                    <td>{{x.TTL_REQ_EO_KIT_PART}}</td>
+                    <td>{{x.TTL_REQ_KP_30_DAY}}</td>
+                    <td>{{x.TTL_REQ_KP_60_DAYS}}</td>
+                    <td>{{x.TTL_REQ_KP_90_DAYS}}</td>
+                    <td>{{x.TTL_REQ_KP_120_DAYS}}</td>
+                    <td>{{x.TTL_REQ_KP_180_DAYS}}</td>
+                    <td>{{x.MATL_STS_KP_ALL}}</td>
+                    <td>{{x.MATL_STS_KP_30_DAY}}</td>
+                    <td>{{x.MATL_STS_KP_60_DAY}}</td>
+                    <td>{{x.MATL_STS_KP_90_DAY}}</td>
+                    <td>{{x.MATL_STS_KP_120_DAY}}</td>
+                    <td>{{x.MATL_STS_KP_180_DAY}}</td>
+                    <td>{{x.PLANNER}}</td>
+                </tr>
+            </tbody>
+        </table>        
+    </div>
+</div>
+
+

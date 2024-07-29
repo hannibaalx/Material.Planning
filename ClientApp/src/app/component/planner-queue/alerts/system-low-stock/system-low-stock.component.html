@@ -1,0 +1,120 @@
+<div class="slscontainer">
+    <div class="datacontainer">
+        <div class="row">
+            <div class="col-12 header-color">
+                <b class="queue-header">System Low Stock</b>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 dataright">
+                <div>
+                    <button mat-stroked-button class="exportbtn stroked-button" (click)="exporter.exportTable('xlsx', {fileName:'System Low Stock summary'})">DOWNLOAD SUMMARY</button>
+                    &nbsp;<button mat-stroked-button class="exportbtn stroked-button" (click)="exporter2.exportTable('xlsx', {fileName:'System Low Stock detail'})">DOWNLOAD DETAIL</button>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 mattablecontainer">
+                <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+                <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortSystemLowStock($event)" class="mat-elevation-z8">
+                    <ng-container matColumnDef="ME_PART_NUMBER">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>M&E</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                <a mat-raised-button class="mebtn" href="javascript:void(0);" (click)="sendMeDetails(x.ME_PART_NUMBER.trim())">{{ x.ME_PART_NUMBER }}</a>
+                                &nbsp;
+                                <a mat-button color="primary" [routerLink]="['../ata/', x.ME_PART_NUMBER.trim()]" class="atalaunch" target="_blank">
+                                    <mat-icon>launch</mat-icon>
+                                </a>                        
+                            </mat-cell>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="KEYWORD">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>KEYWORD</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.KEYWORD }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="SUM_ALLOCATION">
+                      <mat-header-cell *matHeaderCellDef mat-sort-header><b>SUM ALLOC</b></mat-header-cell>
+                      <mat-cell *matCellDef="let x"> {{ x.SUM_ALLOCATION }} </mat-cell>
+                    </ng-container>                    
+                  
+                    <ng-container matColumnDef="SUM_ONHAND">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>SUM OHB</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.SUM_ONHAND }} </mat-cell>
+                      </ng-container>
+
+                    <ng-container matColumnDef="STOCK_RATE">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>STOCK RATE</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.STOCK_RATE }} </mat-cell>
+                      </ng-container>
+
+                    <ng-container matColumnDef="COMMENTS">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>COMMENTS</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LAST_UPDATES">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header><b>LAST UPDATES</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd' }} </mat-cell>
+                    </ng-container>
+                 
+                    <mat-header-row *matHeaderRowDef="systemLowStock_displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: systemLowStock_displayedColumns;"></mat-row>
+                  </mat-table>   
+            </div>
+        </div>          
+        <div class="row">
+            <div class="col-12 mattablecontainer">
+                <mat-table matTableExporter #exporter2="matTableExporter" [dataSource]="detaildatasource" class="mat-elevation-z8 detaildata">
+                    <ng-container matColumnDef="ME_PART_NUMBER">
+                        <mat-header-cell *matHeaderCellDef><b>ME PART NUMBER</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.ME_PART_NUMBER }}                  
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="KEYWORD_DESCRIPTION">
+                        <mat-header-cell *matHeaderCellDef><b>KEYWORD DESCRIPTION</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.KEYWORD_DESCRIPTION }}                  
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="SUM_ALLOCATION">
+                        <mat-header-cell *matHeaderCellDef><b>SUM ALLOCATION</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.SUM_ALLOCATION }}                  
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="SUM_ONHAND">
+                        <mat-header-cell *matHeaderCellDef><b>SUM ONHAND</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.SUM_ONHAND }}                  
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="STOCK_RATE">
+                        <mat-header-cell *matHeaderCellDef><b>STOCK RATE</b></mat-header-cell>
+                            <mat-cell *matCellDef="let x">
+                                {{ x.STOCK_RATE }}                  
+                            </mat-cell>
+                    </ng-container>
+
+                    <ng-container matColumnDef="LAST_UPDATES">
+                        <mat-header-cell *matHeaderCellDef><b>LAST UPDATES</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.LAST_UPDATES | date :'yyyy-MM-dd'  }} </mat-cell>
+                      </ng-container>
+            
+                      <ng-container matColumnDef="COMMENTS">
+                        <mat-header-cell *matHeaderCellDef><b>COMMENTS</b></mat-header-cell>
+                        <mat-cell *matCellDef="let x"> {{ x.COMMENTS }} </mat-cell>
+                      </ng-container>
+
+                    <mat-header-row *matHeaderRowDef="systemLowStockdetail_displayedColumns; sticky: true;"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: systemLowStockdetail_displayedColumns;"></mat-row>
+                </mat-table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,406 @@
+    <!-- <div class="eotitle"><h5><b>Dash 8 Detail</b></h5></div> -->
+    <div class="eoDash8Container">
+        <div class="row">
+            <div class="col-12 header">
+                <h5><label class="badge badge-info">Dash8 - {{dash8id}}</label></h5>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <label for="ttlReqType">Select Timeframe:&nbsp;</label>
+                <select id="ttlReqType" (change)="setTimeFrame($event)">
+                    <option value="">&nbsp;</option>
+                    <option value="30">30 Day</option>
+                    <option value="60">60 Day </option>
+                    <option value="90">90 Day</option>
+                    <option value="120">120 Day</option>
+                    <option value="180">180 Day</option>
+                </select>
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col-12">&nbsp;</div>
+        </div> -->
+        <span *ngIf="dash8Detail$ | async; else loading">
+            <div class="row">
+                <div class="col-12 centertext"><h5>BOM Details</h5>
+                    <span class="timelabel" *ngFor="let t of refreshtime$ | async ">
+                    <div><b>Last refreshed:</b> {{ t.UPDATED_DATETIME | date :'yyyy/MM/dd, hh:mm:ss a' }}</div>
+                    </span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="tableFixedHead">
+                        <table class="table table-striped" >
+                            <thead class="thead-light">
+                              <tr>
+                                <th>M&E USED</th>
+                                <th>DESCRIPTION</th>
+                                <th>AIRCRAFT COUNT</th>
+                                <th>QTY REQ</th>
+                                <th>REQD IND</th>
+                                <th>KIT IND</th>
+                                <th>ON HAND</th>
+                                <th>IN TRANSIT</th>
+                                <th>PO QTY</th>
+                                <th>RO QTY</th>
+                                <th>REQ EO</th>
+                                <th>STATUS</th>
+                                <th *ngIf="timeFrame == '30'">EO REQ 30 DAY</th>
+                                <!-- <th *ngIf="timeFrame == '30'">EO REQ KP 30 DAY</th> -->
+                                <th *ngIf="timeFrame == '30'">STATUS 30 DAY</th>
+                                <th *ngIf="timeFrame == '60'">EO REQ 60 DAY</th>
+                                <!-- <th *ngIf="timeFrame == '60'">EO REQ KP 60 DAY</th> -->
+                                <th *ngIf="timeFrame == '60'">STATUS 60 DAY</th>
+                                <th *ngIf="timeFrame == '90'">EO REQ 90 DAY</th>
+                                <!-- <th *ngIf="timeFrame == '90'">EO REQ KP 90 DAY</th> -->
+                                <th *ngIf="timeFrame == '90'">STATUS 90 DAY</th>
+                                <th *ngIf="timeFrame == '120'">EO REQ 120 DAY</th>
+                                <!-- <th *ngIf="timeFrame == '120'">EO REQ KP 120 DAY</th> -->
+                                <th *ngIf="timeFrame == '120'">STATUS 120 DAY</th>
+                                <th *ngIf="timeFrame == '180'">EO REQ 180 DAY</th>
+                                <!-- <th *ngIf="timeFrame == '180'">EO REQ KP 180 DAY</th> -->
+                                <th *ngIf="timeFrame == '180'">STATUS 180 DAY</th>
+                              </tr>
+                            </thead>
+                            <tbody *ngIf="dash8Detail$ | async; else loading">
+                              <tr *ngFor="let dd of dash8Detail$ | async; let i = index;">
+                                <td class="nowrap" style="text-align: left;">
+                                    <a href="javascript:void(0);" role="button" (click)="showMEUsed(dd.ME_PART_NUMBER_USED.trim())" >{{ dd.ME_PART_NUMBER_USED.trim() }}</a>
+                                    &nbsp;
+                                    <a href="javascript:void(0);"
+                                        [tabindex]="i"
+                                        class="badge badge-info" 
+                                        data-boundary="window"
+                                        data-toggle="popover" 
+                                        [title]="dd.KEYWORD_DESCRIPTION" 
+                                        data-animation="true" 
+                                        data-html="true" 
+                                        data-placement="bottom" 
+                                        (click)="popMeSummary($event, dd.ME_FLEET, dd.ME_RESOURCE_CODE, dd.ME_ATA_CODE, dd.PRIME, dd.KEYWORD_DESCRIPTION, dd.CTLG_PRICE, dd.SHLF_LIFE, dd.CHEMCL_IND, dd.UI, dd.MT, dd.CTLG_LT)"
+                                        data-content=""><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i>
+                                    </a>
+                                    <!-- data-trigger="focus" -->
+                                    </td>
+                                <td>
+                                    {{dd.KEYWORD_DESCRIPTION}}
+                                </td>
+                                <td>
+                                    {{ dd.AIRCRAFT_COUNT }}
+                                </td>
+                                <td>
+                                    {{dd.QTY_REQ}}
+                                </td>
+                                <td>
+                                    {{dd.REQD_IND}}
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" class="badge badge-info" (click)='getKitDetail(dash8id, dd.ME_PART_NUMBER_USED, dd.KIT_IND)' >{{dd.KIT_IND}}</a>
+                                </td>
+                                <td>
+                                    {{dd.TTL_OH}}
+                                </td>
+                                <td>{{ dd.TTL_ITS }}</td>
+                                <td>
+                                    <span *ngIf="dd.TTL_PO == 0; else poAnchor">{{dd.TTL_PO}}</span>
+                                    <ng-template #poAnchor>
+                                        <a [routerLink]="['../../mepodetail', dd.ME_PART_NUMBER_USED.trim()]" class="" href="#" target="_blank">{{dd.TTL_PO}}</a>
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    <span *ngIf="dd.TTL_RO == 0; else roAnchor">{{dd.TTL_RO}}</span>
+                                    <ng-template #roAnchor>
+                                        <a [routerLink]="['../../merodetail', dash8id, dd.ME_PART_NUMBER_USED.trim()]" class="" href="#" target="_blank">{{dd.TTL_RO}}</a>
+                                    </ng-template>
+                                </td>
+                                <td>
+                                    {{dd.TTL_REQ_EO}}
+                                </td>
+                                <td *ngIf="dd.MATL_STS_ALL == 'GOOD'" class="goodtext"><b>{{dd.MATL_STS_ALL}}</b></td>
+                                <td *ngIf="dd.MATL_STS_ALL == 'NEED'" class="needtext"><b>{{dd.MATL_STS_ALL}}</b></td>
+                                <td *ngIf="dd.MATL_STS_ALL == 'REVIEW'" class="reviewtext"><b>{{dd.MATL_STS_ALL}}</b></td>
+                                <td *ngIf="dd.MATL_STS_ALL == 'TOOL'" class="tooltext"><b>{{dd.MATL_STS_ALL}}</b></td>
+                                
+                                <td *ngIf="dd.MATL_STS_ALL == null" class="">UNKNOWN</td>
+                                <td *ngIf="timeFrame == '30'">
+                                    {{dd.TTL_REQ_30_DAY}}
+                                </td>
+                                <!-- <td *ngIf="timeFrame == '30'">
+                                    {{dd.TTL_REQ_KP_30_DAY}}
+                                </td> -->
+                                <td *ngIf="timeFrame == '30' && dd.MATL_STS_30_DAY == 'GOOD'" class="goodtext"><b>{{dd.MATL_STS_30_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '30' && dd.MATL_STS_30_DAY == 'NEED'" class="needtext"><b>{{dd.MATL_STS_30_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '30' && dd.MATL_STS_30_DAY == 'REVIEW'" class="reviewtext"><b>{{dd.MATL_STS_30_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '30' && dd.MATL_STS_30_DAY == 'TOOL'" class="tooltext"><b>{{dd.MATL_STS_30_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '60'">
+                                    {{dd.TTL_REQ_60_DAY}}
+                                </td>
+                                <!-- <td *ngIf="timeFrame == '60'">
+                                    {{dd.TTL_REQ_KP_60_DAY}}
+                                </td> -->
+                                <td *ngIf="timeFrame == '60' && dd.MATL_STS_60_DAY == 'GOOD'" class="goodtext"><b>{{dd.MATL_STS_60_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '60' && dd.MATL_STS_60_DAY == 'NEED'" class="needtext"><b>{{dd.MATL_STS_60_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '60' && dd.MATL_STS_60_DAY == 'REVIEW'" class="reviewtext"><b>{{dd.MATL_STS_60_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '60' && dd.MATL_STS_60_DAY == 'TOOL'" class="tooltext"><b>{{dd.MATL_STS_60_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '90'">
+                                    {{dd.TTL_REQ_90_DAYS}}
+                                </td>
+                                <!-- <td *ngIf="timeFrame == '90'">
+                                    {{dd.TTL_REQ_KP_90_DAY}}
+                                </td> -->
+                                <td *ngIf="timeFrame == '90' && dd.MATL_STS_90_DAY == 'GOOD'" class="goodtext"><b>{{dd.MATL_STS_90_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '90' && dd.MATL_STS_90_DAY == 'NEED'" class="needtext"><b>{{dd.MATL_STS_90_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '90' && dd.MATL_STS_90_DAY == 'REVIEW'" class="reviewtext"><b>{{dd.MATL_STS_90_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '90' && dd.MATL_STS_90_DAY == 'TOOL'" class="tooltext"><b>{{dd.MATL_STS_90_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '120'">
+                                    {{dd.TTL_REQ_120_DAYS}}
+                                </td>
+                                <!-- <td *ngIf="timeFrame == '120'">
+                                    {{dd.TTL_REQ_KP_120_DAY}}
+                                </td> -->
+                                <td *ngIf="timeFrame == '120' && dd.MATL_STS_120_DAY == 'GOOD'" class="goodtext"><b>{{dd.MATL_STS_120_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '120' && dd.MATL_STS_120_DAY == 'NEED'" class="needtext"><b>{{dd.MATL_STS_120_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '120' && dd.MATL_STS_120_DAY == 'REVIEW'" class="reviewtext"><b>{{dd.MATL_STS_120_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '120' && dd.MATL_STS_120_DAY == 'TOOL'" class="tooltext"><b>{{dd.MATL_STS_120_DAY}}</b></td>
+                                <!-- <td *ngIf="timeFrame == '180'">
+                                    {{dd.TTL_REQ_KP_180_DAY}}
+                                </td> -->
+                                <td *ngIf="timeFrame == '180'">
+                                    {{dd.TTL_REQ_180_DAYS}}
+                                </td>
+                                <td *ngIf="timeFrame == '180' && dd.MATL_STS_180_DAY == 'GOOD'" class="goodtext"><b>{{dd.MATL_STS_180_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '180' && dd.MATL_STS_180_DAY == 'NEED'" class="needtext"><b>{{dd.MATL_STS_180_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '180' && dd.MATL_STS_180_DAY == 'REVIEW'" class="reviewtext"><b>{{dd.MATL_STS_180_DAY}}</b></td>
+                                <td *ngIf="timeFrame == '180' && dd.MATL_STS_180_DAY == 'TOOL'" class="tooltext"><b>{{dd.MATL_STS_180_DAY}}</b></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                    </div>
+                </div>
+            </div> 
+            <div class="row" *ngIf="meUsedDetail$ | async">
+                <div class="col-12 centertext"><h5>Station Inventory</h5></div>
+                <div class="col-12">
+                    <h5><label class="badge badge-info">{{ meusedtitle }}</label></h5>
+                    <div class="tableFixedHead">
+                        <table class="table table-striped">
+                            <thead class="thead-light">
+                                <th class="centertext">STATION</th>
+                                <th class="centertext">CATEGORY</th>
+                                <th class="centertext">REPL STA</th>
+                                <th class="centertext">MIN/ALLC</th>
+                                <th class="centertext" *ngIf="showMaxAwu">MAX</th>
+                                <th class="centertext">AFG</th>
+                                <th class="centertext" *ngIf="showMaxAwu">AWU</th>
+                                <th class="centertext">ON HAND</th>
+                                <th class="centertext">IN TRANSIT</th>
+                                <th class="centertext">SO QTY</th>
+                                <th class="centertext">PO QTY</th>
+                                <th class="centertext">RO QTY</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let me of meUsedDetail$ | async">
+                                    <td class="centertext">{{ me.STA }}</td>
+                                    <td class="centertext">{{ me.STA_CTGRY }}</td>
+                                    <td class="centertext">{{ me.REPL_STA }}</td>
+                                    <td class="centertext">{{ me.MIN_AQ }}</td>
+                                    <td class="centertext" *ngIf="showMaxAwu">{{ me.MAX_QTY }}</td>
+                                    <td class="centertext">{{ me.AFG }}</td>
+                                    <td class="centertext" *ngIf="showMaxAwu">{{ me.AWU }}</td>
+                                    <td class="centertext">{{ me.STA_OH_QTY }}</td>
+                                    <td class="centertext">{{ me.STA_INTRANSIT_QTY }}</td>
+                                    <td class="centertext">
+                                        <span *ngIf="me.STA_SO_OPEN_QTY == 0; else mesoAnchor">{{me.STA_SO_OPEN_QTY}}</span>
+                                        <ng-template #mesoAnchor>
+                                            <a [routerLink]="['../../mesostadetail', dash8id, meusedtitle, me.STA]" class="" href="#" target="_blank">{{me.STA_SO_OPEN_QTY}}</a>
+                                        </ng-template>
+                                    </td>
+                                    <td class="centertext">
+                                        <span *ngIf="me.STA_PO_OPEN_QTY == 0; else mepoAnchor">{{me.STA_PO_OPEN_QTY}}</span>
+                                        <ng-template #mepoAnchor>
+                                            <a [routerLink]="['../../mepostadetail', dash8id, meusedtitle, me.STA]" class="" href="#" target="_blank">{{me.STA_PO_OPEN_QTY}}</a>
+                                        </ng-template>
+                                    </td>
+                                    <td class="centertext">
+                                        <span *ngIf="me.STA_RO_OPEN_QTY == 0; else meroAnchor">{{me.STA_RO_OPEN_QTY}}</span>
+                                        <ng-template #meroAnchor>
+                                            <a [routerLink]="['../../merostadetail', dash8id, meusedtitle, me.STA]" class="" href="#" target="_blank">{{me.STA_RO_OPEN_QTY}}</a>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <br />
+            <span *ngIf="mepninkit$ | async"><!-- ; else loading -->
+                <div class="row">
+                    <br />
+                    <div class="col-12 centertext"><h5>KIT Details</h5></div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="tableFixedHead">
+                            <table class="table table-striped" >
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>ME PART NUMBER</th>
+                                        <th>DESCRIPTION</th>
+                                        <th>QTY REQ</th>
+                                        <th>ON HAND</th>
+                                        <th>IN TRANSIT</th>
+                                        <th>PO QTY</th>
+                                        <th>RO QTY</th>
+                                        <th>EO REQ</th>
+                                        <th>STATUS</th>
+                                        <th *ngIf="timeFrame == '30'">EO REQ 30 DAY</th>
+                                        <th *ngIf="timeFrame == '60'">EO REQ 60 DAY</th>
+                                        <th *ngIf="timeFrame == '90'">EO REQ 90 DAY</th>
+                                        <th *ngIf="timeFrame == '120'">EO REQ 120 DAY</th>
+                                        <th *ngIf="timeFrame == '180'">EO REQ 180 DAY</th>
+                                        <th *ngIf="timeFrame == '30'">STATUS 30 DAY</th>
+                                        <th *ngIf="timeFrame == '60'">STATUS 60 DAY</th>
+                                        <th *ngIf="timeFrame == '90'">STATUS 90 DAY</th>
+                                        <th *ngIf="timeFrame == '120'">STATUS 120 DAY</th>
+                                        <th *ngIf="timeFrame == '180'">STATUS 180 DAY</th>
+                                    </tr>
+                                </thead>
+                                 <tbody > <!--*ngIf="mepninkit$ | async; else loading" -->
+                                    <tr *ngFor="let me of mepninkit$ | async">
+                                        <td>
+                                            <a href="javascript:void(0);" role="button" (click)='getStationInventory(me.ME_PART_NUMBER_IN_KIT)' >{{me.ME_PART_NUMBER_IN_KIT}}</a>
+                                            &nbsp;
+                                            <a href="javascript:void(0);" 
+                                                class="badge badge-info" 
+                                                data-boundary="window" 
+                                                data-toggle="popover" 
+                                                [title]="me.KEYWORD_DESCRIPTION" 
+                                                data-animation="true" 
+                                                data-html="true" 
+                                                data-placement="bottom" 
+                                                (click)="popMeSummary($event, me.ME_FLEET, me.ME_RESOURCE_CODE, me.ME_ATA_CODE, me.PRIME, me.KEYWORD_DESCRIPTION, me.AVG_COST, me.SHLF_LIFE, me.CHEMCL_IND, me.UI, me.MT, me.CTLG_LT)" 
+                                                data-content=""><i class="fa fa-info-circle fa-2x" aria-hidden="true"></i></a>
+                                        </td>
+                                        <td>{{ me.KEYWORD_DESCRIPTION }}</td>
+                                        <td>{{ me.QTY_REQ_K }}</td>
+                                        <td>{{ me.TTL_OH }}</td>
+                                        <td>{{ me.TTL_ITS }}</td>
+                                        <td>
+                                            <span *ngIf="me.TTL_PO == 0; else mekitpoAnchor">{{me.TTL_PO}}</span>
+                                            <ng-template #mekitpoAnchor>
+                                                <a [routerLink]="['../../mekitpodetail', dash8id , me.ME_PART_NUMBER_IN_KIT]" class="" href="#" target="_blank">{{me.TTL_PO}}</a>
+                                            </ng-template>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="me.TTL_RO == 0; else mekitroAnchor">{{ me.TTL_RO }}</span>
+                                            <ng-template #mekitroAnchor>
+                                               <a [routerLink]="['../../mekitrodetail', me.ME_PART_NUMBER_IN_KIT]" class="" href="#" target="_blank">{{me.TTL_RO}}</a>
+                                            </ng-template>                                            
+                                        </td>
+                                        <td>{{ me.TTL_REQ_EO_KIT_PART }}</td>
+                                        <td *ngIf="me.MATL_STS_KP_ALL == 'GOOD'" class="goodtext"><b>{{ me.MATL_STS_KP_ALL }}</b></td>
+                                        <td *ngIf="me.MATL_STS_KP_ALL == 'NEED'" class="needtext"><b>{{ me.MATL_STS_KP_ALL }}</b></td>
+                                        <td *ngIf="me.MATL_STS_KP_ALL == 'REVIEW'" class="reviewtext"><b>{{ me.MATL_STS_KP_ALL }}</b></td>
+                                        <td *ngIf="me.MATL_STS_KP_ALL == 'TOOL'" class="tooltext"><b>{{ me.MATL_STS_KP_ALL }}</b></td>
+                                        <td *ngIf="timeFrame == '30'">{{ me.TTL_REQ_KP_30_DAY }}</td>
+                                        <td *ngIf="timeFrame == '60'">{{ me.TTL_REQ_KP_60_DAYS }}</td>
+                                        <td *ngIf="timeFrame == '90'">{{ me.TTL_REQ_KP_90_DAYS }}</td>
+                                        <td *ngIf="timeFrame == '120'">{{ me.TTL_REQ_KP_120_DAYS }}</td>
+                                        <td *ngIf="timeFrame == '180'">{{ me.TTL_REQ_KP_180_DAYS }}</td>
+                                        <td *ngIf="timeFrame == '30'">{{ me.MATL_STS_KP_30_DAY }}</td>
+                                        <td *ngIf="timeFrame == '60'">{{ me.MATL_STS_KP_60_DAY }}</td>
+                                        <td *ngIf="timeFrame == '90'">{{ me.MATL_STS_KP_90_DAY }}</td>
+                                        <td *ngIf="timeFrame == '120'">{{ me.MATL_STS_KP_120_DAY }}</td>
+                                        <td *ngIf="timeFrame == '180'">{{ me.MATL_STS_KP_180_DAY }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </span>
+            <div class="row" *ngIf="kitpartstationinv$">
+                <div class="col-12">
+                    <h5 class="centertext">KIT-Part Station Inventory</h5>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <h5><label class="badge badge-success">{{ kitdetailid }}</label></h5>  
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="tableFixedHead">
+                        <table class="table table-striped">
+                            <thead class="thead-light">
+                                <th class="centertext">STATION</th>
+                                <th class="centertext">KITTING STATION</th>
+                                <th class="centertext">REPL STA</th>
+                                <th class="centertext">MIN</th>
+                                <th class="centertext">MAX</th>
+                                <th class="centertext">AFG</th>
+                                <th class="centertext">AWU</th>
+                                <th class="centertext">STATION OH QTY</th>
+                                <th class="centertext">STATION INTRANSIT QTY</th>
+                                <th class="centertext">SO</th>
+                                <th class="centertext">PO</th>
+                                <th class="centertext">RO</th>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let k of kitpartstationinv$ | async">
+                                    <td class="centertext">{{ k.STA }}</td>
+                                    <td class="centertext">{{ k.KITTING_STA }}</td>
+                                    <td class="centertext">{{ k.REPL_STA }}</td>
+                                    <td class="centertext">{{ k.MIN_AQ }}</td>
+                                    <td class="centertext">{{ k.MAX_QTY }}</td>
+                                    <td class="centertext">{{ k.AFG }}</td>
+                                    <td class="centertext">{{ k.AWU }}</td>
+                                    <td class="centertext">{{ k.STA_OH_QTY }}</td>
+                                    <td class="centertext">{{ k.STA_INTRANSIT_QTY }}</td>
+                                    <td class="centertext">
+                                        <!-- {{ k.STA_SO_OPEN_QTY }} -->
+                                        <span *ngIf="k.STA_SO_OPEN_QTY == 0; else mesoAnchor">{{k.STA_SO_OPEN_QTY}}</span>
+                                        <ng-template #mesoAnchor>
+                                            <a [routerLink]="['../../mesostadetail', dash8id, kitdetailid, k.STA]" class="" href="#" target="_blank">{{k.STA_SO_OPEN_QTY}}</a>
+                                        </ng-template>
+                                    </td>
+                                    <td class="centertext">
+                                        <!-- {{ k.STA_PO_OPEN_QTY }} -->
+                                        <span *ngIf="k.STA_PO_OPEN_QTY == 0; else mepoAnchor">{{k.STA_PO_OPEN_QTY}}</span>
+                                        <ng-template #mepoAnchor>
+                                            <a [routerLink]="['../../mepostadetail', dash8id, kitdetailid, k.STA]" class="" href="#" target="_blank">{{k.STA_PO_OPEN_QTY}}</a>
+                                        </ng-template>
+                                    </td>
+                                    <td class="centertext">
+                                        <!-- {{ k.STA_RO_OPEN_QTY }} -->
+                                        <span *ngIf="k.STA_RO_OPEN_QTY == 0; else meroAnchor">{{k.STA_RO_OPEN_QTY}}</span>
+                                        <ng-template #meroAnchor>
+                                            <a [routerLink]="['../../merostadetail', dash8id, kitdetailid, k.STA]" class="" href="#" target="_blank">{{k.STA_RO_OPEN_QTY}}</a>
+                                        </ng-template>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </span>
+    </div>
+    <ng-template #loading>
+        <div class="spinner-container">
+            <div class="text-center">
+                <div class="spinner-grow text-primary" style="position: relative; float:left;width: 3rem; height: 3rem;" role="status" >
+                 <span class="sr-only">Loading...</span>
+               </div>
+               <div class="spinner-border text-secondary" style="position: relative; float:left;width: 3rem; height: 3rem;" role="status">
+                 <span class="sr-only"></span>
+               </div>
+               <div class="spinner-grow text-danger" style="position: relative; float:left;width: 3rem; height: 3rem;" role="status">
+                 <span class="sr-only"></span>
+               </div>       
+             </div>
+        </div>
+    </ng-template>
+
+

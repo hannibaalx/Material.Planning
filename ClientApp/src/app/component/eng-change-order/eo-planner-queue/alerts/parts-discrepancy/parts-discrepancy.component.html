@@ -1,0 +1,137 @@
+<div class="pdcontainer">
+  <div class="row">
+    <div class="col-12 datacenter">
+      <h6><b>{{ ruleType }}</b></h6>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 dataright">
+      <div>
+        &nbsp;<button mat-raised-button class="exportbtn" (click)="exporter.exportTable('xlsx', {fileName:'Parts in Discrepancy'})" color="primary">DOWNLOAD</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 mattablecontainer">
+      <mat-progress-bar mode="query" [hidden]="hideLoading" class="pleasewaitind"></mat-progress-bar>
+      <mat-table matTableExporter #exporter="matTableExporter" matSort [dataSource]="datasource" (matSortChange)="sortPartsInDiscrepancy($event)" class="mat-elevation-z8">
+        <ng-container matColumnDef="ASSIGNEDTO">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>ASSIGNED TO</b></mat-header-cell>
+          <mat-cell *matCellDef="let x">
+            {{ x.ASSIGNEDTO }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="MPN">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>EO NBR</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.MPN }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="LOGPAGE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>LOGPAGE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x" style="white-space: nowrap;overflow: initial;">
+                <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(x.LOGPAGE, x.TAIL)">{{ x.LOGPAGE }}</a>
+                &nbsp;
+                <a mat-button color="primary" [routerLink]="['/eo/dash8', x.LOGPAGE]" target="_blank">
+                    <!-- <mat-icon>launch</mat-icon> -->
+                    <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                </a>
+            </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="WORK_NUMBER">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>WORK NUMBER</b></mat-header-cell>
+          <mat-cell *matCellDef="let x" style="white-space: nowrap;overflow: initial;">
+            {{ x.WORK_NUMBER }}
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="TAIL">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>TAIL</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.TAIL }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="EQUIPMENT_TYPE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>EQUIPMENT TYPE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.EQUIPMENT_TYPE }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="CODE2">
+            <mat-header-cell *matHeaderCellDef mat-sort-header><b>CODE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x"> {{ x.CODE2 }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="SCHEDDATE">
+          <mat-header-cell *matHeaderCellDef mat-sort-header><b>SCHED DATE</b></mat-header-cell>
+          <mat-cell *matCellDef="let x"> {{ x.SCHEDDATE | date:'yyyy-MM-dd' }} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="partsInDiscrepancy_displayedColumns; sticky: true;"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: partsInDiscrepancy_displayedColumns;"></mat-row>
+      </mat-table>
+    </div>
+  </div>
+</div>
+<!-- <div class="pdcontainer">
+    <div class="row">
+        <div class="col-12 datacenter">
+            <h6>{{ ruleType }}</h6>
+        </div>
+    </div>
+    <div class="row" *ngIf="bomDetails$ | async as partdisc">
+        <div class="col-12">
+            <div class="tableFixedHead">
+                <table id="partsDisc" class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ASSIGNED TO</th>
+                            <th>EO NBR</th>
+                            <th>LOGPAGE</th>
+                            <th>WORK NBR</th>
+                            <th>TAIL</th>
+                            <th>EQUIPMENT TYPE</th>
+                            <th>CODE</th>
+                            <th>SCHD DATE</th>                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let pd of partdisc">
+                            <td>
+                                {{ pd.ASSIGNEDTO }}
+                            </td>
+                            <td>
+                                {{ pd.MPN }}
+                                &nbsp;
+                                <a class="badge badge-pill badge-info" role="button" [routerLink]="['/eo/eonumber', pd.MPN]" target="_blank">
+                                    <i class="fa fa-external-link fa-lg"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0);" role="button" (click)="sendBOMDetails(pd.LOGPAGE, pd.TAIL)">{{ pd.LOGPAGE }}</a>
+                                &nbsp;
+                                <a [routerLink]="['/eo/dash8', pd.LOGPAGE]" class="" role="button" target="_blank" [title]="'Search DASH 8 : ' + pd.LOGPAGE">
+                                    <i class="fa fa-external-link fa-lg" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                            <td>
+                                {{ pd.WORK_NUMBER }}
+                            </td>
+                            <td>
+                                {{ pd.TAIL }}
+                            </td>
+                            <td>
+                                {{ pd.EQUIPMENT_TYPE }}
+                            </td>
+                            <td>
+                                {{ pd.CODE2 }}
+                            </td>
+                            <td>
+                                {{ pd.SCHEDDATE | date:'MM-dd-yyyy' }}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div> -->

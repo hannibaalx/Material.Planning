@@ -1,0 +1,71 @@
+<div class="smdcdcontainer">
+  <h2 mat-dialog-title>DASH 8 DETAILS</h2>
+  <!--(commentsData$ | async)-->
+  <mat-dialog-content>
+    <div class="col-12 table-container">
+        <mat-table [dataSource]="datasource" class="mat-elevation-z8 dash8">
+          <ng-container matColumnDef="DASH8">
+            <mat-header-cell *matHeaderCellDef><b>DASH 8</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">
+              {{ x.DASH8 }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="DASH8_DESC">
+            <mat-header-cell *matHeaderCellDef><b>DESCRIPTION</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">
+              {{ x.DASH8_DESC }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="NOSE">
+            <mat-header-cell *matHeaderCellDef><b>NOSE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">
+              {{ x.NOSE}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="STATION">
+            <mat-header-cell *matHeaderCellDef><b>STATION</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">
+              {{ x.STATION}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="MIN_DATE">
+            <mat-header-cell *matHeaderCellDef><b>SCHD DATE</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">
+              {{ x.MIN_DATE | date:'yyyy-MM-dd'}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="REQUIRED_IND">
+            <mat-header-cell *matHeaderCellDef><b>REQUIREMENT</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">
+              {{ x.REQUIRED_IND }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="QUANTITY_REQUIRED">
+            <mat-header-cell *matHeaderCellDef><b>REQ QTY</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">
+              {{ x.QUANTITY_REQUIRED }}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="IAG_SCHD">
+            <mat-header-cell *matHeaderCellDef><b>IAG SCHD</b></mat-header-cell>
+            <mat-cell *matCellDef="let x">
+              {{ x.IAG_SCHD }}
+            </mat-cell>
+          </ng-container>
+
+            <mat-header-row *matHeaderRowDef="dash8commentdetails_displayedColumns; sticky: true;"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: dash8commentdetails_displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-stroked-button mat-dialog-close mat-dialog-close="false" type="button" class="stroked-button" #closebtn (click)="closeDialog()">Close</button>
+  </mat-dialog-actions>
+</div>

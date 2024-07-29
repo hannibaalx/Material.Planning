@@ -1,0 +1,688 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
+    <IsPackable>false</IsPackable>
+    <SpaRoot>ClientApp\</SpaRoot>
+    <DefaultItemExcludes>$(DefaultItemExcludes);$(SpaRoot)node_modules\**</DefaultItemExcludes>
+
+    <!-- Set this to true if you enable server-side prerendering -->
+    <BuildServerSideRenderer>false</BuildServerSideRenderer>
+    <UserSecretsId>d097904b-0938-4098-8aff-2d83d8636de8</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="J2NET.Runtime.win-x64" Version="1.3.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Cors" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="3.1.31" />
+    <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="8.0.6" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.3.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.4.0" />
+    <PackageReference Include="Teradata.Client.Provider" Version="17.20.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\.chrome\**" />
+    <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\.chrome\**" />
+    <EmbeddedResource Remove="ClientApp\.chrome\**" />
+    <None Remove="$(SpaRoot)**" />
+    <None Remove="ClientApp\.chrome\**" />
+    <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Remove="ClientApp\.chrome\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AD" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AF" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AL" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AO" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AS" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AT" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AU" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AX" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\AZ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BB" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BD" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BF" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BH" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BI" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BJ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BN" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BO" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BQ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BS" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BT" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BW" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BY" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\BZ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CD" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CF" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CH" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CI" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CL" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CN" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CO" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CU" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CV" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CW" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CY" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\CZ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\DE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\DJ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\DK" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\DM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\DO" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\DZ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\EC" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\EE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\EG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\EH" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\ER" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\ES" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\ET" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\FI" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\FJ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\FM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\FO" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\FR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GB" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GD" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GF" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GH" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GL" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GN" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GP" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GQ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GT" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GW" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\GY" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\HK" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\HN" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\HR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\HT" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\HU" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\ID" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\IE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\IL" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\IM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\IN" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\IQ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\IR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\IS" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\IT" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\JE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\JM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\JO" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\JP" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KH" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KI" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KN" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KP" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KW" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KY" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\KZ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LB" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LC" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LI" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LK" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LS" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LT" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LU" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LV" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\LY" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\manifest.json" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MD" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\ME" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MF" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MH" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MK" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\ML" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MN" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MP" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MQ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MS" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MU" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MV" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MW" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MX" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MY" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\MZ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NC" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NI" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NL" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NO" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NP" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NU" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\NZ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\OM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PF" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PH" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PK" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PL" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PS" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PT" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PW" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\PY" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\QA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\RE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\RO" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\RS" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\RU" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\RW" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SB" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SC" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SD" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SH" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SI" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SJ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SK" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SL" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SN" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SO" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SS" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\ST" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SV" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SX" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SY" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\SZ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TC" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TD" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TH" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TJ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TK" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TL" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TN" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TO" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TR" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TT" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TV" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TW" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\TZ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\UA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\UG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\US" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\UY" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\UZ" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\VC" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\VE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\VG" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\VI" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\VN" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\VU" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\WF" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\WS" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\XK" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\YE" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\YT" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\ZA" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\ZM" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\ZW" />
+    <None Remove="ClientApp\.chrome\AutofillStates\2020.11.2.164946\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\BrowserMetrics\BrowserMetrics-662BF2AD-A870.pma" />
+    <None Remove="ClientApp\.chrome\CertificateRevocation\8702\crl-set" />
+    <None Remove="ClientApp\.chrome\CertificateRevocation\8702\LICENSE" />
+    <None Remove="ClientApp\.chrome\CertificateRevocation\8702\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\CertificateRevocation\8702\manifest.json" />
+    <None Remove="ClientApp\.chrome\CertificateRevocation\8702\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\efniojlnjndmcbiieegkicadnoecjjef_1.8fd30669cf5f2372cb601678843f45ad189828b3706f2cc3f273bad52fc18c34" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\gcmjkmgdlgnkkcocmoeiminaijmmjnii_1.cd1978742a4afdbaaa15bf712d5c90bef4144caa99024df98f6a9ad58043ae85" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\ggkkehgbnfjpeggfpleeakpidbkibbmn_1.905f83845e25579fd4c6ae4bdc81a2740a216023f856918045ced4508329c941" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\gonpemdgkjcecdgbnaabipppbmgfggbe_1.3384c2cc7c211094196c0cd407f37564179b144eedcbcecf829d3d997f88c4dd" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\hfnkpimlhhgieaddgfemjhofmfblmnib_1.e867f7f3c05eb25f04fcf8b9f5930dd8bff2942b90aaaebb9a40e481328822d5" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\jamhcnnkihinmdlkakkaopbjbbcngflc_1.c52c62a7c50daf7d3f73ec16977cd4b0ea401710807d5dbe3850941dd1b73a70" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\jflhchccmppkfebkiaminageehmchikm_1.91864e2e9f8bd025f8dec7cd1b55d4595334dfd72c1ce6a32ec1d8f026634377" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\jflookgnkcckhobaglndicnbbgbonegd_1.0bd20c0ed22291b160114420a22e8ae9fd79a002cff2efdff99285f35a15f629" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\khaoiebndkojlmppeemjhbpbandiljpe_1.f4f1eb04881095d1cc8f2e1799a8144c10476dc1088a03ecdb4418644040a554" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\kiabhabjdbkjdpjbpigfodbdjmbglcoo_1.90b91aaa463ef666bf030c7f14b7046738dee86d64321b28cb834d04bbfea4b3" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\llkgjffcdpffmhiakmfcdcblohccpfmo_1.3a118962ef814c91f6476bb9f0de58afa63103af6ac1b8729be9b39a86789e96" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\lmelglejhemejginpboagddgdfbepgmp_1.8076c3d0dd2cb1f8169cc6e5fd6c194e96cf989ca470815ce8491f77802dc303" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\neifaoindggfcjicffkgpmnlppeffabd_1.c900ba9a2d8318263fd43782ee6fd5fb50bad78bf0eb2c972b5922c458af45ed" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\niikhdgajlphfehepabhhblakbdgeefj_1.195fb13bd8aacd5c6029af8bf3ccd97561a2485cb547698b937c56d16e466966" />
+    <None Remove="ClientApp\.chrome\component_crx_cache\obedbbhbpmojnkanicioggnmelmoomoc_1.e0ccf208ccd019c2eec3b24f3d3704a51a5cb57b8d76a946c41915c50e08108c" />
+    <None Remove="ClientApp\.chrome\Crowd Deny\2023.11.29.1201\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\Crowd Deny\2023.11.29.1201\manifest.json" />
+    <None Remove="ClientApp\.chrome\Crowd Deny\2023.11.29.1201\Preload Data" />
+    <None Remove="ClientApp\.chrome\Crowd Deny\2023.11.29.1201\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\Default\Affiliation Database" />
+    <None Remove="ClientApp\.chrome\Default\Affiliation Database-journal" />
+    <None Remove="ClientApp\.chrome\Default\BrowsingTopicsSiteData" />
+    <None Remove="ClientApp\.chrome\Default\BrowsingTopicsSiteData-journal" />
+    <None Remove="ClientApp\.chrome\Default\BrowsingTopicsState" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\data_0" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\data_1" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\data_2" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\data_3" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000056" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000057" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000058" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000059" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00005a" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00005b" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00005c" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00005d" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00005e" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00005f" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000060" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000061" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000062" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000063" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000064" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000065" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000066" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000067" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000068" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000069" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00006a" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00006b" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00006c" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00006d" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00006e" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_00006f" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000070" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000071" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000072" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000073" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000074" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000075" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000076" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\f_000077" />
+    <None Remove="ClientApp\.chrome\Default\Cache\Cache_Data\index" />
+    <None Remove="ClientApp\.chrome\Default\chrome_cart_db\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\chrome_cart_db\LOG" />
+    <None Remove="ClientApp\.chrome\Default\chrome_cart_db\LOG.old" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\09d0fd92f8e726a7_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\0f363a2f3583bd88_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\142d8ab2b8216ada_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\14e9afaf9f52fae7_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\2584465c062e0f4e_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\3735a6cbfa554b11_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\385b1575405ad0c7_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\393753f2900ccafb_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\40c6a21ef973c05b_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\4d2aece7c17ea236_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\5be338f9a090286f_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\5d83bd73b9f12f73_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\5df5054c85569be8_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\6876eea01cfaf166_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\750021bfd673e085_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\93f99ef869d33e20_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\a963382cfc1cf295_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\aa72cdf0d6b2444f_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\afd72c5293ff8c34_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\b27f37c03b3ee1e9_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\b6af7c701e37593d_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\ce19c49b8dc3e4e6_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\e924bd4ccadf1dba_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\ed42eb80b8a141cf_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\f003e9da2b21e8b8_0" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\js\index-dir\temp-index" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\wasm\index" />
+    <None Remove="ClientApp\.chrome\Default\Code Cache\wasm\index-dir\the-real-index" />
+    <None Remove="ClientApp\.chrome\Default\commerce_subscription_db\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\commerce_subscription_db\LOG" />
+    <None Remove="ClientApp\.chrome\Default\coupon_db\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\coupon_db\LOG" />
+    <None Remove="ClientApp\.chrome\Default\coupon_db\LOG.old" />
+    <None Remove="ClientApp\.chrome\Default\databases\Databases.db" />
+    <None Remove="ClientApp\.chrome\Default\databases\Databases.db-journal" />
+    <None Remove="ClientApp\.chrome\Default\data_reduction_proxy_leveldb\MANIFEST-000030" />
+    <None Remove="ClientApp\.chrome\Default\DawnCache\data_0" />
+    <None Remove="ClientApp\.chrome\Default\DawnCache\data_1" />
+    <None Remove="ClientApp\.chrome\Default\DawnCache\data_2" />
+    <None Remove="ClientApp\.chrome\Default\DawnCache\data_3" />
+    <None Remove="ClientApp\.chrome\Default\DawnCache\index" />
+    <None Remove="ClientApp\.chrome\Default\DawnGraphiteCache\data_0" />
+    <None Remove="ClientApp\.chrome\Default\DawnGraphiteCache\data_1" />
+    <None Remove="ClientApp\.chrome\Default\DawnGraphiteCache\data_2" />
+    <None Remove="ClientApp\.chrome\Default\DawnGraphiteCache\data_3" />
+    <None Remove="ClientApp\.chrome\Default\DawnGraphiteCache\index" />
+    <None Remove="ClientApp\.chrome\Default\DawnWebGPUCache\data_0" />
+    <None Remove="ClientApp\.chrome\Default\DawnWebGPUCache\data_1" />
+    <None Remove="ClientApp\.chrome\Default\DawnWebGPUCache\data_2" />
+    <None Remove="ClientApp\.chrome\Default\DawnWebGPUCache\data_3" />
+    <None Remove="ClientApp\.chrome\Default\DawnWebGPUCache\index" />
+    <None Remove="ClientApp\.chrome\Default\discounts_db\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\discounts_db\LOG" />
+    <None Remove="ClientApp\.chrome\Default\discounts_db\LOG.old" />
+    <None Remove="ClientApp\.chrome\Default\Download Service\EntryDB\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\Download Service\EntryDB\LOG" />
+    <None Remove="ClientApp\.chrome\Default\Extension Scripts\CURRENT" />
+    <None Remove="ClientApp\.chrome\Default\Extension Scripts\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\Extension Scripts\LOG" />
+    <None Remove="ClientApp\.chrome\Default\Extension Scripts\LOG.old" />
+    <None Remove="ClientApp\.chrome\Default\Extension Scripts\MANIFEST-000001" />
+    <None Remove="ClientApp\.chrome\Default\File System\Origins\CURRENT" />
+    <None Remove="ClientApp\.chrome\Default\File System\Origins\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\File System\Origins\LOG" />
+    <None Remove="ClientApp\.chrome\Default\File System\Origins\LOG.old" />
+    <None Remove="ClientApp\.chrome\Default\File System\Origins\MANIFEST-000001" />
+    <None Remove="ClientApp\.chrome\Default\JumpListIconsRecentClosed\47210c64-3e4d-4789-a585-4aef2a6977ca.tmp" />
+    <None Remove="ClientApp\.chrome\Default\JumpListIconsRecentClosed\892e22c8-2065-431f-a6c9-dbed477885e7.tmp" />
+    <None Remove="ClientApp\.chrome\Default\JumpListIconsRecentClosed\8f2fcc66-241b-4b42-8481-da59a97a4759.tmp" />
+    <None Remove="ClientApp\.chrome\Default\Local Storage\leveldb\000003.log" />
+    <None Remove="ClientApp\.chrome\Default\Login Data For Account" />
+    <None Remove="ClientApp\.chrome\Default\Login Data For Account-journal" />
+    <None Remove="ClientApp\.chrome\Default\Network\Cookies" />
+    <None Remove="ClientApp\.chrome\Default\Network\Cookies-journal" />
+    <None Remove="ClientApp\.chrome\Default\Network\Network Persistent State" />
+    <None Remove="ClientApp\.chrome\Default\Network\NetworkDataMigrated" />
+    <None Remove="ClientApp\.chrome\Default\Network\Reporting and NEL" />
+    <None Remove="ClientApp\.chrome\Default\Network\Reporting and NEL-journal" />
+    <None Remove="ClientApp\.chrome\Default\Network\TransportSecurity" />
+    <None Remove="ClientApp\.chrome\Default\Network\Trust Tokens" />
+    <None Remove="ClientApp\.chrome\Default\Network\Trust Tokens-journal" />
+    <None Remove="ClientApp\.chrome\Default\parcel_tracking_db\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\parcel_tracking_db\LOG" />
+    <None Remove="ClientApp\.chrome\Default\parcel_tracking_db\LOG.old" />
+    <None Remove="ClientApp\.chrome\Default\PersistentOriginTrials\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\PersistentOriginTrials\LOG" />
+    <None Remove="ClientApp\.chrome\Default\PersistentOriginTrials\LOG.old" />
+    <None Remove="ClientApp\.chrome\Default\PreferredApps" />
+    <None Remove="ClientApp\.chrome\Default\Safe Browsing Network\NetworkDataMigrated" />
+    <None Remove="ClientApp\.chrome\Default\Safe Browsing Network\Safe Browsing Cookies" />
+    <None Remove="ClientApp\.chrome\Default\Safe Browsing Network\Safe Browsing Cookies-journal" />
+    <None Remove="ClientApp\.chrome\Default\Segmentation Platform\SegmentInfoDB\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\Segmentation Platform\SegmentInfoDB\LOG" />
+    <None Remove="ClientApp\.chrome\Default\Segmentation Platform\SegmentInfoDB\LOG.old" />
+    <None Remove="ClientApp\.chrome\Default\Segmentation Platform\SignalDB\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\Segmentation Platform\SignalDB\LOG" />
+    <None Remove="ClientApp\.chrome\Default\Segmentation Platform\SignalDB\LOG.old" />
+    <None Remove="ClientApp\.chrome\Default\Segmentation Platform\SignalStorageConfigDB\LOCK" />
+    <None Remove="ClientApp\.chrome\Default\Segmentation Platform\SignalStorageConfigDB\LOG" />
+    <None Remove="ClientApp\.chrome\Default\Segmentation Platform\SignalStorageConfigDB\LOG.old" />
+    <None Remove="ClientApp\.chrome\Default\Session Storage\000004.log" />
+    <None Remove="ClientApp\.chrome\Default\Session Storage\000005.ldb" />
+    <None Remove="ClientApp\.chrome\Default\Sessions\Session_13358617312362953" />
+    <None Remove="ClientApp\.chrome\Default\Sessions\Session_13358629808548318" />
+    <None Remove="ClientApp\.chrome\Default\Sessions\Tabs_13358617312518869" />
+    <None Remove="ClientApp\.chrome\Default\Sessions\Tabs_13358629808691572" />
+    <None Remove="ClientApp\.chrome\Default\Shared Dictionary\cache\index" />
+    <None Remove="ClientApp\.chrome\Default\Shared Dictionary\cache\index-dir\the-real-index" />
+    <None Remove="ClientApp\.chrome\Default\Shared Dictionary\db" />
+    <None Remove="ClientApp\.chrome\Default\Shared Dictionary\db-journal" />
+    <None Remove="ClientApp\.chrome\Default\SharedStorage" />
+    <None Remove="ClientApp\.chrome\Default\shared_proto_db\CURRENT" />
+    <None Remove="ClientApp\.chrome\Default\shared_proto_db\MANIFEST-000001" />
+    <None Remove="ClientApp\.chrome\Default\Site Characteristics Database\lost\MANIFEST-000001" />
+    <None Remove="ClientApp\.chrome\Default\trusted_vault.pb" />
+    <None Remove="ClientApp\.chrome\Default\WebStorage\QuotaManager" />
+    <None Remove="ClientApp\.chrome\Default\WebStorage\QuotaManager-journal" />
+    <None Remove="ClientApp\.chrome\FileTypePolicies\63\download_file_types.pb" />
+    <None Remove="ClientApp\.chrome\FileTypePolicies\63\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\FileTypePolicies\63\manifest.json" />
+    <None Remove="ClientApp\.chrome\FileTypePolicies\63\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\FirstPartySetsPreloaded\2024.4.19.0\LICENSE" />
+    <None Remove="ClientApp\.chrome\FirstPartySetsPreloaded\2024.4.19.0\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\FirstPartySetsPreloaded\2024.4.19.0\manifest.json" />
+    <None Remove="ClientApp\.chrome\FirstPartySetsPreloaded\2024.4.19.0\sets.json" />
+    <None Remove="ClientApp\.chrome\FirstPartySetsPreloaded\2024.4.19.0\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\first_party_sets.db" />
+    <None Remove="ClientApp\.chrome\first_party_sets.db-journal" />
+    <None Remove="ClientApp\.chrome\GCM Store\000003.log" />
+    <None Remove="ClientApp\.chrome\GCM Store\CURRENT" />
+    <None Remove="ClientApp\.chrome\GCM Store\LOCK" />
+    <None Remove="ClientApp\.chrome\GCM Store\LOG" />
+    <None Remove="ClientApp\.chrome\GCM Store\LOG.old" />
+    <None Remove="ClientApp\.chrome\GCM Store\MANIFEST-000001" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\data_0" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\data_1" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\data_2" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\data_3" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\f_000001" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\f_000002" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\f_000003" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\f_000004" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\f_000005" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\f_000006" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\f_000007" />
+    <None Remove="ClientApp\.chrome\GrShaderCache\index" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-af.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-as.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-be.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-bg.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-bn.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-cs.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-cu.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-cy.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-da.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-de-1901.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-de-1996.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-de-ch-1901.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-el.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-en-gb.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-en-us.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-es.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-et.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-eu.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-fr.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-ga.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-gl.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-gu.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-hi.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-hr.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-hu.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-hy.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-it.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-ka.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-kn.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-la.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-lt.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-lv.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-ml.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-mn-cyrl.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-mr.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-mul-ethi.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-nb.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-nl.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-nn.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-or.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-pa.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-pt.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-ru.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-sk.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-sl.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-sq.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-sv.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-ta.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-te.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-tk.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-uk.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\hyph-und-ethi.hyb" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\manifest.json" />
+    <None Remove="ClientApp\.chrome\hyphen-data\120.0.6050.0\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\Last Browser" />
+    <None Remove="ClientApp\.chrome\MediaFoundationWidevineCdm\x64\1.0.2738.0\Google.Widevine.CDM.dll" />
+    <None Remove="ClientApp\.chrome\MediaFoundationWidevineCdm\x64\1.0.2738.0\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\MediaFoundationWidevineCdm\x64\1.0.2738.0\manifest.json" />
+    <None Remove="ClientApp\.chrome\MediaFoundationWidevineCdm\x64\1.0.2738.0\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\OnDeviceHeadSuggestModel\20230923.567854667.14\cr_en-us_2023-09-23_567854667_500000_index.bin" />
+    <None Remove="ClientApp\.chrome\OnDeviceHeadSuggestModel\20230923.567854667.14\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\OnDeviceHeadSuggestModel\20230923.567854667.14\manifest.json" />
+    <None Remove="ClientApp\.chrome\OnDeviceHeadSuggestModel\20230923.567854667.14\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\OptimizationHints\443\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\OptimizationHints\443\manifest.json" />
+    <None Remove="ClientApp\.chrome\OptimizationHints\443\optimization-hints.pb" />
+    <None Remove="ClientApp\.chrome\OptimizationHints\443\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\OriginTrials\1.0.0.15\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\OriginTrials\1.0.0.15\manifest.json" />
+    <None Remove="ClientApp\.chrome\OriginTrials\1.0.0.15\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\persisted_first_party_sets.json" />
+    <None Remove="ClientApp\.chrome\PKIMetadata\937\crs.pb" />
+    <None Remove="ClientApp\.chrome\PKIMetadata\937\ct_config.pb" />
+    <None Remove="ClientApp\.chrome\PKIMetadata\937\kp_pinslist.pb" />
+    <None Remove="ClientApp\.chrome\PKIMetadata\937\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\PKIMetadata\937\manifest.json" />
+    <None Remove="ClientApp\.chrome\PKIMetadata\937\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\PnaclTranslationCache\data_0" />
+    <None Remove="ClientApp\.chrome\PnaclTranslationCache\data_1" />
+    <None Remove="ClientApp\.chrome\PnaclTranslationCache\data_2" />
+    <None Remove="ClientApp\.chrome\PnaclTranslationCache\data_3" />
+    <None Remove="ClientApp\.chrome\PnaclTranslationCache\index" />
+    <None Remove="ClientApp\.chrome\Policy\Machine Level User Cloud Policy" />
+    <None Remove="ClientApp\.chrome\Policy\Machine Level User Cloud Policy Signing Key" />
+    <None Remove="ClientApp\.chrome\PrivacySandboxAttestationsPreloaded\2024.4.24.0\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\PrivacySandboxAttestationsPreloaded\2024.4.24.0\manifest.json" />
+    <None Remove="ClientApp\.chrome\PrivacySandboxAttestationsPreloaded\2024.4.24.0\privacy-sandbox-attestations.dat" />
+    <None Remove="ClientApp\.chrome\PrivacySandboxAttestationsPreloaded\2024.4.24.0\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\RecoveryImproved\1.3.36.141\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\RecoveryImproved\1.3.36.141\manifest.json" />
+    <None Remove="ClientApp\.chrome\RecoveryImproved\1.3.36.141\Recovery.crx3" />
+    <None Remove="ClientApp\.chrome\RecoveryImproved\1.3.36.141\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\SafetyTips\3026\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\SafetyTips\3026\manifest.json" />
+    <None Remove="ClientApp\.chrome\SafetyTips\3026\safety_tips.pb" />
+    <None Remove="ClientApp\.chrome\SafetyTips\3026\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\segmentation_platform\ukm_db" />
+    <None Remove="ClientApp\.chrome\segmentation_platform\ukm_db-journal" />
+    <None Remove="ClientApp\.chrome\ShaderCache\data_0" />
+    <None Remove="ClientApp\.chrome\ShaderCache\data_1" />
+    <None Remove="ClientApp\.chrome\ShaderCache\data_2" />
+    <None Remove="ClientApp\.chrome\ShaderCache\data_3" />
+    <None Remove="ClientApp\.chrome\ShaderCache\index" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Affiliation Database" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Affiliation Database-journal" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\AutofillStrikeDatabase\LOCK" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\AutofillStrikeDatabase\LOG" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\AutofillStrikeDatabase\LOG.old" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Favicons" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Favicons-journal" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\History" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\History-journal" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Login Data" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Login Data For Account" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Login Data For Account-journal" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Login Data-journal" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Preferences" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Secure Preferences" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Top Sites" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Top Sites-journal" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Web Data" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Default\Web Data-journal" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Last Browser" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Last Version" />
+    <None Remove="ClientApp\.chrome\Snapshots\123.0.6312.107\Local State" />
+    <None Remove="ClientApp\.chrome\Subresource Filter\Indexed Rules\36\9.49.1\Ruleset Data" />
+    <None Remove="ClientApp\.chrome\Subresource Filter\Unindexed Rules\9.49.1\Filtering Rules" />
+    <None Remove="ClientApp\.chrome\Subresource Filter\Unindexed Rules\9.49.1\LICENSE.txt" />
+    <None Remove="ClientApp\.chrome\Subresource Filter\Unindexed Rules\9.49.1\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\Subresource Filter\Unindexed Rules\9.49.1\manifest.json" />
+    <None Remove="ClientApp\.chrome\Subresource Filter\Unindexed Rules\9.49.1\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\edls_64.dll" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\em000_64.dll" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\em001_64.dll" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\em002_64.dll" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\em003_64.dll" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\em004_64.dll" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\em005_64.dll" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\manifest.json" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\software_reporter_tool.exe" />
+    <None Remove="ClientApp\.chrome\SwReporter\107.294.200\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\TpcdMetadata\2024.4.24.1\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\TpcdMetadata\2024.4.24.1\manifest.json" />
+    <None Remove="ClientApp\.chrome\TpcdMetadata\2024.4.24.1\metadata.pb" />
+    <None Remove="ClientApp\.chrome\TpcdMetadata\2024.4.24.1\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\TrustTokenKeyCommitments\2024.3.25.1\keys.json" />
+    <None Remove="ClientApp\.chrome\TrustTokenKeyCommitments\2024.3.25.1\LICENSE" />
+    <None Remove="ClientApp\.chrome\TrustTokenKeyCommitments\2024.3.25.1\manifest.fingerprint" />
+    <None Remove="ClientApp\.chrome\TrustTokenKeyCommitments\2024.3.25.1\manifest.json" />
+    <None Remove="ClientApp\.chrome\TrustTokenKeyCommitments\2024.3.25.1\_metadata\verified_contents.json" />
+    <None Remove="ClientApp\.chrome\Variations" />
+    <None Remove="ClientApp\src\zone-flags.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\zone-flags.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\assets\css\" />
+  </ItemGroup>
+
+  <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
+    <!-- Ensure Node.js is installed -->
+    <Exec Command="node --version" ContinueOnError="true">
+      <Output TaskParameter="ExitCode" PropertyName="ErrorCode" />
+    </Exec>
+    <Error Condition="'$(ErrorCode)' != '0'" Text="Node.js is required to build and run this project. To continue, please install Node.js from https://nodejs.org/, and then restart your command prompt or IDE." />
+    <Message Importance="high" Text="Restoring dependencies using 'npm'. This may take several minutes..." />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --force" />
+  </Target>
+
+  <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
+    <!-- As part of publishing, ensure the JS resources are freshly built in production mode -->
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm install --force" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build --prod" />
+    <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build:ssr -- --prod" Condition=" '$(BuildServerSideRenderer)' == 'true' " />
+
+    <!-- Include the newly-built files in the publish output -->
+    <ItemGroup>
+      <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
+      <DistFiles Include="$(SpaRoot)node_modules\**" Condition="'$(BuildServerSideRenderer)' == 'true'" />
+      <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
+        <RelativePath>%(DistFiles.Identity)</RelativePath>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      </ResolvedFileToPublish>
+    </ItemGroup>
+  </Target>
+
+</Project>

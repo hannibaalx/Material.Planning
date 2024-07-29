@@ -1,0 +1,144 @@
+<div>
+  
+  <div class="title">Admin Portal</div>
+  <div class="subtitle">PERMISSIONS</div>
+  <table class="outertbl">
+    <tr>
+      <td>
+        <tr>IM Admin</tr>
+        <tr>
+          <td>
+            <hr>
+            <input id="id_userId_viewer" type="number" class="inputtxt" placeholder="Employee ID" pattern="(/^[0-9]+$/)" [(ngModel)]="ngUserId_Admin" class="addButton" /> 
+            <button style="margin-left: 10px;" mat-stroked-button (click)="onAddButtonClick_Admin(ngUserId_Admin, 'Admin')">
+              <mat-icon style="color:#00b989">add</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table mat-table [dataSource]="userrole_dataSource_admin" class="mat-elevation-z8">
+              <ng-container matColumnDef="UserID">
+                  <th mat-header-cell *matHeaderCellDef> Admin </th>
+                  <td mat-cell *matCellDef="let element">
+                    <input id="id_userId" class="inputtxt" readonly type="text" [(ngModel)]="element.UserID">
+                  </td>
+              </ng-container>
+      
+              <ng-container matColumnDef="action"> 
+                <td mat-cell *matCellDef="let user; let i = index"> 
+                  <button mat-stroked-button [color]="color" (click)="onDeleteButtonClick_Admin(user.UserID, i, user.IMRole)">
+                    <mat-icon style="color:#f52305">remove</mat-icon></button> 
+                </td> 
+              </ng-container>
+              <tr mat-row *matRowDef="let row; columns: userrole_displayedColumns;"></tr>
+            </table>
+          </td>
+        </tr>
+      </td>
+      <td>
+        <tr>
+          <td style="padding: left 25px;">IM Supervisor</td>
+        </tr>
+        <tr>
+          <td>
+            <hr>
+            <input id="id_userId_supervisor" type="number" class="inputtxt" placeholder="Employee ID" pattern="(/^[0-9]+$/)" [(ngModel)]="ngUserId_Supervisor" />
+            <button mat-stroked-button style="margin-left: 10px;" (click)="onAddButtonClick_Supervisor(ngUserId_Supervisor, 'Supervisor')">
+              <mat-icon style="color:#00b989">add</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <table mat-table [dataSource]="userrole_dataSource_supervisor" class="mat-elevation-z8">
+            <ng-container matColumnDef="UserID">
+                <th mat-header-cell *matHeaderCellDef>Supervisors</th>
+                <td mat-cell *matCellDef="let element">
+                  <input id="id_userId" class="inputtxt" readonly type="text" [(ngModel)]="element.UserID">
+                </td>
+            </ng-container>
+    
+            <ng-container matColumnDef="action"> 
+              <td mat-cell *matCellDef="let user; let i = index"> 
+                <button mat-stroked-button  [color]="color" (click)="onDeleteButtonClick_Supervisor(user.UserID, i, user.IMRole)">
+                  <mat-icon style="color:#f52305">remove</mat-icon></button> 
+              </td> 
+            </ng-container>
+            <tr mat-row *matRowDef="let row; columns: userrole_displayedColumns;"></tr>
+        </table>
+        </tr>
+      </td>
+      <td>
+<!--        <tr><td style="padding: left 50px;">
+          IM Viewer
+        </td></tr>
+        <tr>
+          <td>
+            <hr>
+            <input id="id_userId_viewer" type="number" class="inputtxt" placeholder="Employee ID" pattern="(/^[0-9]+$/)" [(ngModel)]="ngUserId_Viewer" class="addButton" /> 
+            <button style="margin-left: 10px;" mat-stroked-button (click)="onAddButtonClick_Viewer(ngUserId_Viewer, 'Viewer')">
+              <mat-icon style="color:#00b989">add</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <table mat-table [dataSource]="userrole_dataSource_viewer" class="mat-elevation-z8">
+              <ng-container matColumnDef="UserID">
+                <th mat-header-cell *matHeaderCellDef>Viewer</th>
+                <td mat-cell *matCellDef="let element">
+                  <input id="id_userId" class="inputtxt" readonly type="text" [(ngModel)]="element.UserID"><!--{{element.UserID}}-->
+                <!--/td>
+              </ng-container>
+      
+              <ng-container matColumnDef="action"> 
+                <td mat-cell *matCellDef="let user; let i = index"> 
+                  <button mat-stroked-button [color]="color" (click)="onDeleteButtonClick_Viewer(user.UserID, i, user.IMRole)">
+                    <mat-icon style="color:#f52305">remove</mat-icon></button> 
+                </td> 
+              </ng-container>
+              <tr mat-row *matRowDef="let row; columns: userrole_displayedColumns;"></tr>
+            </table>
+          </td>          
+        </tr>
+      </td>
+  <td>-->
+    <tr>
+      <td style="padding: left 50px;">
+        IM User
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <hr>
+        <input id="id_userId_user" type="number" class="inputtxt" placeholder="Employee ID" pattern="(/^[0-9]+$/)" [(ngModel)]="ngUserId_User" class="addButton" />
+        <button style="margin-left: 10px;" mat-stroked-button (click)="onAddButtonClick_User(ngUserId_User, 'User')">
+          <mat-icon style="color:#00b989">add</mat-icon>
+        </button>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <table mat-table [dataSource]="userrole_dataSource_user" class="mat-elevation-z8">
+          <ng-container matColumnDef="UserID">
+            <th mat-header-cell *matHeaderCellDef>User</th>
+            <td mat-cell *matCellDef="let element">
+              <input id="id_userId" class="inputtxt" readonly type="text" [(ngModel)]="element.UserID">
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <td mat-cell *matCellDef="let user; let i = index">
+              <button mat-stroked-button [color]="color" (click)="onDeleteButtonClick_User(user.UserID, i, user.IMRole)">
+                <mat-icon style="color:#f52305">remove</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr mat-row *matRowDef="let row; columns: userrole_displayedColumns;"></tr>
+        </table>
+      </td>
+    </tr>
+  </td>      
+    </tr>
+  </table>
+</div>

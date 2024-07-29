@@ -1,0 +1,206 @@
+<div class="fullschdulecontainer">
+    <div class="row">
+        <div class="col-2">
+            <div class="center-text"><label class="mat-subheading-1 label-top-20">Planner</label></div>      
+            <mat-selection-list #allPlannerSelected dense class="selectlistcontainer" role="listbox" aria-label="planner">
+                <mat-list-option class="mat-body-1 listitem" *ngFor="let x of planners$ | async" value="x.PLANNER" color="primary">
+                {{x.PLANNER}}
+                </mat-list-option>
+            </mat-selection-list>
+        <!-- <p>
+            Options selected: {{getSelectedPlanner(this.allPlannerSelected.selectedOptions.selected)}}
+        </p> -->
+        </div>
+        <div class="col-2">
+            <div class="center-text"><label class="mat-subheading-1 label-top-20">Date Range</label></div>
+            <mat-selection-list #allDateRangeSelected dense class="selectlistcontainer2">
+                <mat-list-option class="mat-body-1 listitem" *ngFor="let dr of dateRange" color="primary">
+                {{dr}}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+        <div class="col-2">
+            <div class="center-text"><label class="mat-subheading-1 label-top-20">Stations</label></div>       
+            <mat-selection-list #allStationSelected dense class="selectlistcontainer">
+                <mat-list-option class="mat-body-1 listitem" *ngFor="let sta of stations$ | async" color="primary">
+                {{sta.STATION}}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+        <div class="col-2">
+            <div class="center-text"><label class="mat-subheading-1 label-top-20">Fleet</label></div>       
+            <mat-selection-list #allFleetSelected dense class="selectlistcontainer">
+                <mat-list-option class="mat-body-1 listitem" *ngFor="let flt of fleets$ | async" color="primary">
+                {{flt.FLEET}}
+                </mat-list-option>
+            </mat-selection-list>
+            <br />
+            <button mat-raised-button (click)="selectAll('fleet')" color="primary">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('fleet')" color="accent">Deselect All</button>
+            
+            <!-- <div class="center-text"><label class="mat-subheading-1 label-top-20">Data Source</label></div>       
+            <mat-selection-list #allCarrierSelected dense  class="selectlistcontainer2">
+                <mat-list-option class="mat-body-1 listitem" *ngFor="let car of carriers$ | async" color="primary">
+                {{car.CARRIER}}
+                </mat-list-option>
+            </mat-selection-list> -->
+            <div class="center-text"><label class="mat-subheading-1 label-top-20">Data Source</label></div>       
+            <mat-selection-list #allDataSourceSelected dense  class="selectlistcontainer2">
+                <mat-list-option class="mat-body-1 listitem" *ngFor="let ds of dataResource$ | async" color="primary">
+                {{ds.DATA_RESOURCE}}
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+        <div class="col-2">
+            <div>               
+                <label class="mat-subheading-1 label-top-20" dense>EO</label><br />
+                <input type="text" #fsSearchEO class="input200" id="fsSearchEO" name="fsSearchEO" (input)="autoSearch($event, 'eonumber')" />
+                <ul *ngIf="filteredEo$ && hideEoNumber" class="search-result">
+                    <li *ngFor="let eon of filteredEo$ | async" (click)="fsSearchEO.value=eon.EO_NUMBER; hideEoNumber= false" value="eon.EO_NUMBER">
+                        {{eon.EO_NUMBER}}
+                    </li>
+                </ul>                   
+            </div>
+            <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>DASH8</label><br />
+                <input type="text" #fsSearchDash8 class="input200" id="fsSearchDash8" name="fsSearchDash8" (input)="autoSearch($event, 'dash8')" />
+                <ul *ngIf="filteredDash8$ && hideDash8" class="search-result">
+                    <li *ngFor="let d8 of filteredDash8$ | async" (click)="fsSearchDash8.value=d8.dash_8; hideDash8=false" value="d8.dash_8">
+                    {{d8.dash_8}}
+                    </li>
+                </ul>
+            </div>
+            <div class="autoinput">
+                <label class="mat-subheading-1 label-top-20" dense>A/C</label><br />
+                <input type="text" #searchAC class="input200" id="searchAC" name="searchAC" (input)="autoSearch($event, 'ac')" />
+                <ul *ngIf="filteredAC$ && hideAC" class="search-result">
+                    <li *ngFor="let a of filteredAC$ | async" (click)="searchAC.value=a.AC; hideAC=false" value="a.AC">
+                    {{a.AC}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-2">
+            <div class="chkadind">
+                <mat-checkbox id="chkAdInd" [checked] labelPosition="before">AD Ind</mat-checkbox>
+            </div>   
+        </div>
+    </div>
+    <div class="col-12"><hr /></div>
+    <div class="row">
+        <div class="col-2 center-text">
+            <button mat-raised-button (click)="selectAll('planner')" color="primary">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('planner')" color="accent">Deselect All</button>
+        </div>
+        <div class="col-2 center-text">
+            <button mat-raised-button (click)="selectAll('daterange')" color="primary">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('daterange')" color="accent">Deselect All</button>
+        </div>
+        <div class="col-2 center-text">
+            <button mat-raised-button (click)="selectAll('station')" color="primary">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('station')" color="accent">Deselect All</button>
+        </div>
+        <!-- <div class="col-2 center-text">
+            <button mat-raised-button (click)="selectAll('carrier')" color="primary">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('carrier')" color="accent">Deselect All</button>
+        </div> -->
+        <div class="col-2 center-text">
+            <button mat-raised-button (click)="selectAll('datasource')" color="primary">Select All</button>&nbsp;
+            <button mat-raised-button (click)="deselectAll('datasource')" color="accent">Deselect All</button>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-2 center-text">
+            <span [hidden]="hideBtn">
+                <button mat-raised-button (click)="generateReport()" color="primary">SUBMIT</button>
+                <span class="loadingFsSpinner"><mat-spinner diameter="30" [hidden]="hideFsSpinner"></mat-spinner></span>
+            </span>
+            <!-- <span [hidden]="hidefsSpinner">
+                <mat-spinner ></mat-spinner>
+            </span> -->
+            <span [hidden]="!hideBtn">
+                <button mat-raised-button (click)="exportReport()" color="primary">DOWNLOAD</button>
+                <span class="loadingFsSpinner"><mat-spinner diameter="30" [hidden]="hideFsSpinner"></mat-spinner></span>
+            </span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">&nbsp;</div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="tableFixedHead">
+                <table id="tblFSResult" class="table table-striped">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>dash 8</th>
+                            <th>AD IND</th>
+                            <th>WORK REQUIREMENT</th>
+                            <th>STATION REQUIREMENTS</th>
+                            <th>REVISION DATE</th>
+                            <th>EO NUMBER</th>
+                            <th>OPERATION STEP</th>
+                            <th>TASK TYPE</th>
+                            <th>ME TYPE</th>
+                            <th>MAINT TYPE</th>
+                            <th>COMMENTS</th>
+                            <th>SCHEDULING STATUS</th>
+                            <th>DATA SOURCE</th>
+                            <th>MFG PART NUMBER</th>
+                            <th>KEYWORD DESCRIPTION</th>
+                            <th>STATION</th>
+                            <th>SCHDLD DATE</th>
+                            <th>AC</th>
+                            <th>CARRIER</th>
+                            <th>FLEET</th>
+                            <th>30 DAYS</th>
+                            <th>60 DAYS</th>
+                            <th>90 DAYS</th>
+                            <th>120 DAYS</th>
+                            <th>180 DAYS</th>
+                            <th>180 PLUS</th>
+                            <th>NHA POSITION CODE</th>
+                            <th>PLANNER NAME</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let x of resp">
+                            <td>{{ x.dash_8 }}</td>
+                            <td>{{ x.AD_IND }}</td>
+                            <td>{{ x.WORK_REQUIREMENT }}</td>
+                            <td>{{ x.STATION_REQUIREMENTS }}</td>
+                            <td>{{ x.REVISION_DATE }}</td>
+                            <td>{{ x.EO_NUMBER }}</td>
+                            <td>{{ x.OPERATION_STEP }}</td>
+                            <td>{{ x.TASK_TYPE }}</td>
+                            <td>{{ x.ME_TYPE }}</td>
+                            <td>{{ x.MAINT_TYPE }}</td>
+                            <td>{{ x.COMMENTS }}</td>
+                            <td>{{ x.SCHEDULING_STATUS }}</td>
+                            <td>{{ x.DATA_SOURCE }}</td>
+                            <td>{{ x.MFG_PART_NUMBER }}</td>
+                            <td>{{ x.KEYWORD_DESCRIPTION }}</td>
+                            <td>{{ x.STATION }}</td>
+                            <td>{{ x.SCHDLD_DATE }}</td>
+                            <td>{{ x.AC }}</td>
+                            <td>{{ x.CARRIER }}</td>
+                            <td>{{ x.FLEET }}</td>
+                            <td>{{ x.NEW_30_DAYS }}</td>
+                            <td>{{ x.NEW_60_DAYS }}</td>
+                            <td>{{ x.NEW_90_DAYS }}</td>
+                            <td>{{ x.NEW_120_DAYS }}</td>
+                            <td>{{ x.NEW_180_DAYS }}</td>
+                            <td>{{ x.NEW_180_PLUS }}</td>
+                            <td>{{ x.NHA_POSITION_CODE }}</td>
+                            <td>{{ x.PLANNER_NAME }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>    
+</div>
+
+
+
+
+  

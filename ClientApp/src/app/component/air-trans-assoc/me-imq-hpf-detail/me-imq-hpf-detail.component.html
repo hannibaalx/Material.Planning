@@ -1,0 +1,39 @@
+<span mat-dialog-title class="me-title">{{ data.value }}</span>
+  <mat-dialog-content>
+    <div class="row">
+        <div class="col-12 mattablecontainer">
+            <mat-table [dataSource]="datasource1" class="mat-elevation-z8">
+
+              <ng-container matColumnDef="IMQ_COMMENT"> 
+                <mat-header-cell *matHeaderCellDef><b>IMQ COMMENT</b></mat-header-cell>
+                <mat-cell *matCellDef="let x"> {{ x.IMQ_COMMENT }} </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="imq_comment_displayedColumns; sticky: true;"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: imq_comment_displayedColumns;"></mat-row>
+            </mat-table>
+        </div>
+    </div>
+    <div class="row margin-top">
+        <div class="col-12 mattablecontainer">
+            <mat-table [dataSource]="datasource2" class="mat-elevation-z8">
+               <!-- matTableExporter #exporter="matTableExporter" matSort (matSortChange)="sortNextDueDataDetail($event)"  -->
+
+              <ng-container matColumnDef="HPF_COMMENT"> 
+                  <!-- mat-sort-header -->
+                <mat-header-cell *matHeaderCellDef><b>HPF COMMENT</b></mat-header-cell>
+                <mat-cell *matCellDef="let x"> {{ x.HPF_COMMENT }} </mat-cell>
+              </ng-container>
+
+              <mat-header-row *matHeaderRowDef="hpf_comment_displayedColumns; sticky: true;"></mat-header-row>
+              <mat-row *matRowDef="let row; columns: hpf_comment_displayedColumns;"></mat-row>
+            </mat-table>
+        </div>
+    </div>
+  </mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-stroked-button mat-dialog-close mat-dialog-close="false" class="stroked-button" type="button" #closebtn (click)="closeDialog()">Close</button>
+</mat-dialog-actions>
+
+
+

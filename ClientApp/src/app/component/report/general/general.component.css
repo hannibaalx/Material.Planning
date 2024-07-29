@@ -1,0 +1,29 @@
+.mat-tab-body-content { overflow: unset!important}
+
+/* .reportTitle{
+    position: relative;
+    left: 45px;
+    top: -25px;
+}
+.mat-drawer-content {
+    position: relative;
+    z-index: 1;
+    display: block;
+    height: 100%;
+    overflow: unset;
+    background-color: green;
+} */
+.mat-tab-label .mat-tab-label-content {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    white-space: nowrap;
+    font-family: 'AmericanSans' !important;
+}
+.mat-tab-label{
+    font-family: 'AmericanSans' !important;
+    background-color: red;
+}
+/* .eoreportcontainer .mat-tab-label{
+    font-family: 'AmericanSans' !important;
+} */

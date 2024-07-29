@@ -1,0 +1,255 @@
+<div class="bicontainer">
+  <div class="row">
+    <div class="col-2">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">Planner</label></div>
+      <mat-selection-list #allBomPlannerSelected dense class="selectlistcontainer" role="listbox" aria-label="planner">
+        <mat-list-option class="mat-body-1 listitem" *ngFor="let x of planners$ | async" value="x.PLANNER" color="primary">
+          {{ x.PLANNER }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <div class="col-2">
+      <div class="">
+        <div class="center-text"><label class="mat-subheading-1 label-top-20">Part Requirement</label></div>
+        <mat-selection-list #allBomPartRequirementSelected dense class="selectlistcontainer2">
+          <mat-list-option class="mat-body-1 listitem" *ngFor="let pr of partRequirement$ | async" color="primary">
+            {{ pr.REQD_IND }}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">Part Type</label></div>
+      <mat-selection-list #allBomPartTypeSelected dense class="selectlistcontainer2">
+        <mat-list-option class="mat-body-1 listitem" *ngFor="let pt of partType" color="primary">
+          {{ pt.partType }}
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+    <div class="col-2">
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>Dash 8</label><br />
+        <input type="text" #searchBomDash8 class="input200" id="searchBomDash8" name="searchBomDash8" (input)="autoSearch($event, 'dash8')" />
+        <ul *ngIf="filteredBomDash8$ && hideBomDash8" class="search-result">
+          <li *ngFor="let db8 of filteredBomDash8$ | async" (click)="searchBomDash8.value=db8.DASH_8; hideBomDash8=false" value="db8.DASH_8">
+            {{ db8.DASH_8 }}
+          </li>
+        </ul>
+      </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>EO</label><br />
+        <input type="text" #searchBomEO class="input200" id="searchBomEO" name="searchBomEO" (input)="autoSearch($event, 'eo')" />
+        <ul *ngIf="filteredBomEo$ && hideBomEoNumber" class="search-result">
+          <li *ngFor="let beon of filteredBomEo$ | async" (click)="searchBomEO.value=beon.EO_NUMBER; hideBomEoNumber= false" value="beon.EO_NUMBER">
+            {{ beon.EO_NUMBER }}
+          </li>
+        </ul>
+      </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>M & E</label><br />
+        <input type="text" #searchBomME class="input200" id="searchBomME" name="searchBomME" (input)="autoSearch($event, 'me')" />
+        <ul *ngIf="filteredBomME$ && hideBomME" class="search-result">
+            <li *ngFor="let bm of filteredBomME$ | async" (click)="searchBomME.value=bm.ME; hideBomME= false" value="bm.ME">
+            {{ bm.ME }}
+            </li>
+        </ul>
+        </div>
+        <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>MPN</label><br />
+        <input type="text" #searchBomMPN class="input200" id="searchBomMPN" name="searchBomMPN" (input)="autoSearch($event, 'mpn')" />
+        <ul *ngIf="filteredBomMPN$ && hideBomMPN" class="search-result">
+            <li *ngFor="let bm of filteredBomMPN$ | async" (click)="searchBomMPN.value=bm.MPN; hideBomMPN=false" value="bm.MPN">
+            {{ bm.MPN }}
+          </li>
+        </ul>
+      </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>MT</label><br />
+        <input type="text" #searchBomMT class="input200" id="searchBomMT" name="searchBomMT" (input)="autoSearch($event, 'mt')" />
+        <ul *ngIf="filteredBomMT$ && hideBomMT" class="search-result">
+          <li *ngFor="let bm of filteredBomMT$ | async" (click)="searchBomMT.value=bm.MT; hideBomMT=false" value="bm.MT">
+            {{ bm.MT }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="chkitind">
+        <mat-checkbox id="chkBomADIND" [checked] labelPosition="before">AD Ind</mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    
+  </div>
+  <div class="row margintop60">
+    <div class="col-2 center-text">
+      <button mat-raised-button (click)="selectAll('planner')" color="primary">Select All</button>&nbsp;
+      <button mat-raised-button (click)="deselectAll('planner')" color="accent">Deselect All</button>
+    </div>
+    <div class="col-2 center-text">
+      <button mat-raised-button (click)="selectAll('partreq')" color="primary">Select All</button>&nbsp;
+      <button mat-raised-button (click)="deselectAll('partreq')" color="accent">Deselect All</button>
+    </div>
+    <div class="col-2 center-text">
+      <button mat-raised-button (click)="selectAll('parttype')" color="primary">Select All</button>&nbsp;
+      <button mat-raised-button (click)="deselectAll('parttype')" color="accent">Deselect All</button>
+    </div>
+    <div class="col-2"></div>
+    <div class="col-2 center-text">
+      <span [hidden]="hideBomBtn">
+        <button mat-raised-button (click)="generateReport()" color="primary">SUBMIT</button>
+        <span class="loadingBomPsSpinner">
+          <mat-spinner diameter="30" [hidden]="hideBomPsSpinner"></mat-spinner>
+        </span>
+      </span>
+      <!-- <span [hidden]="">
+                <mat-spinner ></mat-spinner>
+            </span> -->
+      <span [hidden]="!hideBomBtn">
+        <button mat-raised-button (click)="exportReport()" color="primary">DOWNLOAD</button>
+        <span class="loadingBomPsSpinner">
+          <mat-spinner diameter="30" [hidden]="hideBomPsSpinner"></mat-spinner>
+        </span>
+      </span>
+
+    </div>
+  </div>
+  <br />
+<div class="tableFixedHead">
+    <table id="tblBomPSResult" class="table table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>OPEN AC</th>
+                <th>DASH 8</th>
+                <th>AD IND</th>
+                <th>MAINT TYPE</th>
+                <th>EO NUMBER</th>
+                <th>ME</th>             
+                <th>MPN</th>
+                <th>KEYWORD DESCRIPTION</th>
+                <th>RESOURCE CODE</th>
+                <th>UI</th>
+                <th>SHLF LIFE</th>
+                <th>CTLG LT</th>
+                <th>CTLG PRICE</th>
+                <th>MT</th>
+                <th>CHEMCL IND</th>
+                <th>HAZ</th>
+                <th>QTY REQ</th>
+                <th>REQD IND</th>
+                <th>TTL OH</th>
+                <th>TTL PO</th>
+                <th>TTL RO</th>
+                <th>TTL ITS</th>
+                <th>CLT OH</th>
+                <th>D00 OH</th>
+                <th>DWH OH</th>  
+                <th>PHX OH</th>
+                <th>PIT OH</th>
+                <th>TUL OH</th>
+                <th>T08 OH</th>
+                <th>JFK OH</th>
+                <th>LAX OH</th>
+                <th>MIA OH</th>
+                <th>ORD OH</th>
+                <th>PHL OH</th>
+                <th>ALT OH</th>
+                <th>AUS OH</th>
+                <th>BOS OH</th>
+                <th>CDG OH</th>
+                <th>CUN OH</th>
+                <th>DCA OH</th>
+                <th>DEN OH</th>
+                <th>EWR OH</th>
+                <th>FRA OH</th>
+                <th>GRU OH</th>
+                <th>IAH OH</th>
+                <th>LAS OH</th>
+                <th>LGA OH</th>
+                <th>LHR OH</th>
+                <th>MCO OH</th>
+                <th>MEX OH</th>
+                <th>NRT OH</th>
+                <th>RDU OH</th>
+                <th>SAN OH</th>
+                <th>SAT OH</th>
+                <th>SCL OH</th>
+                <th>SEA OH</th>
+                <th>SFO OH</th>
+                <th>STL OH</th>
+                <th>TPA OH</th>
+                <th>STATION REQUIREMENTS</th>
+                <th>PLANNER</th>
+                <th>UPDATED DATETIME</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let x of resp">
+                <td>{{ x.OPEN_AC }}</td>
+                <td>{{ x.DASH_8 }}</td>
+                <td>{{ x.AD_IND }}</td>
+                <td>{{ x.MAINT_TYPE }}</td>
+                <td>{{ x.EO_NUMBER }}</td>
+                <td>{{ x.ME }}</td>
+                <td>{{ x.MPN }}</td>
+                <td>{{ x.KEYWORD_DESCRIPTION }}</td>
+                <td>{{ x.RES_CODE }}</td>
+                <td>{{ x.UI }}</td>
+                <td>{{ x.SHLF_LIFE }}</td>
+                <td>{{ x.CTLG_LT }}</td>
+                <td>{{ x.CTLG_PRICE }}</td>
+                <td>{{ x.MT }}</td>
+                <td>{{ x.CHEMCL_IND }}</td>
+                <td>{{ x.HAZ }}</td>
+                <td>{{ x.QTY_REQ }}</td>
+                <td>{{ x.REQD_IND }}</td>
+                <td>{{ x.TTL_OH }}</td>
+                <td>{{ x.TTL_PO }}</td>
+                <td>{{ x.TTL_RO }}</td>
+                <td>{{ x.TTL_ITS }}</td>
+                <td>{{ x.CLT_OH }}</td>
+                <td>{{ x.D00_OH }}</td>
+                <td>{{ x.DWH_OH }}</td>
+                <td>{{ x.PHX_OH }}</td>
+                <td>{{ x.PIT_OH }}</td>
+                <td>{{ x.TUL_OH }}</td>
+                <td>{{ x.T08_OH }}</td>
+                <td>{{ x.JFK_OH }}</td>
+                <td>{{ x.LAX_OH }}</td>
+                <td>{{ x.MIA_OH }}</td>
+                <td>{{ x.ORD_OH }}</td>
+                <td>{{ x.PHL_OH }}</td>
+                <td>{{ x.ALT_OH }}</td>
+                <td>{{ x.AUS_OH }}</td>
+                <td>{{ x.BOS_OH }}</td>
+                <td>{{ x.CDG_OH }}</td>
+                <td>{{ x.CUN_OH }}</td>
+                <td>{{ x.DCA_OH }}</td>
+                <td>{{ x.DEN_OH }}</td>
+                <td>{{ x.EWR_OH }}</td>
+                <td>{{ x.FRA_OH }}</td>
+                <td>{{ x.GRU_OH }}</td>
+                <td>{{ x.IAH_OH }}</td>
+                <td>{{ x.LAS_OH }}</td>
+                <td>{{ x.LGA_OH }}</td>
+                <td>{{ x.LHR_OH }}</td>
+                <td>{{ x.MCO_OH }}</td>
+                <td>{{ x.MEX_OH }}</td>
+                <td>{{ x.NRT_OH }}</td>
+                <td>{{ x.RDU_OH }}</td>
+                <td>{{ x.SAN_OH }}</td>
+                <td>{{ x.SAT_OH }}</td>
+                <td>{{ x.SCL_OH }}</td>
+                <td>{{ x.SEA_OH }}</td>
+                <td>{{ x.SFO_OH }}</td>
+                <td>{{ x.STL_OH }}</td>
+                <td>{{ x.TPA_OH }}</td>
+                <td>{{ x.STATION_REQUIREMENTS }}</td>
+                <td>{{ x.PLANNER }}</td>
+                <td>{{ x.UPDATED_DATETIME }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+</div>

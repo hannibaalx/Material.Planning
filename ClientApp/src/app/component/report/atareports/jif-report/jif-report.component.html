@@ -1,0 +1,142 @@
+<div class="jifcontainer">
+  <div class="row">
+    <div class="col-3">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">Scrap Date Range</label></div>
+      <div class="center-text">
+        <mat-form-field>
+            <mat-label>Start Date</mat-label>
+            <input matInput [matDatepicker]="jifstartdate" [min]="minDate" [max]="maxDate" id="jifstartdate" [formControl]="startdate">
+            <mat-datepicker-toggle matSuffix [for]="jifstartdate"></mat-datepicker-toggle>
+            <mat-datepicker #jifstartdate></mat-datepicker>
+          </mat-form-field>
+          <br />
+          <mat-form-field>
+            <mat-label>End Date</mat-label>
+            <input matInput [matDatepicker]="jifenddate" [min]="minDate" [max]="maxDate" id="jifenddate" [formControl]="enddate">
+            <mat-datepicker-toggle matSuffix [for]="jifenddate"></mat-datepicker-toggle>
+            <mat-datepicker #jifenddate></mat-datepicker>
+          </mat-form-field>
+      </div>
+    </div>
+    <div class="col-2">
+        <div class="center-text"><label class="mat-subheading-1 label-top-20">Planner</label></div>      
+            <mat-selection-list #allPlannerSelected dense class="selectlistcontainer" role="listbox" aria-label="planner">
+                <mat-list-option class="mat-body-1 listitem" *ngFor="let x of planners$ | async" value="x.PLNR_NAME" color="primary">
+                    {{ x.PLNR_NAME }}
+                </mat-list-option>
+            </mat-selection-list>
+            <br />
+            <button mat-stroked-button (click)="selectAll('planner')" class="stroked-button">Select All</button>&nbsp;
+            <button mat-stroked-button (click)="deselectAll('planner')" class="stroked-button">Deselect All</button>
+    </div>
+    <div class="col-2">
+        <div class="center-text"><label class="mat-subheading-1 label-top-20">Stations</label></div>       
+        <mat-selection-list #allStationSelected dense class="selectlistcontainer"  role="listbox" aria-label="planner">
+            <mat-list-option class="mat-body-1 listitem" *ngFor="let x of stations$ | async" value="x.ALPHA_STATION" color="primary">
+                {{x.ALPHA_STATION}}
+            </mat-list-option>
+        </mat-selection-list>
+        <br />
+        <button mat-stroked-button (click)="selectAll('station')" class="stroked-button">Select All</button>&nbsp;
+        <button mat-stroked-button (click)="deselectAll('station')" class="stroked-button">Deselect All</button>
+    </div>
+    <div class="col-2">
+        <div class="autoinput">               
+            <label class="mat-subheading-1 label-top-20" dense>ME PART NUMBER</label><br />
+            <input type="text" #fsSearchME class="input200" id="fsSearchME" name="fsSearchME" (input)="autoSearch($event, 'me_part_number')" />
+            <ul *ngIf="filteredME$ && hideMePartNumber" class="search-result">
+                <li *ngFor="let x of filteredME$ | async" (click)="fsSearchME.value=x.ME_PART_NUMBER; hideMePartNumber= false" value="x.ME_PART_NUMBER">
+                    {{x.ME_PART_NUMBER}}
+                </li>
+            </ul>                   
+        </div>
+        <div class="autoinput">
+            <label class="mat-subheading-1 label-top-20" dense>MFG PART NUMBER</label><br />
+            <input type="text" #fsSearchMfg class="input200" id="fsSearchMfg" name="fsSearchMfg" (input)="autoSearch($event, 'mfg_part_number')" />
+            <ul *ngIf="filteredMfg$ && hideMfgPartNumber" class="search-result">
+                <li *ngFor="let x of filteredMfg$ | async" (click)="fsSearchMfg.value=x.MFG_PART_NUMBER; hideMfgPartNumber=false" value="x.MFG_PART_NUMBER">
+                    {{x.MFG_PART_NUMBER}}
+                </li>
+            </ul>
+        </div>
+        <div class="autoinput">
+            <label class="mat-subheading-1 label-top-20" dense>SERIAL NUMBER</label><br />
+            <input type="text" #searchSerialNumber class="input200" id="searchSerialNumber" name="searchSerialNumber" (input)="autoSearch($event, 'serial_number')" />
+            <ul *ngIf="filteredSerialNumber$ && hideSerialNumber" class="search-result">
+                <li *ngFor="let x of filteredSerialNumber$ | async" (click)="searchSerialNumber.value=x.SERIAL_NUMBER; hideSerialNumber=false" value="x.SERIAL_NUMBER">
+                    {{x.SERIAL_NUMBER}}
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="col-2 center-text submitbtn">
+                <span [hidden]="hideBtn">
+                    <button mat-stroked-button (click)="generateReport()" class="stroked-button">SUBMIT</button>
+                    <span class="loadingFsSpinner"><mat-spinner diameter="30" [hidden]="hideFsSpinner"></mat-spinner></span>
+                </span>
+                <!-- <span [hidden]="hidefsSpinner">
+                    <mat-spinner ></mat-spinner>
+                </span> -->
+                <span [hidden]="!hideBtn">
+                    <button mat-stroked-button (click)="exportReport()" class="stroked-button">DOWNLOAD</button>
+                    <span class="loadingFsSpinner"><mat-spinner diameter="30" [hidden]="hideFsSpinner"></mat-spinner></span>
+                </span>
+            </div>    
+        </div>
+    </div>       
+  </div>
+  <div class="row">
+    <div class="col-12">
+        <div class="tableFixedHead">
+            <table id="tblJifResult" class="table table-striped">
+                <thead class="thead-light">
+                    <tr>
+                        <th>EMPLOYEE_NBR</th>
+                        <th>PLNR_NAME</th>
+                        <th>ME_PART_NUMBER</th>
+                        <th>SERIAL_NUMBER</th>
+                        <th>KEYWORD_DESCRIPTION</th>
+                        <th>MFG_PART_NUMBER</th>
+                        <th>ALPHA_STATION</th>
+                        <th>SCRAP_DATE</th>
+                        <th>TYPE_OF_SERVICE_CODE_DESC</th>
+                        <th>PART_AVG_COST</th>
+                        <th>PART_ALLOCT_TTL_QTY</th>
+                        <th>PART_OWN_TTL_QTY</th>
+                        <th>STN_PART_ON_ORDER_QTY</th>
+                        <th>EXPENSE_TO_ALPHA_STATION</th>
+                        <th>TYPE</th>
+                        <th>ATA</th>
+                        <th>FLEET</th>
+                        <th>SubATA</th>
+                        <th>REPORT_DATE</th>                     
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let x of resp">
+                        <td>{{ x.EMPLOYEE_NBR }}</td>
+                        <td>{{ x.PLNR_NAME }}</td>
+                        <td>{{ x.ME_PART_NUMBER }}</td>
+                        <td>{{ x.SERIAL_NUMBER }}</td>
+                        <td>{{ x.KEYWORD_DESCRIPTION }}</td>
+                        <td>{{ x.MFG_PART_NUMBER }}</td>
+                        <td>{{ x.ALPHA_STATION }}</td>
+                        <td>{{ x.SCRAP_DATE }}</td>
+                        <td>{{ x.TYPE_OF_SERVICE_CODE_DESC }}</td>
+                        <td>{{ x.PART_AVG_COST }}</td>
+                        <td>{{ x.PART_ALLOCT_TTL_QTY }}</td>
+                        <td>{{ x.PART_OWN_TTL_QTY }}</td>
+                        <td>{{ x.STN_PART_ON_ORDER_QTY }}</td>
+                        <td>{{ x.EXPENSE_TO_ALPHA_STATION }}</td>
+                        <td>{{ x.TYPE }}</td>
+                        <td>{{ x.ATA }}</td>
+                        <td>{{ x.FLEET }}</td>
+                        <td>{{ x.SubATA }}</td>
+                        <td>{{ x.REPORT_DATE }}</td> 
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</div>

@@ -1,0 +1,22 @@
+<div [hidden]="hideDeferral">
+        <div class="row">
+            <div class="col-3 defitem">
+                <b>ALPHA STATION</b>
+            </div>
+            <div class="col-1 defitem">
+                <b>CDL</b>
+            </div>
+            <div class="col-1 defitem">
+                <b>MEL</b>
+            </div>
+            <div class="col-1 defitem">
+                <b>NEF</b>
+            </div>
+        </div>
+        <div class="row" *ngFor="let def of deferral$ | async">
+            <div class="col-3 defitem">{{ def.ALPHA_STATION }}</div>
+            <div class="col-1 defitem">{{ def.CDL }}</div>
+            <div class="col-1 defitem">{{ def.MEL }}</div>
+            <div class="col-1 defitem">{{ def.NEF }}</div>
+        </div>           
+    </div>

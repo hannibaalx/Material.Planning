@@ -1,0 +1,224 @@
+<div class="pocontainer">
+  <div class="row">
+    <div class="col-3">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">Exception Date Range</label></div>
+      <div class="sectioncontainer center-text">
+        <mat-form-field>
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="podstartdp" [min]="minDate" [max]="maxDate" id="podstartdate" [formControl]="podstartdate">
+          <mat-datepicker-toggle matSuffix [for]="podstartdp"></mat-datepicker-toggle>
+          <mat-datepicker #podstartdp></mat-datepicker>
+        </mat-form-field>
+        <br />
+        <mat-form-field>
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="podenddp" [min]="minDate" [max]="maxDate" id="podenddate" [formControl]="podenddate">
+          <mat-datepicker-toggle matSuffix [for]="podenddp"></mat-datepicker-toggle>
+          <mat-datepicker #podenddp></mat-datepicker>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">Planner</label></div>
+      <div class="sectioncontainer">
+        <mat-selection-list #allPoPlannerSelected dense class="selectlistcontainer" role="listbox" aria-label="poplanner">
+          <mat-list-option class="mat-body-1 listitem" *ngFor="let x of poPlanners$ | async" value="x.PLANNER" color="primary">
+            {{ x.PLANNER }}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="col-2">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">Routing Group</label></div>
+      <div class="sectioncontainer">
+        <mat-selection-list #allRoutingGroupSelected dense class="selectlistcontainer2" role="listbox" aria-label="routinggroup">
+          <mat-list-option class="mat-body-1 listitem" *ngFor="let rtg of routinggrp$ | async" color="primary">
+            {{ rtg.ROUTING_GROUP_DESC }}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="col-3">
+      <div class="center-text"><label class="mat-subheading-1 label-top-20">Exception Reason</label></div>
+      <div class="sectioncontainer">
+        <mat-selection-list #allExceptionReasonSelected dense class="selectlistcontainer" role="listbox" aria-label="exceptionreason">
+          <mat-list-option class="mat-body-1 listitem" *ngFor="let er of exceptionreason$ | async" color="primary">
+            {{er.EXCEPTION_REASON_DESC}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="col-2">
+        <div class="autoinput">
+          <label class="mat-subheading-1 label-top-20" dense>Order Number</label><br />
+          <input type="text" #orderNumber class="input200" id="orderNumber" name="orderNumber" (input)="autoSearch($event, 'ordernum')" />
+          <ul *ngIf="filteredOrderNum$ && hideOrderNum" class="search-result">
+            <li *ngFor="let onum of filteredOrderNum$ | async" (click)="orderNumber.value=onum.ORDER_NBR; hideOrderNum=false" value="onum.ORDER_NBR">
+              {{onum.ORDER_NBR}}
+            </li>
+          </ul>
+        </div>
+        <div class="autoinput">
+          <label class="mat-subheading-1 label-top-20" dense>Exception Number</label><br />
+          <input type="text" #exceptionNumber class="input200" id="exceptionNumber" name="exceptionNumber" (input)="autoSearch($event, 'exceptionnumber')" />
+          <ul *ngIf="filteredExceptNum$ && hideExceptNum" class="search-result">
+            <li *ngFor="let exp of filteredExceptNum$ | async" (click)="exceptionNumber.value=exp.EXCEPT_NBR; hideExceptNum=false" value="exp.EXCEPT_NBR">
+              {{exp.EXCEPT_NBR}}
+            </li>
+          </ul>
+        </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>M & E</label><br />
+        <input type="text" #podSearchMEN class="input200" id="podSearchMEN" name="podSearchMEN" (input)="autoSearch($event, 'men')" />
+        <ul *ngIf="filteredMEN$ && hideMEN" class="search-result">
+          <li *ngFor="let m of filteredMEN$ | async" (click)="podSearchMEN.value=m.ME_PART_NUMBER; hideMEN= false" value="m.ME_PART_NUMBER">
+            {{m.ME_PART_NUMBER}}
+          </li>
+        </ul>
+      </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>MPN</label><br />
+        <input type="text" #podSearchMPN class="input200" id="podSearchMPN" name="podSearchMPN" (input)="autoSearch($event, 'mpn')" />
+        <ul *ngIf="filteredMPN$ && hideMPN" class="search-result">
+          <li *ngFor="let m of filteredMPN$ | async" (click)="podSearchMPN.value=m.MFG_PART_NUMBER; hideMPN=false" value="m.MFG_PART_NUMBER">
+            {{m.MFG_PART_NUMBER}}
+          </li>
+        </ul>
+      </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>Dash 8</label><br />
+        <input type="text" #searchPoDash8 class="input200" id="searchPoDash8" name="searchPoDash8" (input)="autoSearch($event, 'dash8')" />
+        <ul *ngIf="filteredPoDiscrepancyDash8$ && hidePoDiscrepancyDash8" class="search-result">
+          <li *ngFor="let d8 of filteredPoDiscrepancyDash8$ | async" (click)="searchPoDash8.value=d8.DASH_8; hidePoDiscrepancyDash8=false" value="d8.DASH_8">
+            {{d8.DASH_8}}
+          </li>
+        </ul>
+      </div>
+      <div class="autoinput">
+        <label class="mat-subheading-1 label-top-20" dense>EO</label><br />
+        <input type="text" #searchPoEO class="input200" id="searchPoEO" name="searchPoEO" (input)="autoSearch($event, 'eo')" />
+        <ul *ngIf="filteredPoDiscrepancyEo$ && hidePoDiscrepancyEO" class="search-result">
+          <li *ngFor="let eon of filteredPoDiscrepancyEo$ | async" (click)="searchPoEO.value=eon.EO_NUMBER; hidePoDiscrepancyEO=false" value="eon.EO_NUMBER">
+            {{ eon.EO_NUMBER }}
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row spacer50">
+    <div class="col-12">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col-3">&nbsp;</div>
+    <div class="col-2 center-text">
+      <button mat-raised-button (click)="selectAll('poplanner')" class="stroked-button">Select All</button>&nbsp;
+      <button mat-raised-button (click)="deselectAll('poplanner')" class="stroked-button">Deselect All</button>
+    </div>
+    <div class="col-2 center-text">
+      <button mat-raised-button (click)="selectAll('postatus')" class="stroked-button">Select All</button>&nbsp;
+      <button mat-raised-button (click)="deselectAll('postatus')" class="stroked-button">Deselect All</button>
+    </div>
+    <div class="col-3 center-text">
+      <button mat-raised-button (click)="selectAll('exceptionreason')" class="stroked-button">Select All</button>&nbsp;
+      <button mat-raised-button (click)="deselectAll('exceptionreason')" class="stroked-button">Deselect All</button>
+    </div>
+    <div class="col-2 center-text">
+      <!-- <span [hidden]="false">
+                <mat-spinner diameter="50"></mat-spinner>
+            </span> -->
+      <span [hidden]="hidePoBtn">
+        <button mat-raised-button (click)="generateReport()" class="stroked-button">SUBMIT</button>
+        <span class="loadingPoSpinner">
+          <mat-spinner diameter="30" [hidden]="hidePoSpinner"></mat-spinner>
+        </span>
+      </span>
+      <span [hidden]="!hidePoBtn">
+        <button mat-raised-button (click)="exportReport()" class="stroked-button">DOWNLOAD</button>
+        <span class="loadingPoSpinner">
+          <mat-spinner diameter="30" [hidden]="hidePoSpinner"></mat-spinner>
+        </span>
+      </span>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">&nbsp;</div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="tableFixedHead">
+        <table id="tblPodResult" class="table table-striped">
+          <thead class="thead-light">
+            <tr>
+              <th>ME PART NUMBER</th>
+              <th>MFG PART NUMBER</th>
+              <th>KEYWORD DESCRIPTION</th>
+              <th>ORDER NBR</th>
+              <th>NCA VENDOR NUMBER</th>
+              <th>ASSIGNED BUYER CODE</th>
+              <th>EXCEPT NBR</th>
+              <th>ASSIGNED WAREHOUSE CODE</th>
+              <th>OWNER CODE</th>
+              <th>EXCEPTION REASON CODE</th>
+              <th>EXCEPTION REASON DESC</th>
+              <th>LEG AA PO NBR</th>
+              <th>EXCEPTION DATE</th>
+              <th>EMPLOYEE NUMBER</th>
+              <th>DISCREP CREATOR NAME</th>
+              <th>COMMENT1</th>
+              <th>COMMENT2</th>
+              <th>ORDER STATUS IND DESC</th>
+              <th>EXPEDITE INDICATOR DESC</th>
+              <th>ROUTING GROUP DESC</th>
+              <th>DASH 8</th>
+              <th>COUNT</th>
+              <th>QTY REQ</th>
+              <th>REQD IND</th>
+              <th>TTL REQ EO</th>
+              <th>MATL STS ALL</th>
+              <th>EO NUMBER</th>
+              <th>EO DESC</th>
+              <th>AD IND</th>
+              <th>PLANNER</th>
+              <th>SCHEDULING STATUS</th>              
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let x of resp">
+              <td>{{ x.ME_PART_NUMBER }}</td>
+              <td>{{ x.MFG_PART_NUMBER }}</td>
+              <td>{{ x.KEYWORD_DESCRIPTION }}</td>
+              <td>{{ x.ORDER_NBR }}</td>
+              <td>{{ x.NCA_VENDOR_NUMBER }}</td>
+              <td>{{ x.ASSIGNED_BUYER_CODE }}</td>
+              <td>{{ x.EXCEPT_NBR }}</td>
+              <td>{{ x.ASSIGNED_WAREHOUSE_CODE }}</td>
+              <td>{{ x.OWNER_CODE }}</td>
+              <td>{{ x.EXCEPTION_REASON_CODE }}</td>
+              <td>{{ x.EXCEPTION_REASON_DESC }}</td>
+              <td>{{ x.LEG_AA_PO_NBR }}</td>
+              <td>{{ x.EXCEPTION_DATE }}</td>
+              <td>{{ x.EMPLOYEE_NUMBER }}</td>
+              <td>{{ x.DISCREP_CREATOR_NAME }}</td>
+              <td>{{ x.COMMENT1 }}</td>
+              <td>{{ x.COMMENT2 }}</td>
+              <td>{{ x.ORDER_STATUS_IND_DESC }}</td>
+              <td>{{ x.EXPEDITE_INDICATOR_DESC }}</td>
+              <td>{{ x.ROUTING_GROUP_DESC }}</td>
+              <td>{{ x.DASH_8 }}</td>
+              <td>{{ x.COUNT }}</td>
+              <td>{{ x.QTY_REQ }}</td>
+              <td>{{ x.REQD_IND }}</td>
+              <td>{{ x.TTL_REQ_EO }}</td>
+              <td>{{ x.MATL_STS_ALL }}</td>
+              <td>{{ x.EO_NUMBER }}</td>
+              <td>{{ x.EO_DESC }}</td>
+              <td>{{ x.AD_IND }}</td>
+              <td>{{ x.PLANNER }}</td>
+              <td>{{ x.SCHEDULING_STATUS }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
